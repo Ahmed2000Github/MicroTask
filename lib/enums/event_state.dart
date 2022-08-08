@@ -1,0 +1,1 @@
+enum LoginEventStatus { LOGIN, REGISTER, RESETPASSWORD, NONE }

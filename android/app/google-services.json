@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "145999364081",
+    "project_id": "microtask-bd290",
+    "storage_bucket": "microtask-bd290.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145999364081:android:d7cf2ba915ef1476320e50",
+        "android_client_info": {
+          "package_name": "com.example.microtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145999364081-ttelkvtejvb87rfu182m3djng7a0djt8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0-7VoOPT8H6U1Ws97g9SEMggc7drImTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145999364081-ttelkvtejvb87rfu182m3djng7a0djt8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
