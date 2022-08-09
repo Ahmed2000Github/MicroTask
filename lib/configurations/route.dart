@@ -5,6 +5,7 @@ import 'package:microtask/pages/login_page.dart';
 import 'package:microtask/pages/reset_password_page.dart';
 import 'package:microtask/pages/signup1_page.dart';
 import 'package:microtask/pages/signup2_page.dart';
+import 'package:microtask/pages/task_page.dart';
 
 const String loginPage = 'login';
 const String signup1Page = 'signup1';
@@ -13,6 +14,7 @@ const String mainPage = 'main';
 // const String profilePage = 'profile';
 // const String settingsPage = 'settings';
 // const String homePage = 'home';
+const String taskPage = 'task';
 const String emailVerificationPage = 'VerifyEmail';
 const String resetPasswordPage = 'resetPassword';
 
@@ -36,6 +38,8 @@ Route<dynamic> controller(RouteSettings settings) {
           builder: ((context) => ResetPasswordPage(
                 colletedData: settings.arguments as Map<String, dynamic>,
               )));
+    case taskPage:
+      return MaterialPageRoute(builder: ((context) => TaskPage()));
     default:
       throw ('This route name does not exist!');
   }

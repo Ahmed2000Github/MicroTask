@@ -13,14 +13,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     switch (event.requestEvent) {
       case ProfileEventState.LOAD:
         try {
-          yield ProfileState(requestState: StateStatus.LOADED);
-          // final result = await loginServices.getProfile(event.email);
-          // yield result == null
-          //     ? ProfileState(
-          //         requestState: StateStatus.ERROR,
-          //         messageError: "No data found with this user.")
-          //     : ProfileState(requestState: StateStatus.LOADED, profile: result);
+          yield ProfileState(requestState: StateStatus.LOADING);
+          final result = await loginServices.getProfile(event.email);
+
+          yield result == null
+              ? ProfileState(
+                  requestState: StateStatus.ERROR,
+                  messageError: "No data found with this user.")
+              : ProfileState(requestState: StateStatus.LOADED, profile: result);
         } catch (e) {
+          print(e);
           yield ProfileState(
               requestState: StateStatus.ERROR,
               messageError: "An Error was occured try later.");

@@ -20,4 +20,4 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 }
 
 enum HomeEvent { HOME, SETTINGS, PROFILE }
-enum HomeState { HOME, SETTINGS, PROFILE }
+enum HomeState { SETTINGS, HOME, PROFILE }

@@ -126,10 +126,7 @@ class LoginServices {
   Future<Profile?> getProfile(String? email) async {
     final userData = await getUserIdByEmail(email);
     final profile = await profilesRef.doc(userData['profileId']).get();
-
-    return profile.data() == null
-        ? null
-        : Profile.fromJson(profile.data() ?? {});
+    return Profile.fromJson(profile.data() ?? {});
   }
 }
 

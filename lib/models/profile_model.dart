@@ -1,3 +1,5 @@
+import 'package:enum_to_string/enum_to_string.dart';
+
 import '../enums/gender_enum.dart';
 
 class Profile {
@@ -20,8 +22,8 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> data) => Profile(
         firstName: data['firstName'],
         lastName: data['lastName'],
-        gender: data['gender'],
-        birthDay: data['birthDay'],
+        gender: EnumToString.fromString(Gender.values, data['gender']),
+        birthDay: data['birthDay'].toDate(),
         avatar: data['avatar'],
       );
 }

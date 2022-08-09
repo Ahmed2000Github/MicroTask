@@ -1,12 +1,16 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:microtask/blocs/profile/profile_bloc.dart';
 import 'package:microtask/blocs/profile/profile_event.dart';
 import 'package:microtask/blocs/profile/profile_state.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
+import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,7 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     user = FirebaseAuth.instance.currentUser;
 
@@ -46,6 +49,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: themeColor.fgColor,
               ),
             ),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.refresh,
+                size: 30,
+                color: themeColor.primaryColor,
+              ),
+              onPressed: () {
+                context.read<ProfileBloc>().add(ProfileEvent(
+                    requestEvent: ProfileEventState.LOAD, email: user?.email));
+              },
+            ),
           ),
         ),
         BlocBuilder<ProfileBloc, ProfileState>(
@@ -57,12 +71,15 @@ class _ProfilePageState extends State<ProfilePage> {
               //   return Container();
               case StateStatus.LOADING:
                 return Container(
+                  height: height - 120,
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitSpinningLines(
+                        lineWidth: 5, color: themeColor.primaryColor),
                   ),
                 );
               case StateStatus.ERROR:
                 return Container(
+                  height: height - 120,
                   child: Center(
                     child: Text(
                       state.messageError.toString(),
@@ -90,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: ClipOval(
                                 child: !(user?.photoURL ?? "").isEmpty
                                     ? Image.network(
-                                        (user?.photoURL ?? ""),
+                                        (state.profile?.avatar as String),
                                         width: 200,
                                         fit: BoxFit.cover,
                                       )
@@ -108,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Icon(
                             Icons.email,
                             size: 30,
-                            color: themeColor.fgColor,
+                            color: themeColor.secondaryColor,
                           ),
                           title: Text(
                             "${user?.email}",
@@ -125,11 +142,46 @@ class _ProfilePageState extends State<ProfilePage> {
                           leading: Icon(
                             Icons.person,
                             size: 30,
-                            color: themeColor.fgColor,
+                            color: themeColor.secondaryColor,
                           ),
                           title: Text(
-                            // "${(state.profile?.firstName ?? '') + " " + (state.profile?.lastName ?? '')}",
-                            "${user?.displayName}",
+                            "${(state.profile?.firstName ?? '') + " " + (state.profile?.lastName ?? '')}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: themeColor.fgColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Icon(
+                            state.profile?.gender == Gender.MALE
+                                ? Icons.male_outlined
+                                : Icons.female_outlined,
+                            size: 30,
+                            color: themeColor.secondaryColor,
+                          ),
+                          title: Text(
+                            "${EnumToString.convertToString(state.profile?.gender).toLowerCase()}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: themeColor.fgColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.date_range,
+                            size: 30,
+                            color: themeColor.secondaryColor,
+                          ),
+                          title: Text(
+                            "${DateFormat("dd - MM - yyyy").format(state.profile?.birthDay as DateTime)}",
                             style: TextStyle(
                               fontSize: 20,
                               color: themeColor.fgColor,
@@ -148,17 +200,20 @@ class _ProfilePageState extends State<ProfilePage> {
                             leading: Icon(
                               Icons.logout,
                               size: 30,
-                              color: themeColor.fgColor,
+                              color: themeColor.errorColor,
                             ),
                             title: Text(
                               "Logout",
                               style: TextStyle(
                                 fontSize: 20,
-                                color: themeColor.fgColor,
+                                color: themeColor.errorColor,
                               ),
                             ),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 60,
                       )
                     ],
                   ),

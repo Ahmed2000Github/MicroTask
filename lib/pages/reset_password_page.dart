@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
@@ -168,7 +169,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           case StateStatus.LOADING:
             return Container(
               height: MediaQuery.of(context).size.height * .4,
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(
+                  child: SpinKitSpinningLines(
+                      lineWidth: 5, color: themeColor.primaryColor)),
             );
 
           case StateStatus.LOADED:
@@ -179,7 +182,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    SpinKitSpinningLines(
+                        lineWidth: 5, color: themeColor.primaryColor),
                     SizedBox(
                       height: 30,
                     ),

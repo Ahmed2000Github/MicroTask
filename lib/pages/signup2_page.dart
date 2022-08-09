@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -392,7 +393,8 @@ class _Signup2PageState extends State<Signup2Page> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
+                  SpinKitSpinningLines(
+                      lineWidth: 5, color: themeColor.primaryColor),
                   SizedBox(
                     height: 30,
                   ),
@@ -421,7 +423,9 @@ class _Signup2PageState extends State<Signup2Page> {
         case StateStatus.LOADING:
           return Container(
             height: MediaQuery.of(context).size.height * .4,
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(
+                child: SpinKitSpinningLines(
+                    lineWidth: 5, color: themeColor.primaryColor)),
           );
         case StateStatus.ERROR:
           return Column(
