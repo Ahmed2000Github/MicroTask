@@ -111,7 +111,7 @@ class LoginServices {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((result) async {
-      result.user?.updateProfile(displayName: username, photoURL: avatar);
+      result.user?.updateProfile(displayName: firstName, photoURL: avatar);
       var ref = await profilesRef.add(profile.toJson());
       final user = UserApp(
           email: email,

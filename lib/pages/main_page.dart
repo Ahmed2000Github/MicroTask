@@ -15,6 +15,8 @@ import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/pages/home_page.dart';
 import 'package:microtask/pages/profile_page.dart';
 import 'package:microtask/pages/settings_page.dart';
+import 'package:microtask/pages/test.dart';
+import 'package:microtask/services/notification_service.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -25,6 +27,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  NotificationServices get notificationServices =>
+      GetIt.I<NotificationServices>();
   User? user;
   int currentIndex = 1;
 
@@ -41,6 +45,20 @@ class _MainPageState extends State<MainPage> {
     context
         .read<LoginBloc>()
         .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+    notificationServices.init();
+
+    listenNotifications();
+  }
+
+  void listenNotifications() {
+    notificationServices.selectNotificationSubject.stream
+        .listen(onClickNotifications);
+  }
+
+  void onClickNotifications(String? event) {
+    if (event != null) {
+      Navigator.pushNamed(context, route.notificationPage, arguments: event);
+    }
   }
 
   @override
@@ -94,142 +112,185 @@ class _MainPageState extends State<MainPage> {
                     ],
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                          right: BorderSide(
-                            color: state == HomeState.HOME
-                                ? themeColor.secondaryColor
-                                : Colors.transparent,
-                            width: 3.0,
-                          ),
-                        )),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.home,
-                            size: 30,
-                            color: state == HomeState.HOME
-                                ? themeColor.secondaryColor
-                                : themeColor.fgColor,
-                          ),
-                          title: Text(
-                            '  Home',
-                            style: TextStyle(
-                                fontSize: 25,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .72,
+                  child: ListView(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                            right: BorderSide(
+                              color: state == HomeState.HOME
+                                  ? themeColor.secondaryColor
+                                  : Colors.transparent,
+                              width: 3.0,
+                            ),
+                          )),
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.home,
+                                size: 30,
                                 color: state == HomeState.HOME
                                     ? themeColor.secondaryColor
-                                    : themeColor.fgColor),
+                                    : themeColor.fgColor,
+                              ),
+                              title: Text(
+                                '  Home',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: state == HomeState.HOME
+                                        ? themeColor.secondaryColor
+                                        : themeColor.fgColor),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.calendar_today,
-                          size: 30,
-                          color: themeColor.fgColor,
-                        ),
-                        title: Text(
-                          '  ToDay',
-                          style: TextStyle(
-                              fontSize: 25, color: themeColor.fgColor),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, route.taskPage);
-                        },
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.task_outlined,
-                            size: 30,
-                            color: themeColor.fgColor,
-                          ),
-                          title: Text(
-                            '  My Tasks',
-                            style: TextStyle(
-                                fontSize: 25, color: themeColor.fgColor),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, route.todayPage);
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.calendar_today,
+                              size: 30,
+                              color: themeColor.fgColor,
+                            ),
+                            title: Text(
+                              '  ToDay',
+                              style: TextStyle(
+                                  fontSize: 25, color: themeColor.fgColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.alarm_on,
-                          size: 30,
-                          color: themeColor.fgColor,
-                        ),
-                        title: Text(
-                          '  Reminder',
-                          style: TextStyle(
-                              fontSize: 25, color: themeColor.fgColor),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.help,
-                          size: 30,
-                          color: themeColor.fgColor,
-                        ),
-                        title: Text(
-                          '  About',
-                          style: TextStyle(
-                              fontSize: 25, color: themeColor.fgColor),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextButton(
-                        onPressed: () {
-                          context.read<HomeBloc>().add(HomeEvent.PROFILE);
-                          Navigator.pop(context);
-                        },
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/picture.jpg"),
-                            radius: 20,
-                            backgroundColor: themeColor.primaryColor,
-                            child: ClipOval(
-                                child: !(user?.photoURL ?? "").isEmpty
-                                    ? Image.network(
-                                        (user?.photoURL ?? ""),
-                                        width: 160,
-                                        height: 160,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/picture.jpg",
-                                        width: 160,
-                                        height: 160,
-                                        fit: BoxFit.cover,
-                                      )),
-                          ),
-                          title: Text(
-                            '  ${(user?.displayName ?? "")}',
-                            style: TextStyle(
-                                fontSize: 25, color: themeColor.fgColor),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       Navigator.pushNamed(context, route.taskPage);
+                      //     },
+                      //     child: ListTile(
+                      //       leading: Icon(
+                      //         Icons.task_outlined,
+                      //         size: 30,
+                      //         color: themeColor.fgColor,
+                      //       ),
+                      //       title: Text(
+                      //         '  My Tasks',
+                      //         style: TextStyle(
+                      //             fontSize: 25, color: themeColor.fgColor),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, route.reminderPage);
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.alarm_on,
+                              size: 30,
+                              color: themeColor.fgColor,
+                            ),
+                            title: Text(
+                              '  Reminder',
+                              style: TextStyle(
+                                  fontSize: 25, color: themeColor.fgColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, route.categoriesPage);
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.category_outlined,
+                              size: 30,
+                              color: themeColor.fgColor,
+                            ),
+                            title: Text(
+                              '  Categories',
+                              style: TextStyle(
+                                  fontSize: 25, color: themeColor.fgColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, route.aboutPage);
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.help,
+                              size: 30,
+                              color: themeColor.fgColor,
+                            ),
+                            title: Text(
+                              '  About',
+                              style: TextStyle(
+                                  fontSize: 25, color: themeColor.fgColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            context.read<HomeBloc>().add(HomeEvent.PROFILE);
+                            Navigator.pop(context);
+                          },
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/images/picture.jpg"),
+                              radius: 20,
+                              backgroundColor: themeColor.primaryColor,
+                              child: ClipOval(
+                                  child: !(user?.photoURL ?? "").isEmpty
+                                      ? Image.network(
+                                          (user?.photoURL ?? ""),
+                                          width: 160,
+                                          height: 160,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/picture.jpg",
+                                          width: 160,
+                                          height: 160,
+                                          fit: BoxFit.cover,
+                                        )),
+                            ),
+                            title: Text(
+                              '  ${(user?.displayName ?? "")}',
+                              style: TextStyle(
+                                  fontSize: 25, color: themeColor.fgColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );

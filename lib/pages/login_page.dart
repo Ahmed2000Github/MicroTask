@@ -38,11 +38,11 @@ class _LoginPageState extends State<LoginPage> {
         exit(0);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
             Text('Back',
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
       {bool isPassword = false, TextEditingController? controller}) {
     return StatefulBuilder(builder: (context, setInnerState) {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: themeColor.fgColor),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                   border: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0)),
-                  enabledBorder: OutlineInputBorder(),
+                  enabledBorder: const OutlineInputBorder(),
                   suffixIcon: inputType == 'password'
                       ? IconButton(
                           icon: Icon(
@@ -138,10 +138,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return TextButton(
       onPressed: () async {
+        _validationEmailMsg = null;
         if (!_formKey.currentState!.validate()) {
           return;
         }
-        await validateEmail(emailController.text);
+        await validateEmail(emailController.text.trim());
 
         if (!_formKey.currentState!.validate()) {
           return;
@@ -155,15 +156,15 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: [themeColor.inputbgColor, themeColor.primaryColor])),
-        child: Text(
+        child: const Text(
           'Login',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
@@ -173,8 +174,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _createAccountLabel() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.all(15),
       alignment: Alignment.bottomCenter,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -186,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.w600,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           GestureDetector(
@@ -213,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocBuilder<LoginBloc, LoginState>(builder: ((context, state) {
       switch (state.requestState) {
         case StateStatus.LOADING:
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height * .4,
             child: Center(
                 child: SpinKitSpinningLines(
@@ -238,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         case StateStatus.LOADED:
           _goToHomePage();
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height * .4,
             child: Center(
               child: Column(
@@ -246,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SpinKitSpinningLines(
                       lineWidth: 5, color: themeColor.primaryColor),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Text(
@@ -256,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 15,
                         color: themeColor.secondaryColor),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -309,9 +310,9 @@ class _LoginPageState extends State<LoginPage> {
             Positioned(
                 top: -height * .15,
                 right: -width * .4,
-                child: BezierContainer()),
+                child: const BezierContainer()),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(
@@ -326,10 +327,10 @@ class _LoginPageState extends State<LoginPage> {
                             ".png",
                         width: width * .4,
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       _inputWidget(),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           onTap: () {
@@ -345,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: themeColor.secondaryColor)),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       _submitButton(),
                       // _divider(),
                       SizedBox(height: height * .005),

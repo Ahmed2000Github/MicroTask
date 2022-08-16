@@ -144,6 +144,12 @@ class _Signup1PageState extends State<Signup1Page> {
         Spacer(),
         TextButton(
           onPressed: () async {
+            _validationEmailMsg = null;
+            _validationUserMsg = null;
+
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
             await validateEmail(emailController.text.trim());
             await validateUsername(usernameController.text.trim());
             if (!_formKey.currentState!.validate()) {
@@ -156,7 +162,8 @@ class _Signup1PageState extends State<Signup1Page> {
               'username': usernameController.text.trim(),
             };
 
-            ValidationServices.sendVerificationEmail(emailController.text);
+            ValidationServices.sendVerificationEmail(
+                emailController.text.trim());
             showDialog(
                 barrierDismissible: false,
                 context: context,

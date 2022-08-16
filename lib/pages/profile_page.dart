@@ -12,6 +12,7 @@ import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
+import 'package:microtask/widgets/custom_loading_progress.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -70,13 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
               //       requestEvent: ProfileEventState.LOAD, email: user?.email));
               //   return Container();
               case StateStatus.LOADING:
-                return Container(
-                  height: height - 120,
-                  child: Center(
-                    child: SpinKitSpinningLines(
-                        lineWidth: 5, color: themeColor.primaryColor),
-                  ),
-                );
+                return CustomLoadingProgress(
+                    color: themeColor.primaryColor, height: height - 120);
               case StateStatus.ERROR:
                 return Container(
                   height: height - 120,

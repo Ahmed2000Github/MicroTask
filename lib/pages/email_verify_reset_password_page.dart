@@ -120,10 +120,11 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         Spacer(),
         TextButton(
           onPressed: () async {
+            _validationEmailMsg = null;
             if (!_formKey.currentState!.validate()) {
               return;
             }
-            await validateEmail(emailController.text);
+            await validateEmail(emailController.text.trim());
 
             if (!_formKey.currentState!.validate()) {
               return;
@@ -132,7 +133,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
               'email': emailController.text,
             };
 
-            ValidationServices.sendVerificationEmail(emailController.text);
+            ValidationServices.sendVerificationEmail(
+                emailController.text.trim());
 
             showDialog(
                 barrierDismissible: false,

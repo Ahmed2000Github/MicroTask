@@ -1,7 +1,24 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ThemeColor {
-  bool isDarkMod = false;
+  bool _isDarkMod = false;
+  late final Box box;
+  ThemeColor() {
+    box = Hive.box('colorsBox');
+    if (!box.keys.contains('_isDarkMod')) {
+      box.put("_isDarkMod", false);
+    } else {
+      _isDarkMod = box.get("_isDarkMod");
+    }
+  }
+
+  bool get isDarkMod => _isDarkMod;
+
+  set isDarkMod(bool isDarkMod) {
+    _isDarkMod = isDarkMod;
+    box.put("_isDarkMod", isDarkMod);
+  }
 
   Color get bgColor {
     if (isDarkMod) {
@@ -21,6 +38,10 @@ class ThemeColor {
     return Color(0xff0280ee);
   }
 
+  Color get primaryLightColor {
+    return Color(0xff63ccff);
+  }
+
   Color get secondaryColor {
     return Color(0xff3bf19d);
   }
@@ -38,5 +59,12 @@ class ThemeColor {
       return Color(0xff222222);
     }
     return Color(0xffeeeeee);
+  }
+
+  Color get drowerLightBgClor {
+    if (isDarkMod) {
+      return Color(0xff424242);
+    }
+    return Color(0xffE0E0E0);
   }
 }
