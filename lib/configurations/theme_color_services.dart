@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ThemeColor {
@@ -7,7 +8,9 @@ class ThemeColor {
   ThemeColor() {
     box = Hive.box('colorsBox');
     if (!box.keys.contains('_isDarkMod')) {
-      box.put("_isDarkMod", false);
+      var brightness = SchedulerBinding.instance!.window.platformBrightness;
+      bool isDarkMode = brightness == Brightness.dark;
+      box.put("_isDarkMod", isDarkMode);
     } else {
       _isDarkMod = box.get("_isDarkMod");
     }
@@ -43,7 +46,10 @@ class ThemeColor {
   }
 
   Color get secondaryColor {
-    return Color(0xff3bf19d);
+    if (isDarkMod) {
+      return Color(0xff3bf19d);
+    }
+    return Color(0xff2ae08c);
   }
 
   Color get inputbgColor {

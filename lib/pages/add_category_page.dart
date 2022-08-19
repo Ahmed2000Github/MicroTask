@@ -6,6 +6,7 @@ import 'package:microtask/blocs/category/category_event.dart';
 import 'package:microtask/blocs/crud_category/crud_category_bloc.dart';
 import 'package:microtask/blocs/crud_category/crud_category_event.dart';
 import 'package:microtask/blocs/crud_category/crud_category_state.dart';
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/event_state.dart';
@@ -13,6 +14,7 @@ import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/category_model.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class AddCategoryPage extends StatefulWidget {
   Category? category;
@@ -31,7 +33,11 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final GlobalKey _first = GlobalKey();
+  final GlobalKey _second = GlobalKey();
+  final GlobalKey _thirth = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -40,6 +46,13 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     context
         .read<CrudCategoryBloc>()
         .add(CrudCategoryEvent(requestEvent: CrudEventStatus.RESET));
+    if (showCaseConfig.isLunched(route.addCategoryPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1)).then((value) =>
+            ShowCaseWidget.of(context)
+                .startShowCase([_first, _second, _thirth])),
+      );
+    }
   }
 
   //  {
@@ -122,6 +135,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: themeColor.bgColor,
       body: Container(
         child: Center(
@@ -251,33 +265,46 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    _titleField(),
+                                    Showcase(
+                                        key: _first,
+                                        description:
+                                            'Choose a name for you category',
+                                        child: _titleField()),
                                     SizedBox(
                                       height: height * .08,
                                     ),
-                                    _descriptionField(),
+                                    Showcase(
+                                        key: _second,
+                                        description:
+                                            'Choose a description for the category',
+                                        child: _descriptionField()),
                                     SizedBox(
                                       height: height * .08,
                                     ),
                                     GestureDetector(
                                       onTap: handleRequest,
-                                      child: Container(
-                                        width: width,
-                                        height: 50,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: themeColor.primaryColor),
-                                        child: Text(
-                                            (widget.category == null
-                                                ? 'create'
-                                                : 'Update'),
-                                            style: TextStyle(
-                                                letterSpacing: 2,
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w500,
-                                                color: themeColor.fgColor)),
+                                      child: Showcase(
+                                        key: _thirth,
+                                        description:
+                                            'Click to add the category',
+                                        child: Container(
+                                          width: width,
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: themeColor.primaryColor),
+                                          child: Text(
+                                              (widget.category == null
+                                                  ? 'create'
+                                                  : 'Update'),
+                                              style: TextStyle(
+                                                  letterSpacing: 2,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: themeColor.fgColor)),
+                                        ),
                                       ),
                                     )
                                   ],

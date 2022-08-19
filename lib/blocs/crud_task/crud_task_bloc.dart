@@ -45,6 +45,18 @@ class CrudTaskBloc extends Bloc<CrudTaskEvent, CrudTaskState> {
               requestState: StateStatus.ERROR, errormessage: '$e');
         }
         break;
+      case CrudEventStatus.RESETREMINDER:
+        try {
+          yield CrudTaskState(requestState: StateStatus.LOADING);
+          taskServices.resetNotification();
+          yield CrudTaskState(requestState: StateStatus.NONE);
+        } catch (e) {
+          print('switch $e');
+
+          yield CrudTaskState(
+              requestState: StateStatus.ERROR, errormessage: '$e');
+        }
+        break;
       case CrudEventStatus.RESET:
         yield CrudTaskState(requestState: StateStatus.NONE);
         break;

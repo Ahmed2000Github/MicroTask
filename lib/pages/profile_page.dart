@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +7,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:microtask/blocs/logout/logout_bloc.dart';
 import 'package:microtask/blocs/profile/profile_bloc.dart';
 import 'package:microtask/blocs/profile/profile_event.dart';
 import 'package:microtask/blocs/profile/profile_state.dart';
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
+import 'package:microtask/widgets/profile_image_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -21,6 +27,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final List<GlobalKey> _list = [
+    GlobalKey(),
+    GlobalKey(),
+  ];
   User? user;
 
   @override
@@ -30,6 +41,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
     context.read<ProfileBloc>().add(
         ProfileEvent(requestEvent: ProfileEventState.LOAD, email: user?.email));
+    if (showCaseConfig.isLunched('profile')) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1))
+            .then((value) => ShowCaseWidget.of(context).startShowCase(_list)),
+      );
+    }
   }
 
   @override
@@ -42,24 +59,31 @@ class _ProfilePageState extends State<ProfilePage> {
           child: ListView(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-          child: ListTile(
-            title: Text(
-              "Profile Settings",
-              style: TextStyle(
-                fontSize: 30,
-                color: themeColor.fgColor,
+          child: Showcase(
+            key: _list[0],
+            showcaseBackgroundColor: themeColor.drowerLightBgClor,
+            textColor: themeColor.fgColor,
+            description: 'This page give you information about your profile',
+            child: ListTile(
+              title: Text(
+                "Profile",
+                style: TextStyle(
+                  fontSize: 30,
+                  color: themeColor.fgColor,
+                ),
               ),
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.refresh,
-                size: 30,
-                color: themeColor.primaryColor,
+              trailing: IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  size: 30,
+                  color: themeColor.primaryColor,
+                ),
+                onPressed: () {
+                  context.read<ProfileBloc>().add(ProfileEvent(
+                      requestEvent: ProfileEventState.LOAD,
+                      email: user?.email));
+                },
               ),
-              onPressed: () {
-                context.read<ProfileBloc>().add(ProfileEvent(
-                    requestEvent: ProfileEventState.LOAD, email: user?.email));
-              },
             ),
           ),
         ),
@@ -95,25 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/picture.jpg"),
-                            radius: 100,
-                            backgroundColor: themeColor.primaryColor,
-                            child: ClipOval(
-                                child: !(user?.photoURL ?? "").isEmpty
-                                    ? Image.network(
-                                        (state.profile?.avatar as String),
-                                        width: 200,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/picture.jpg",
-                                        width: 200,
-                                        fit: BoxFit.cover,
-                                      )),
-                          ),
-                        ),
+                            child: ProfileImageWidget(size: 200, radius: 100)),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -189,7 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () async {
-                            await FirebaseAuth.instance.signOut();
+                            context.read<LogoutBloc>().add(LogoutEvent.LOGOUT);
+
                             Navigator.pushNamed(context, route.loginPage);
                           },
                           child: ListTile(
@@ -214,6 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 );
+
               default:
                 return Container();
             }

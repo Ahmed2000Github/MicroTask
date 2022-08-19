@@ -6,6 +6,7 @@ import 'package:microtask/pages/add_task_page.dart';
 import 'package:microtask/pages/categories_page.dart';
 import 'package:microtask/pages/category_page.dart';
 import 'package:microtask/pages/email_verify_reset_password_page.dart';
+import 'package:microtask/pages/get_started_page.dart';
 import 'package:microtask/pages/main_page.dart';
 import 'package:microtask/pages/login_page.dart';
 import 'package:microtask/pages/notification_page.dart';
@@ -24,6 +25,7 @@ const String mainPage = 'main';
 // const String profilePage = 'profile';
 // const String settingsPage = 'settings';
 // const String homePage = 'home';
+const String getStartPage = 'getStart';
 const String taskPage = 'task';
 const String aboutPage = 'about';
 const String todayPage = 'today';
@@ -48,7 +50,12 @@ Route<dynamic> controller(RouteSettings settings) {
                 colletedData: settings.arguments as Map<String, dynamic>,
               )));
     case mainPage:
-      return MaterialPageRoute(builder: ((context) => MainPage()));
+      return MaterialPageRoute(
+          builder: ((context) => ShowCaseWidget(
+                builder: Builder(builder: (context) {
+                  return MainPage();
+                }),
+              )));
     case emailVerificationPage:
       return MaterialPageRoute(builder: ((context) => EmailVerificationPage()));
     case resetPasswordPage:
@@ -58,8 +65,12 @@ Route<dynamic> controller(RouteSettings settings) {
               )));
     case taskPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => TaskPage(
-          categoryId: settings.arguments as String,
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return TaskPage(
+              categoryId: settings.arguments as String,
+            );
+          }),
         ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -78,7 +89,11 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case reminderPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ReminderPage(),
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return ReminderPage();
+          }),
+        ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 1.0);
@@ -96,8 +111,12 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case categoryPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => CategoryPage(
-          category: settings.arguments as Category,
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return CategoryPage(
+              category: settings.arguments as Category,
+            );
+          }),
         ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -116,8 +135,11 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case categoriesPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            CategoriesPage(),
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return CategoriesPage();
+          }),
+        ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, -1);
@@ -135,9 +157,12 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case addCategoryPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            AddCategoryPage(
-          category: settings.arguments as Category,
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return AddCategoryPage(
+              category: settings.arguments as Category,
+            );
+          }),
         ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -156,8 +181,12 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case addTaskPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => AddTaskPage(
-          data: settings.arguments as Map<String, dynamic>,
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return AddTaskPage(
+              data: settings.arguments as Map<String, dynamic>,
+            );
+          }),
         ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -176,9 +205,12 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case notificationPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            NotificationPage(
-          taskId: settings.arguments as String,
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return NotificationPage(
+              taskId: settings.arguments as String,
+            );
+          }),
         ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -197,7 +229,11 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case todayPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => TodayPage(),
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return TodayPage();
+          }),
+        ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1, 0);
@@ -215,11 +251,7 @@ Route<dynamic> controller(RouteSettings settings) {
       );
     case aboutPage:
       return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
-          builder: Builder(builder: (context) {
-            return AboutPage();
-          }),
-        ),
+        pageBuilder: (context, animation, secondaryAnimation) => AboutPage(),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1, 1);
@@ -235,6 +267,20 @@ Route<dynamic> controller(RouteSettings settings) {
           );
         },
       );
+
+    case getStartPage:
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            GetStartedPage(),
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      );
+
     default:
       throw ('This route name does not exist!');
   }

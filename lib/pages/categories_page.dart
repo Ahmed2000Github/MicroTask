@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:microtask/blocs/category/category_bloc.dart';
 import 'package:microtask/blocs/category/category_event.dart';
 import 'package:microtask/blocs/category/category_state.dart';
@@ -10,11 +11,13 @@ import 'package:microtask/blocs/crud_category/crud_category_event.dart';
 import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
 import 'package:microtask/configurations/route.dart' as route;
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class CategoriesPage extends StatefulWidget {
   @override
@@ -23,12 +26,24 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final GlobalKey _first = GlobalKey();
+  final GlobalKey _second = GlobalKey();
+  final GlobalKey _thirth = GlobalKey();
   @override
   void initState() {
     super.initState();
     context
         .read<CategoryBloc>()
         .add(CategoryEvent(requestEvent: CrudEventStatus.FETCH));
+    if (showCaseConfig.isLunched(route.categoriesPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1)).then((value) =>
+            ShowCaseWidget.of(context)
+                .startShowCase([_first, _second, _thirth])),
+      );
+    }
   }
 
   @override
@@ -104,9 +119,21 @@ class _CategoriesPageState extends State<CategoriesPage> {
               case StateStatus.LOADED:
                 if (state.categories?.isEmpty as bool) {
                   return Expanded(
-                    child: SizedBox(
-                      child: NoDataFoundWidget(
-                        text: 'Not Category found',
+                    child: Center(
+                      child: SizedBox(
+                        child: Opacity(
+                            opacity: .9,
+                            child: Showcase(
+                              key: _first,
+                              showcaseBackgroundColor:
+                                  themeColor.drowerLightBgClor,
+                              textColor: themeColor.fgColor,
+                              description:
+                                  'In this you will see all categories that you create\n click the item to show more details',
+                              child: Lottie.asset(
+                                  'assets/lotties/no_data_found.json',
+                                  width: width * .8),
+                            )),
                       ),
                     ),
                   );
@@ -114,20 +141,27 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 return Expanded(
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 8, 10),
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Total of Categories: ',
-                            style: TextStyle(
-                                fontSize: 21, color: themeColor.fgColor),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: (state.categories?.length).toString(),
-                                  style: TextStyle(
-                                      fontSize: 21,
-                                      color: themeColor.secondaryColor)),
-                            ],
+                      Showcase(
+                        key: _first,
+                        showcaseBackgroundColor: themeColor.drowerLightBgClor,
+                        textColor: themeColor.fgColor,
+                        description:
+                            'In this page you will see all categories that you create \n click the item to show more details',
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 8, 8, 10),
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Total of Categories: ',
+                              style: TextStyle(
+                                  fontSize: 21, color: themeColor.fgColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: (state.categories?.length).toString(),
+                                    style: TextStyle(
+                                        fontSize: 21,
+                                        color: themeColor.secondaryColor)),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -214,16 +248,31 @@ class _CategoriesPageState extends State<CategoriesPage> {
           }),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 4,
-        tooltip: 'Add',
-        backgroundColor: themeColor.secondaryColor,
-        onPressed: () {
-          Navigator.pushNamed(context, route.addCategoryPage);
+      floatingActionButton: Showcase(
+        key: _second,
+        shapeBorder: CircleBorder(),
+        disposeOnTap: true,
+        onTargetClick: () {
+          Navigator.pushNamed(context, route.addCategoryPage).then((_) {
+            setState(() {
+              ShowCaseWidget.of(context).startShowCase([_thirth]);
+            });
+          });
         },
-        child: const Icon(
-          Icons.add,
-          size: 30,
+        showcaseBackgroundColor: themeColor.drowerLightBgClor,
+        textColor: themeColor.fgColor,
+        description: 'Click this button to add new category',
+        child: FloatingActionButton(
+          elevation: 4,
+          tooltip: 'Add',
+          backgroundColor: themeColor.secondaryColor,
+          onPressed: () {
+            Navigator.pushNamed(context, route.addCategoryPage);
+          },
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
         ),
       ),
     );

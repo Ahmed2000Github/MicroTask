@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -9,14 +10,22 @@ import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/home/home_bloc.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
+import 'package:microtask/blocs/profile/profile_bloc.dart';
+import 'package:microtask/blocs/profile/profile_event.dart';
+import 'package:microtask/blocs/synchronization/synch_bloc.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
+import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/pages/home_page.dart';
 import 'package:microtask/pages/profile_page.dart';
 import 'package:microtask/pages/settings_page.dart';
-import 'package:microtask/pages/test.dart';
+import 'package:microtask/services/login_services.dart';
 import 'package:microtask/services/notification_service.dart';
+import 'package:microtask/widgets/profile_image_widget.dart';
+
+import '../blocs/profile/profile_state.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -27,8 +36,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   NotificationServices get notificationServices =>
       GetIt.I<NotificationServices>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   User? user;
   int currentIndex = 1;
 
@@ -46,8 +57,77 @@ class _MainPageState extends State<MainPage> {
         .read<LoginBloc>()
         .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
     notificationServices.init();
-
+    context.read<ProfileBloc>().add(
+        ProfileEvent(requestEvent: ProfileEventState.LOAD, email: user?.email));
+    autoSync();
     listenNotifications();
+  }
+
+  autoSync() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print(' connected');
+        if (LoginServices.isEnterFromLogin) {
+          LoginServices.isEnterFromLogin = false;
+          var result = await showDialog<bool>(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => AlertDialog(
+                    backgroundColor: themeColor.drowerBgClor,
+                    title: Text("Cloud service",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: themeColor.fgColor)),
+                    content: Builder(
+                      builder: (context) {
+                        var height = MediaQuery.of(context).size.height;
+                        var width = MediaQuery.of(context).size.width;
+
+                        return Container(
+                          height: height * .1,
+                          width: width * .9,
+                          child: Center(
+                            child: Text(
+                              "You want to get your old data from server ?",
+                              style: TextStyle(color: themeColor.fgColor),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: themeColor.errorColor),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                      ),
+                      TextButton(
+                        child: const Text("OK"),
+                        onPressed: () {
+                          print('ddsddsddsdd');
+                          Navigator.pop(context, true);
+                        },
+                      ),
+                    ],
+                  ));
+
+          if (result as bool) {
+            context.read<SyncBloc>().add(SyncEvent.SYNCLOGIN);
+          }
+        } else if (configuration.isAutoSyncronize) {
+          context.read<SyncBloc>().add(SyncEvent.SYNC);
+        }
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+    }
   }
 
   void listenNotifications() {
@@ -69,6 +149,7 @@ class _MainPageState extends State<MainPage> {
         exit(0);
       },
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: themeColor.bgColor,
         drawer: Drawer(
           elevation: 7,
@@ -115,7 +196,6 @@ class _MainPageState extends State<MainPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .72,
                   child: ListView(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -261,26 +341,7 @@ class _MainPageState extends State<MainPage> {
                             Navigator.pop(context);
                           },
                           child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/picture.jpg"),
-                              radius: 20,
-                              backgroundColor: themeColor.primaryColor,
-                              child: ClipOval(
-                                  child: !(user?.photoURL ?? "").isEmpty
-                                      ? Image.network(
-                                          (user?.photoURL ?? ""),
-                                          width: 160,
-                                          height: 160,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          "assets/images/picture.jpg",
-                                          width: 160,
-                                          height: 160,
-                                          fit: BoxFit.cover,
-                                        )),
-                            ),
+                            leading: ProfileImageWidget(size: 160, radius: 18),
                             title: Text(
                               '  ${(user?.displayName ?? "")}',
                               style: TextStyle(
@@ -298,18 +359,25 @@ class _MainPageState extends State<MainPage> {
         ),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            Widget page = HomePage();
+            Widget page = HomePage(
+              scaffoldKey: _scaffoldKey,
+            );
             switch (state) {
               case HomeState.HOME:
-                page = HomePage();
+                page = HomePage(
+                  scaffoldKey: _scaffoldKey,
+                );
                 break;
               case HomeState.SETTINGS:
                 page = SettingsPage(
+                  scaffoldKey: _scaffoldKey,
                   setParentState: setParentState,
                 );
                 break;
               case HomeState.PROFILE:
-                page = ProfilePage();
+                page = ProfilePage(
+                    // scaffoldKey: _scaffoldKey,
+                    );
                 break;
               default:
               // return HomePage();

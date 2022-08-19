@@ -5,12 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/login_state.dart';
+import 'package:microtask/blocs/login/rest_password_bloc.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/configurations/route.dart' as route;
+import 'package:microtask/widgets/custom_snakbar_widget.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   Map<String, dynamic> colletedData;
@@ -135,7 +137,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               'email': widget.colletedData['email'],
               'password': passwordController.text,
             };
-            context.read<LoginBloc>().add(LoginEvent(
+            context.read<ResetPasswordBloc>().add(LoginEvent(
                 requestEvent: LoginEventStatus.RESETPASSWORD,
                 data: collectedData));
           },
@@ -163,7 +165,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   }
 
   Widget _inputWidget() {
-    return BlocBuilder<LoginBloc, LoginState>(
+    return BlocBuilder<ResetPasswordBloc, LoginState>(
       builder: (context, state) {
         switch (state.requestState) {
           case StateStatus.LOADING:
@@ -210,21 +212,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             );
 
           case StateStatus.ERROR:
-            return Column(
-              children: <Widget>[
-                _entryField("Enter the new password :", "Password ... ",
-                    'password', passwordController),
-                _entryField("Comfirm the new password :", "Password ... ",
-                    'comfirm', passwordConfirmController),
-                Text(
-                  state.errorMessage.toString(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: themeColor.errorColor),
-                )
-              ],
-            );
+            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+              CustomSnakbarWidget(
+                      context: context, color: themeColor.errorColor)
+                  .show(state.errorMessage!);
+              context
+                  .read<ResetPasswordBloc>()
+                  .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+            });
+            break;
           default:
         }
         return Column(

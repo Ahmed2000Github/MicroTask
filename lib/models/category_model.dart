@@ -30,17 +30,27 @@ class Category {
   String? name;
   @HiveField(2)
   String? description;
+  @HiveField(3)
+  String? userId;
 
   Category({
     this.id,
     // this._numberTask,
     this.name,
     this.description,
+    this.userId,
     // this._numberTaskDone
   });
-
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        userId: json['userId'],
+      );
   Map<String, dynamic> toJson() => {
-        'title': name,
+        'id': id,
+        'name': name,
         'description': description,
+        'userId': userId,
       };
 }

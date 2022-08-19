@@ -15,6 +15,7 @@ import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
 import 'package:microtask/blocs/today/today_state.dart';
 import 'package:microtask/configurations/route.dart' as route;
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
@@ -23,6 +24,7 @@ import 'package:microtask/models/task_model.dart';
 import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class TodayPage extends StatefulWidget {
   @override
@@ -32,10 +34,21 @@ class TodayPage extends StatefulWidget {
 class _TodayPageState extends State<TodayPage>
     with SingleTickerProviderStateMixin {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
-  int taskNbr = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final List<GlobalKey> _list = [
+    GlobalKey(),
+    GlobalKey(),
+  ];
   @override
   initState() {
     super.initState();
+    if (showCaseConfig.isLunched(route.todayPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1))
+            .then((value) => ShowCaseWidget.of(context).startShowCase(_list)),
+      );
+    }
   }
 
   @override
@@ -43,6 +56,7 @@ class _TodayPageState extends State<TodayPage>
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: themeColor.bgColor,
       body: Column(
         children: [
@@ -50,35 +64,55 @@ class _TodayPageState extends State<TodayPage>
           SizedBox(
             height: height * .15,
             width: width * .95,
-            child: Card(
-              elevation: 0,
-              color: themeColor.drowerBgClor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      color: themeColor.fgColor,
-                      letterSpacing: 3,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
+            child: Showcase(
+              key: _list[0],
+              showcaseBackgroundColor: themeColor.drowerLightBgClor,
+              textColor: themeColor.fgColor,
+              description:
+                  'In this page you can manage your today task.\n using the more option button you can change de status of task',
+              child: Card(
+                elevation: 0,
+                color: themeColor.drowerBgClor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        color: themeColor.fgColor,
+                        letterSpacing: 3,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                      ),
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          WavyAnimatedText('Today you have '),
+                        ],
+                        isRepeatingAnimation: true,
+                        repeatForever: true,
+                      ),
                     ),
-                    child: AnimatedTextKit(
-                      animatedTexts: [
-                        WavyAnimatedText('Today you have '),
-                      ],
-                      isRepeatingAnimation: true,
-                      repeatForever: true,
-                    ),
-                  ),
-                  Text(
-                    "$taskNbr tasks ",
-                    style: TextStyle(
-                      color: themeColor.primaryLightColor,
-                      fontSize: 22,
-                    ),
-                  ),
-                ],
+                    BlocBuilder<TodayBloc, TodayState>(
+                        builder: (context, state) {
+                      if (state.requestState == StateStatus.LOADED) {
+                        return Text(
+                          "${state.todayTasks?.length} tasks ",
+                          style: TextStyle(
+                            color: themeColor.primaryLightColor,
+                            fontSize: 22,
+                          ),
+                        );
+                      } else {
+                        return Text(
+                          "0 tasks ",
+                          style: TextStyle(
+                            color: themeColor.primaryLightColor,
+                            fontSize: 22,
+                          ),
+                        );
+                      }
+                    }),
+                  ],
+                ),
               ),
             ),
           ),

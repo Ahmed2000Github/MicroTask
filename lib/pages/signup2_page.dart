@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/login_state.dart';
+import 'package:microtask/blocs/login/signup_bloc.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
@@ -19,6 +20,8 @@ import 'package:microtask/pages/login_page.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
+
+import '../widgets/custom_snakbar_widget.dart';
 
 class Signup2Page extends StatefulWidget {
   Map<String, dynamic> colletedData;
@@ -66,9 +69,6 @@ class _Signup2PageState extends State<Signup2Page> {
   Widget _entryField(String title, String placeholder, String inputType,
       TextEditingController controller,
       {bool isPassword = false, Widget? widget}) {
-    if (inputType == 'date') {
-      controller.text = placeholder;
-    }
     return StatefulBuilder(builder: (context, setInnerState) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -162,7 +162,7 @@ class _Signup2PageState extends State<Signup2Page> {
               // 'firstName': 'firstName',
               // 'lastName': 'lastName',
             };
-            context.read<LoginBloc>().add(LoginEvent(
+            context.read<SingupBloc>().add(LoginEvent(
                 requestEvent: LoginEventStatus.REGISTER, data: addedData));
           },
           child: Container(
@@ -209,7 +209,7 @@ class _Signup2PageState extends State<Signup2Page> {
           GestureDetector(
             onTap: () {
               context
-                  .read<LoginBloc>()
+                  .read<SingupBloc>()
                   .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
               Navigator.pushNamed(context, route.loginPage);
             },
@@ -233,9 +233,7 @@ class _Signup2PageState extends State<Signup2Page> {
         firstDate: DateTime(1950),
         lastDate: DateTime(DateTime.now().year - 10));
     if (date != null) {
-      setState(() {
-        selectedDate = date;
-      });
+      dateController.text = DateFormat("yyyy-MM-dd").format(date);
     }
   }
 
@@ -383,7 +381,7 @@ class _Signup2PageState extends State<Signup2Page> {
   }
 
   Widget _inputWidget() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+    return BlocBuilder<SingupBloc, LoginState>(builder: (context, state) {
       switch (state.requestState) {
         case StateStatus.LOADED:
           _goToHomePage();
@@ -428,37 +426,14 @@ class _Signup2PageState extends State<Signup2Page> {
                     lineWidth: 5, color: themeColor.primaryColor)),
           );
         case StateStatus.ERROR:
-          return Column(
-            children: <Widget>[
-              _entryField("Enter your password :", "Password ...", 'password',
-                  passwordController,
-                  isPassword: true),
-              _entryField("Comfirm the new password :", "Password ... ",
-                  'comfirm', passwordConfirmController,
-                  isPassword: true),
-              _entryField(
-                  "Select your birthDay :",
-                  DateFormat("yyyy-MM-dd").format(selectedDate!),
-                  'date',
-                  dateController,
-                  widget: IconButton(
-                    onPressed: () {
-                      _getSelectedDate();
-                    },
-                    icon: Icon(Icons.calendar_today_outlined),
-                    color: themeColor.fgColor,
-                  )),
-              _radioField("Select your Gender :"),
-              _imageField("Choose image Profile :"),
-              Text(
-                state.errorMessage.toString(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: themeColor.errorColor),
-              ),
-            ],
-          );
+          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+            CustomSnakbarWidget(context: context, color: themeColor.errorColor)
+                .show(state.errorMessage!);
+            context
+                .read<SingupBloc>()
+                .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+          });
+          break;
         default:
       }
       return Column(
@@ -541,7 +516,7 @@ class _Signup2PageState extends State<Signup2Page> {
 
   void _goToHomePage() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      Navigator.pushNamed(context, route.mainPage);
+      Navigator.pushNamed(context, route.getStartPage);
     });
   }
 

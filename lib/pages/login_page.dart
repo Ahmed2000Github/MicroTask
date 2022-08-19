@@ -15,6 +15,7 @@ import 'package:microtask/pages/signup2_page.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
+import 'package:microtask/widgets/custom_snakbar_widget.dart';
 
 import 'main_page.dart';
 
@@ -106,9 +107,9 @@ class _LoginPageState extends State<LoginPage> {
                 }
                 switch (inputType) {
                   case "email":
-                    if (!ValidationServices.isEmail(value)) {
-                      return 'The value is not email.';
-                    }
+                    // if (!ValidationServices.isEmail(value)) {
+                    //   return 'The value is not email.';
+                    // }
                     return _validationEmailMsg;
                   case "password":
                     return ValidationServices.isValidPassword(value);
@@ -123,26 +124,12 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Future validateEmail(String email) async {
-    _validationEmailMsg = null;
-    setState(() {});
-
-    bool isExist = await ValidationServices.checkEmail(email);
-
-    if (!isExist) {
-      _validationEmailMsg = "${email} not exist";
-      setState(() {});
-    }
-  }
-
   Widget _submitButton() {
     return TextButton(
       onPressed: () async {
-        _validationEmailMsg = null;
         if (!_formKey.currentState!.validate()) {
           return;
         }
-        await validateEmail(emailController.text.trim());
 
         if (!_formKey.currentState!.validate()) {
           return;
@@ -221,22 +208,14 @@ class _LoginPageState extends State<LoginPage> {
                     lineWidth: 5, color: themeColor.primaryColor)),
           );
         case StateStatus.ERROR:
-          return Column(
-            children: <Widget>[
-              _entryField("Enter the Email or Username :",
-                  "Email or Username ...", 'emial',
-                  controller: emailController),
-              _entryField("Enter the password :", "Password ...", 'password',
-                  isPassword: true, controller: passwordController),
-              Text(
-                state.errorMessage.toString(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: themeColor.errorColor),
-              ),
-            ],
-          );
+          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+            CustomSnakbarWidget(context: context, color: themeColor.errorColor)
+                .show(state.errorMessage!);
+            context
+                .read<LoginBloc>()
+                .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+          });
+          break;
         case StateStatus.LOADED:
           _goToHomePage();
           return SizedBox(

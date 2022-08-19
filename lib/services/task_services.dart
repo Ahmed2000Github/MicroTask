@@ -2,6 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/enums/task_enum.dart';
 import 'package:microtask/models/task_model.dart';
 import 'package:microtask/services/notification_service.dart';
@@ -10,6 +11,8 @@ import 'package:uuid/uuid.dart';
 class TaskServices {
   NotificationServices get notificationServices =>
       GetIt.I<NotificationServices>();
+  Configuration get configuration => GetIt.I<Configuration>();
+
   late final Box box;
   TaskServices() {
     box = Hive.box('tasksBox');
@@ -120,6 +123,20 @@ class TaskServices {
     return list;
   }
 
+  void resetNotification() {
+    print('resetettet');
+    for (var i = 0; i < box.length; i++) {
+      var task = box.getAt(i) as Task;
+      if (task.reminder! &&
+          task.status == TaskStatus.TODO &&
+          task.repeatType != null &&
+          task.startDateTime?.compareTo(DateTime.now()) as int >= 0) {
+        print('resetettet');
+        _setNotifiations(task);
+      }
+    }
+  }
+
   _setNotifiations(Task task) {
     int id = task.notificationId!;
     String payload = '${task.id}';
@@ -129,7 +146,7 @@ class TaskServices {
             task.startDateTime!.day,
             task.startDateTime!.hour,
             task.startDateTime!.minute)
-        .subtract(const Duration(minutes: 5));
+        .subtract(Duration(minutes: configuration.remindeTime));
     print("reminder start at : " + startDate.toString());
     switch (task.repeatType) {
       case RepeatType.None:

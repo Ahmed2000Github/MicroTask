@@ -16,11 +16,13 @@ import 'package:microtask/blocs/task/task_state.dart';
 import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
 import 'package:microtask/blocs/today/today_state.dart';
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
 import 'package:microtask/models/task_model.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class NotificationPage extends StatefulWidget {
   User? user;
@@ -40,6 +42,12 @@ class _NotificationPageState extends State<NotificationPage>
     with SingleTickerProviderStateMixin {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final List<GlobalKey> _list = [
+    GlobalKey(),
+    GlobalKey(),
+  ];
   Animation<double>? animation;
 
   AnimationController? controller;
@@ -55,6 +63,12 @@ class _NotificationPageState extends State<NotificationPage>
             );
 
     controller?.repeat(reverse: true);
+    if (showCaseConfig.isLunched(route.notificationPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1))
+            .then((value) => ShowCaseWidget.of(context).startShowCase(_list)),
+      );
+    }
   }
 
   @override
@@ -193,28 +207,45 @@ class _NotificationPageState extends State<NotificationPage>
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  FloatingActionButton(
-                                    backgroundColor: themeColor.errorColor,
-                                    onPressed: () {
-                                      handleData(TaskStatus.UNDONE);
-                                    },
-                                    child: const Icon(
-                                      Icons.cancel,
-                                      color: Colors.white,
-                                      size: 30,
+                                  Showcase(
+                                    key: _list[0],
+                                    showcaseBackgroundColor:
+                                        themeColor.drowerLightBgClor,
+                                    textColor: themeColor.fgColor,
+                                    description:
+                                        'This button move the task in undone column',
+                                    child: FloatingActionButton(
+                                      backgroundColor: themeColor.errorColor,
+                                      onPressed: () {
+                                        handleData(TaskStatus.UNDONE);
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                                     ),
                                   ),
                                   const Spacer(),
-                                  FloatingActionButton(
-                                    heroTag: 'h1',
-                                    backgroundColor: themeColor.secondaryColor,
-                                    onPressed: () {
-                                      handleData(TaskStatus.DOING);
-                                    },
-                                    child: const Icon(
-                                      Icons.done,
-                                      color: Colors.white,
-                                      size: 30,
+                                  Showcase(
+                                    key: _list[1],
+                                    showcaseBackgroundColor:
+                                        themeColor.drowerLightBgClor,
+                                    textColor: themeColor.fgColor,
+                                    description:
+                                        'This button move the task in doing column',
+                                    child: FloatingActionButton(
+                                      heroTag: 'h1',
+                                      backgroundColor:
+                                          themeColor.secondaryColor,
+                                      onPressed: () {
+                                        handleData(TaskStatus.DOING);
+                                      },
+                                      child: const Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
                                     ),
                                   ),
                                 ],

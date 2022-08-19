@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -5,28 +6,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/models/profile_model.dart';
 import 'package:microtask/models/user_model.dart';
 import 'package:microtask/services/validation_services.dart';
 
 class LoginServices {
+  static bool isEnterFromLogin = false;
   final usersRef = FirebaseFirestore.instance.collection('users');
   final profilesRef = FirebaseFirestore.instance.collection('profiles');
   final key = Key.fromUtf8('My 32 length key................');
   final iv = IV.fromLength(16);
-
+  late final Box profileBox;
+  LoginServices() {
+    profileBox = Hive.box('profileBox');
+  }
   Future<bool> loginService(String emailAddress, String password) async {
     // try {
     if (!ValidationServices.isEmail(emailAddress)) {
       emailAddress = await getEmailByUsername(emailAddress);
-      if (emailAddress == "")
-        throw Exception('No Username with the selected identifier');
+      if (emailAddress == "") {
+        throw Exception('No Username with the selected value');
+      }
     }
+    print("emmmmmmmmmmmail is $emailAddress");
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
+    isEnterFromLogin = true;
     return true;
   }
 
@@ -36,6 +46,7 @@ class LoginServices {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
     for (var user in users) {
+      print(user['username']);
       if (user['username'] == username) {
         return user['email'];
       }
@@ -124,14 +135,25 @@ class LoginServices {
   }
 
   Future<Profile?> getProfile(String? email) async {
-    final userData = await getUserIdByEmail(email);
-    final profile = await profilesRef.doc(userData['profileId']).get();
-    return Profile.fromJson(profile.data() ?? {});
+    if (!profileBox.keys.contains(email)) {
+      final userData = await getUserIdByEmail(email);
+      final data = await profilesRef.doc(userData['profileId']).get();
+      Profile profile = Profile.fromJson(data.data() ?? {});
+      if (profile.avatar != null && profile.avatar?.isNotEmpty as bool) {
+        var _file = await DefaultCacheManager().getSingleFile(profile.avatar!);
+        var bytes = _file.readAsBytesSync();
+        profile.image = base64Encode(bytes);
+        print('done');
+      }
+      profileBox.put(email, profile);
+      return profile;
+    }
+    return (profileBox.get(email) as Profile);
   }
 }
 
 // ahmedelrhaouti2000@gmail.com
-//    firstName
-//    laststName
-//    username
-//    password2
+//    Ahmed
+//    El Rhaouti
+//    Ahmed2000
+//    password

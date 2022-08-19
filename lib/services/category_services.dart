@@ -50,6 +50,8 @@ class CategoryServices {
       category.numberTask = taskCounter;
       category.numberTaskDone = taskDoneCounter;
       categories.add(category);
+      taskCounter = 0;
+      taskDoneCounter = 0;
     }
     return categories;
   }

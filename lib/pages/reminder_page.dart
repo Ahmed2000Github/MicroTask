@@ -6,16 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/blocs/crud_task/crud_task_bloc.dart';
 import 'package:microtask/blocs/crud_task/crud_task_event.dart';
 import 'package:microtask/blocs/reminder/reminder_bloc.dart';
 import 'package:microtask/blocs/reminder/reminder_event.dart';
 import 'package:microtask/blocs/reminder/reminder_state.dart';
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/task_model.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ReminderPage extends StatefulWidget {
   @override
@@ -24,6 +27,14 @@ class ReminderPage extends StatefulWidget {
 
 class _ReminderPageState extends State<ReminderPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final List<GlobalKey> _list = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
   int currenIndex = 0;
   @override
   void initState() {
@@ -31,16 +42,11 @@ class _ReminderPageState extends State<ReminderPage> {
     context
         .read<ReminderBloc>()
         .add(ReminderEvent(requestEvent: ReminderEventStatus.TODAY));
-  }
-
-  test() async {
-    try {
-      final result = await InternetAddress.lookup('example.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-      }
-    } on SocketException catch (_) {
-      print('not connected');
+    if (showCaseConfig.isLunched(route.reminderPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1))
+            .then((value) => ShowCaseWidget.of(context).startShowCase(_list)),
+      );
     }
   }
 
@@ -49,6 +55,7 @@ class _ReminderPageState extends State<ReminderPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: themeColor.bgColor,
       body: Column(
         children: [
@@ -83,29 +90,19 @@ class _ReminderPageState extends State<ReminderPage> {
                   ),
                 ),
                 const Spacer(),
-                Text('Reminders',
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
-                        color: themeColor.fgColor)),
-                const Spacer(),
-                FloatingActionButton(
-                  tooltip: 'Refresh',
-                  backgroundColor: themeColor.primaryColor,
-                  onPressed: () {
-                    if (currenIndex == 0) {
-                      context.read<ReminderBloc>().add(ReminderEvent(
-                          requestEvent: ReminderEventStatus.TODAY));
-                    } else {
-                      context.read<ReminderBloc>().add(ReminderEvent(
-                          requestEvent: ReminderEventStatus.INCOMING));
-                    }
-                  },
-                  child: const Icon(
-                    Icons.restart_alt,
-                    size: 30,
-                  ),
+                Showcase(
+                  key: _list[0],
+                  showcaseBackgroundColor: themeColor.drowerLightBgClor,
+                  textColor: themeColor.fgColor,
+                  description:
+                      'In this page you will be able to activate or desactivate  reminders of tasks',
+                  child: Text('Reminders',
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500,
+                          color: themeColor.fgColor)),
                 ),
+                const Spacer(),
               ],
             ),
           ),
@@ -133,37 +130,49 @@ class _ReminderPageState extends State<ReminderPage> {
                       ? themeColor.secondaryColor
                       : themeColor.secondaryColor,
                   tabs: [
-                    Tab(
-                      icon: Icon(
-                        Icons.today,
-                        color: currenIndex == 0
-                            ? themeColor.secondaryColor
-                            : themeColor.fgColor,
-                        size: 30,
+                    Showcase(
+                      key: _list[1],
+                      showcaseBackgroundColor: themeColor.drowerLightBgClor,
+                      textColor: themeColor.fgColor,
+                      description: 'All today task\'s reminders',
+                      child: Tab(
+                        icon: Icon(
+                          Icons.today,
+                          color: currenIndex == 0
+                              ? themeColor.secondaryColor
+                              : themeColor.fgColor,
+                          size: 30,
+                        ),
+                        child: Text('ToDay',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: currenIndex == 0
+                                    ? themeColor.secondaryColor
+                                    : themeColor.fgColor)),
                       ),
-                      child: Text('ToDay',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: currenIndex == 0
-                                  ? themeColor.secondaryColor
-                                  : themeColor.fgColor)),
                     ),
-                    Tab(
-                      icon: Icon(
-                        Icons.info_outline,
-                        color: currenIndex == 1
-                            ? themeColor.secondaryColor
-                            : themeColor.fgColor,
-                        size: 30,
+                    Showcase(
+                      key: _list[2],
+                      showcaseBackgroundColor: themeColor.drowerLightBgClor,
+                      textColor: themeColor.fgColor,
+                      description: 'All icoming task\'s reminders',
+                      child: Tab(
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: currenIndex == 1
+                              ? themeColor.secondaryColor
+                              : themeColor.fgColor,
+                          size: 30,
+                        ),
+                        child: Text('Incoming',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: currenIndex == 1
+                                    ? themeColor.secondaryColor
+                                    : themeColor.fgColor)),
                       ),
-                      child: Text('Incoming',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: currenIndex == 1
-                                  ? themeColor.secondaryColor
-                                  : themeColor.fgColor)),
                     ),
                   ],
                 ),
@@ -285,6 +294,31 @@ class _ReminderPageState extends State<ReminderPage> {
             }),
           )
         ],
+      ),
+      floatingActionButton: Showcase(
+        key: _list[3],
+        showcaseBackgroundColor: themeColor.drowerLightBgClor,
+        textColor: themeColor.fgColor,
+        shapeBorder: CircleBorder(),
+        description: 'Click here to refresh the page',
+        child: FloatingActionButton(
+          tooltip: 'Refresh',
+          backgroundColor: themeColor.primaryColor,
+          onPressed: () {
+            if (currenIndex == 0) {
+              context
+                  .read<ReminderBloc>()
+                  .add(ReminderEvent(requestEvent: ReminderEventStatus.TODAY));
+            } else {
+              context.read<ReminderBloc>().add(
+                  ReminderEvent(requestEvent: ReminderEventStatus.INCOMING));
+            }
+          },
+          child: const Icon(
+            Icons.sync,
+            size: 30,
+          ),
+        ),
       ),
     );
   }

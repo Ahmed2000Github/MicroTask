@@ -25,11 +25,11 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
             Text('Back',
@@ -58,7 +58,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   Widget _entryField(String title, String placeholder, String inputType,
       TextEditingController controller) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -69,7 +69,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                 fontSize: 15,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Focus(
@@ -117,7 +117,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   Widget _submitButton() {
     return Row(
       children: [
-        Spacer(),
+        const Spacer(),
         TextButton(
           onPressed: () async {
             _validationEmailMsg = null;
@@ -197,7 +197,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                               },
                             ),
                             TextButton(
-                              child: Text("OK"),
+                              child: const Text("OK"),
                               onPressed: () {
                                 if (!_formDialogKey.currentState!.validate()) {
                                   return;
@@ -216,10 +216,10 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           },
           child: Container(
             width: MediaQuery.of(context).size.width * .5,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
                 gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
@@ -227,9 +227,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                       themeColor.inputbgColor,
                       themeColor.primaryColor
                     ])),
-            child: Text(
+            child: const Text(
               'Next',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
         ),
@@ -239,9 +239,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
   Widget _divider() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
-        children: <Widget>[
+        children: const [
           SizedBox(
             width: 20,
           ),
@@ -290,7 +290,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       child: Stack(
         children: <Widget>[
           Positioned(
-              top: -height * .15, right: -width * .4, child: BezierContainer()),
+              top: -height * .15,
+              right: -width * .4,
+              child: const BezierContainer()),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(

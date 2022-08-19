@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:microtask/enums/task_enum.dart';
 part 'task_model.g.dart';
@@ -41,10 +42,32 @@ class Task {
     this.showInToday,
   });
 
-  factory Task.fromJson(Map<String, dynamic> json) =>
-      Task(title: json['title']);
+  factory Task.fromJson(Map<String, dynamic> json) => Task(
+        id: json['id'],
+        categoryId: json['categoryId'],
+        title: json['title'],
+        description: json['description'],
+        startDateTime: json['startDateTime'].toDate(),
+        endDateTime: json['endDateTime'].toDate(),
+        reminder: json['reminder'],
+        repeatType:
+            EnumToString.fromString(RepeatType.values, json['repeatType']),
+        status: EnumToString.fromString(TaskStatus.values, json['status']),
+        notificationId: json['notificationId'],
+        showInToday: json['showInToday'],
+      );
 
-  Map<String, dynamic> toJson(Task task) => {
-        'title': task.title,
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'categoryId': categoryId,
+        'title': title,
+        'description': description,
+        'startDateTime': startDateTime,
+        'endDateTime': endDateTime,
+        'reminder': reminder,
+        'repeatType': EnumToString.convertToString(repeatType),
+        'status': EnumToString.convertToString(status),
+        'notificationId': notificationId,
+        'showInToday': showInToday,
       };
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
+import 'package:microtask/blocs/login/signup_bloc.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/services/validation_services.dart';
@@ -33,11 +34,11 @@ class _Signup1PageState extends State<Signup1Page> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
             Text('Back',
@@ -67,7 +68,7 @@ class _Signup1PageState extends State<Signup1Page> {
     _validationEmailMsg = null;
     setState(() {});
 
-    bool isExist = await ValidationServices.checkEmail(email);
+    bool isExist = await ValidationServices.checkEmail(email.trim());
 
     if (isExist) {
       _validationEmailMsg = "${email} already taken";
@@ -78,7 +79,7 @@ class _Signup1PageState extends State<Signup1Page> {
   Widget _entryField(String title, String placeholder, String inputType,
       TextEditingController controller) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -89,7 +90,7 @@ class _Signup1PageState extends State<Signup1Page> {
                 fontSize: 15,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Focus(
@@ -141,7 +142,7 @@ class _Signup1PageState extends State<Signup1Page> {
   Widget _submitButton() {
     return Row(
       children: [
-        Spacer(),
+        const Spacer(),
         TextButton(
           onPressed: () async {
             _validationEmailMsg = null;
@@ -164,7 +165,7 @@ class _Signup1PageState extends State<Signup1Page> {
 
             ValidationServices.sendVerificationEmail(
                 emailController.text.trim());
-            showDialog(
+            var result = await showDialog<bool>(
                 barrierDismissible: false,
                 context: context,
                 builder: (context) =>
@@ -222,32 +223,33 @@ class _Signup1PageState extends State<Signup1Page> {
                               ),
                               onPressed: () {
                                 ValidationServices.code = "";
-                                Navigator.pop(context);
+                                Navigator.pop(context, false);
                               },
                             ),
                             TextButton(
-                              child: Text("OK"),
+                              child: const Text("OK"),
                               onPressed: () {
                                 if (!_formDialogKey.currentState!.validate()) {
                                   return;
                                 }
-                                print("valid  ");
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, route.signup2Page,
-                                    arguments: collectedData);
+                                Navigator.pop(context, true);
                               },
                             ),
                           ],
                         ),
                       );
                     }));
+            if (result as bool) {
+              Navigator.pushNamed(context, route.signup2Page,
+                  arguments: collectedData);
+            }
           },
           child: Container(
             width: MediaQuery.of(context).size.width * .5,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: const BorderRadius.all(const Radius.circular(5)),
                 gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
@@ -255,7 +257,7 @@ class _Signup1PageState extends State<Signup1Page> {
                       themeColor.inputbgColor,
                       themeColor.primaryColor
                     ])),
-            child: Text(
+            child: const Text(
               'Next',
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
@@ -265,43 +267,10 @@ class _Signup1PageState extends State<Signup1Page> {
     );
   }
 
-  Widget _divider() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          Text('or'),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _loginLabel() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.all(15),
       alignment: Alignment.bottomCenter,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -313,13 +282,13 @@ class _Signup1PageState extends State<Signup1Page> {
                 fontWeight: FontWeight.w600,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           GestureDetector(
             onTap: () {
               context
-                  .read<LoginBloc>()
+                  .read<SingupBloc>()
                   .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
               Navigator.pushNamed(context, route.loginPage);
             },
@@ -369,9 +338,11 @@ class _Signup1PageState extends State<Signup1Page> {
       child: Stack(
         children: <Widget>[
           Positioned(
-              top: -height * .15, right: -width * .4, child: BezierContainer()),
+              top: -height * .15,
+              right: -width * .4,
+              child: const BezierContainer()),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -386,9 +357,9 @@ class _Signup1PageState extends State<Signup1Page> {
                           ".png",
                       width: width * .4,
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     _inputWidget(),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _submitButton(),
                     // _divider(),
                     // SizedBox(height: height * .002),

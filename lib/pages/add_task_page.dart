@@ -1,5 +1,6 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import 'package:microtask/blocs/task/task_bloc.dart';
 import 'package:microtask/blocs/task/task_event.dart';
 import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
+import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/event_state.dart';
@@ -22,6 +24,7 @@ import 'package:microtask/enums/task_enum.dart';
 import 'package:microtask/models/task_model.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class AddTaskPage extends StatefulWidget {
   Task? task;
@@ -51,7 +54,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
+  final List<GlobalKey> _list = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
   bool reminder = false;
 
   @override
@@ -75,6 +88,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
     if (widget.task != null) {
       repeatType = widget.task?.repeatType;
       reminder = widget.task?.reminder as bool;
+    }
+    if (showCaseConfig.isLunched(route.addTaskPage)) {
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => Future.delayed(Duration(seconds: 1))
+            .then((value) => ShowCaseWidget.of(context).startShowCase(_list)),
+      );
     }
   }
 
@@ -153,7 +172,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-  Widget _startDateField(TextEditingController dateController,
+  Widget _dateField(TextEditingController dateController,
       TextEditingController timeController, String type) {
     return Form(
       key: type == 'end' ? _subFormKey2 : _subFormKey1,
@@ -361,6 +380,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: themeColor.bgColor,
       body: Container(
         child: Column(
@@ -381,8 +401,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            padding: const EdgeInsets.only(
-                                left: 0, top: 10, bottom: 10),
                             child: Icon(Icons.keyboard_arrow_left,
                                 color: themeColor.fgColor),
                           ),
@@ -415,34 +433,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
             Expanded(
               child: Column(
                 children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        Text(
-                            (widget.task == null ? 'Create' : 'Update') +
-                                ' Task',
-                            style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w500,
-                                color: themeColor.fgColor)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            (widget.task == null
-                                    ? 'Create new'
-                                    : 'Update exist') +
-                                ' Task',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: themeColor.fgColor)),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .08,
-                  ),
                   Expanded(
 
                       // color: themeColor.errorColor,
@@ -475,24 +465,84 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const SizedBox(height: 5),
-                                _titleField(),
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          (widget.task == null
+                                                  ? 'Create'
+                                                  : 'Update') +
+                                              ' Task',
+                                          style: TextStyle(
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.w500,
+                                              color: themeColor.fgColor)),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                          (widget.task == null
+                                                  ? 'Create new'
+                                                  : 'Update exist') +
+                                              ' Task',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              color: themeColor.fgColor)),
+                                    ],
+                                  ),
+                                ),
                                 SizedBox(
                                   height: height * .08,
                                 ),
-                                _descriptionField(),
+                                Showcase(
+                                    key: _list[0],
+                                    showcaseBackgroundColor:
+                                        themeColor.drowerLightBgClor,
+                                    textColor: themeColor.fgColor,
+                                    description: 'Select a name for your task',
+                                    child: _titleField()),
                                 SizedBox(
                                   height: height * .08,
                                 ),
-                                _startDateField(startDateController,
-                                    startTimeController, 'start'),
+                                Showcase(
+                                    key: _list[1],
+                                    showcaseBackgroundColor:
+                                        themeColor.drowerLightBgClor,
+                                    textColor: themeColor.fgColor,
+                                    description:
+                                        'Choose a description for your task',
+                                    child: _descriptionField()),
                                 SizedBox(
                                   height: height * .08,
                                 ),
-                                _startDateField(endDateController,
-                                    endTimeController, 'end'),
+                                Showcase(
+                                  key: _list[2],
+                                  showcaseBackgroundColor:
+                                      themeColor.drowerLightBgClor,
+                                  textColor: themeColor.fgColor,
+                                  description:
+                                      'Select a start date end time for the task.\n     You can add a reminder to this task if the time is greater than 10 min of time now',
+                                  child: _dateField(startDateController,
+                                      startTimeController, 'start'),
+                                ),
+                                SizedBox(
+                                  height: height * .08,
+                                ),
+                                Showcase(
+                                  key: _list[3],
+                                  showcaseBackgroundColor:
+                                      themeColor.drowerLightBgClor,
+                                  textColor: themeColor.fgColor,
+                                  description:
+                                      'Choose a end date and time and should be greater than the start date and time',
+                                  child: _dateField(endDateController,
+                                      endTimeController, 'end'),
+                                ),
                                 Visibility(
-                                  visible: reminder || _setVisiblity(),
+                                  visible: _setVisiblity() ||
+                                      (widget.task != null &&
+                                          widget.task?.reminder as bool),
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -507,33 +557,85 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           }
                                           return Column(
                                             children: [
-                                              dropDown,
+                                              Showcase(
+                                                  key: _list[5],
+                                                  showcaseBackgroundColor:
+                                                      themeColor
+                                                          .drowerLightBgClor,
+                                                  textColor: themeColor.fgColor,
+                                                  description:
+                                                      'Select the Repeat type \n choose none to run one time ',
+                                                  child: dropDown),
                                               GestureDetector(
                                                 onTap: () {
                                                   setInnerState(() {
                                                     reminder = !reminder;
                                                   });
+                                                  if (reminder) {
+                                                    if (showCaseConfig
+                                                        .isLunched(
+                                                            route.addTaskPage +
+                                                                'repeat')) {
+                                                      WidgetsBinding.instance
+                                                          ?.addPostFrameCallback(
+                                                        (_) =>
+                                                            ShowCaseWidget.of(
+                                                                    context)
+                                                                .startShowCase(
+                                                                    [_list[5]]),
+                                                      );
+                                                    }
+                                                  }
                                                 },
-                                                child: Row(
-                                                  children: [
-                                                    Checkbox(
-                                                      value: reminder,
-                                                      onChanged: (value) {
-                                                        setInnerState(() {
-                                                          reminder = value!;
-                                                        });
-                                                      },
-                                                    ),
-                                                    Text('Activate Reminder',
-                                                        style: TextStyle(
-                                                            letterSpacing: 2,
-                                                            fontSize: 22,
-                                                            color: reminder
-                                                                ? themeColor
-                                                                    .primaryColor
-                                                                : themeColor
-                                                                    .fgColor)),
-                                                  ],
+                                                child: Showcase(
+                                                  key: _list[4],
+                                                  showcaseBackgroundColor:
+                                                      themeColor
+                                                          .drowerLightBgClor,
+                                                  textColor: themeColor.fgColor,
+                                                  disposeOnTap: true,
+                                                  onTargetClick: () {
+                                                    setInnerState(() {
+                                                      reminder = !reminder;
+                                                    });
+                                                    if (reminder) {
+                                                      if (showCaseConfig
+                                                          .isLunched(route
+                                                                  .addTaskPage +
+                                                              'repeat')) {
+                                                        WidgetsBinding.instance
+                                                            ?.addPostFrameCallback(
+                                                          (_) => ShowCaseWidget
+                                                                  .of(context)
+                                                              .startShowCase(
+                                                                  [_list[5]]),
+                                                        );
+                                                      }
+                                                    }
+                                                  },
+                                                  description:
+                                                      'Click to add reminder to this task',
+                                                  child: Row(
+                                                    children: [
+                                                      Checkbox(
+                                                        value: reminder,
+                                                        onChanged: (value) {
+                                                          setInnerState(() {
+                                                            reminder = value!;
+                                                          });
+                                                        },
+                                                      ),
+                                                      Text('Activate Reminder',
+                                                          style: TextStyle(
+                                                              letterSpacing: 2,
+                                                              fontSize: 22,
+                                                              color: reminder
+                                                                  ? themeColor
+                                                                      .primaryColor
+                                                                  : themeColor
+                                                                      .fgColor)),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -546,24 +648,33 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                 SizedBox(
                                   height: height * .08,
                                 ),
-                                GestureDetector(
-                                  onTap: handleRequest,
-                                  child: Container(
-                                    width: width,
-                                    height: 50,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: themeColor.primaryColor),
-                                    child: Text(
-                                        (widget.task == null
-                                            ? 'create'
-                                            : 'Update'),
-                                        style: const TextStyle(
-                                            letterSpacing: 2,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white)),
+                                Showcase(
+                                  key: _list[6],
+                                  showcaseBackgroundColor:
+                                      themeColor.drowerLightBgClor,
+                                  textColor: themeColor.fgColor,
+                                  description:
+                                      'Click to add the task to your category',
+                                  child: GestureDetector(
+                                    onTap: handleRequest,
+                                    child: Container(
+                                      width: width,
+                                      height: 50,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: themeColor.primaryColor),
+                                      child: Text(
+                                          (widget.task == null
+                                              ? 'create'
+                                              : 'Update'),
+                                          style: const TextStyle(
+                                              letterSpacing: 2,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white)),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
@@ -586,10 +697,18 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   bool _setVisiblity() {
+    print('visisisisisisi');
     final duration =
         getDateTime(startDateController.text, startTimeController.text)
             .difference(DateTime.now());
     bool result = duration.compareTo(const Duration(minutes: 10)) >= 0;
+    if (result) {
+      if (showCaseConfig.isLunched(route.addTaskPage + 'reminder')) {
+        WidgetsBinding.instance?.addPostFrameCallback(
+          (_) => ShowCaseWidget.of(context).startShowCase([_list[4]]),
+        );
+      }
+    }
     return result;
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_it/get_it.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -9,6 +11,7 @@ class NotificationServices {
   static const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   final selectNotificationSubject = BehaviorSubject<String?>();
+  Configuration get configuration => GetIt.I<Configuration>();
 
   static const IOSInitializationSettings initializationSettingsIOS =
       // ignore: prefer_const_constructors
@@ -81,11 +84,14 @@ class NotificationServices {
 
   Future<NotificationDetails?> _notificationDetails(
       String title, String body) async {
+    String channelId = configuration.reminderSound
+        ? "channel id with sound"
+        : "channel id without sound";
     return NotificationDetails(
-        android: AndroidNotificationDetails('channel id3 3', 'channel name',
+        android: AndroidNotificationDetails(channelId, 'channel name',
             channelDescription: 'channel description',
             sound: RawResourceAndroidNotificationSound('custom_sound'),
-            playSound: true,
+            playSound: configuration.reminderSound,
             styleInformation: BigPictureStyleInformation(
                 DrawableResourceAndroidBitmap('@mipmap/notify_task'),
                 contentTitle: '<b>' + title.toUpperCase() + '</b>',
@@ -179,7 +185,7 @@ class NotificationServices {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     var hour = time.hour + (now.hour - DateTime.now().hour);
     tz.TZDateTime scheduledDate = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, hour, time.minute, 05);
+        tz.local, now.year, now.month, now.day, hour, time.minute, 0);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
