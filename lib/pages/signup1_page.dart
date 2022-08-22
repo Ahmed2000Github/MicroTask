@@ -9,6 +9,7 @@ import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/configurations/route.dart' as route;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Signup1Page extends StatefulWidget {
   const Signup1Page({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class Signup1Page extends StatefulWidget {
 
 class _Signup1PageState extends State<Signup1Page> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   dynamic _validationUserMsg;
   dynamic _validationEmailMsg;
   TextEditingController emailController = TextEditingController();
@@ -36,12 +38,13 @@ class _Signup1PageState extends State<Signup1Page> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          textDirection: TextDirection.ltr,
           children: <Widget>[
             Container(
               padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
-            Text('Back',
+            Text(AppLocalizations.of(context)?.back ?? '',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -59,7 +62,8 @@ class _Signup1PageState extends State<Signup1Page> {
     bool isExist = await ValidationServices.checkUser(username);
 
     if (isExist) {
-      _validationUserMsg = "${username} already taken";
+      _validationUserMsg =
+          AppLocalizations.of(context)?.signupV3(username) ?? '';
       setState(() {});
     }
   }
@@ -68,10 +72,10 @@ class _Signup1PageState extends State<Signup1Page> {
     _validationEmailMsg = null;
     setState(() {});
 
-    bool isExist = await ValidationServices.checkEmail(email.trim());
+    bool isExist = await ValidationServices.checkEmail(context, email.trim());
 
     if (isExist) {
-      _validationEmailMsg = "${email} already taken";
+      _validationEmailMsg = AppLocalizations.of(context)?.signupV3(email) ?? '';
       setState(() {});
     }
   }
@@ -94,46 +98,47 @@ class _Signup1PageState extends State<Signup1Page> {
             height: 10,
           ),
           Focus(
-              child: TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                    border: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    hintText: placeholder,
-                    fillColor: themeColor.inputbgColor,
-                    filled: true),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'The value of this input should not be empty.';
-                  }
-                  switch (inputType) {
-                    case "email":
-                      if (!ValidationServices.isEmail(value.trim())) {
-                        return 'The value is not email.';
-                      }
-                      return _validationEmailMsg;
-                    case "name":
-                      break;
-                    case "username":
-                      return _validationUserMsg;
+            child: TextFormField(
+              controller: controller,
+              decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderSide: BorderSide(color: themeColor.secondaryColor)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        BorderSide(color: themeColor.primaryColor, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        BorderSide(color: themeColor.primaryColor, width: 2.0),
+                  ),
+                  hintText: placeholder,
+                  fillColor: themeColor.inputbgColor,
+                  filled: true),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return AppLocalizations.of(context)?.signupV1 ?? '';
+                }
+                switch (inputType) {
+                  case "email":
+                    if (!ValidationServices.isEmail(value.trim())) {
+                      return AppLocalizations.of(context)?.signupV2 ?? '';
+                    }
+                    return _validationEmailMsg;
+                  case "name":
+                    break;
+                  case "username":
+                    return _validationUserMsg;
 
-                    default:
-                  }
-                  return null;
-                },
-              ),
-              onFocusChange: (hasFocus) {
-                // switch (inputType) {
-                //   case 'username':
-                //     if (!hasFocus) validateUsername(usernameController.text);
-                //     break;
-                //   case 'email':
-                //     if (!hasFocus) validateEmail(emailController.text);
-                //     break;
-                //   default:
-                // }
-              }),
+                  default:
+                }
+                return null;
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -164,7 +169,7 @@ class _Signup1PageState extends State<Signup1Page> {
             };
 
             ValidationServices.sendVerificationEmail(
-                emailController.text.trim());
+                context, emailController.text.trim());
             var result = await showDialog<bool>(
                 barrierDismissible: false,
                 context: context,
@@ -172,13 +177,14 @@ class _Signup1PageState extends State<Signup1Page> {
                     StatefulBuilder(builder: (context, setState) {
                       final GlobalKey<FormState> _formDialogKey =
                           GlobalKey<FormState>();
-
-                      print("object  ");
                       return Form(
                         key: _formDialogKey,
                         child: AlertDialog(
                           backgroundColor: themeColor.bgColor,
-                          title: Text("Enter the code sended to your mail.",
+                          title: Text(
+                              AppLocalizations.of(_scaffoldKey.currentContext!)
+                                      ?.signup1DATitle ??
+                                  '',
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w500,
@@ -193,21 +199,65 @@ class _Signup1PageState extends State<Signup1Page> {
                                 width: width * .9,
                                 child: Center(
                                   child: TextFormField(
+                                    style: TextStyle(
+                                        color: themeColor.fgColor,
+                                        fontSize: 20),
                                     controller: codeController,
                                     decoration: InputDecoration(
-                                        border: UnderlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5.0)),
-                                        hintText: "code ....",
-                                        fillColor: themeColor.inputbgColor,
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0)),
+                                            borderSide: BorderSide(
+                                                color:
+                                                    themeColor.secondaryColor)),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          borderSide: BorderSide(
+                                              color: themeColor.primaryColor,
+                                              width: 2.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          borderSide: BorderSide(
+                                              color: themeColor.primaryColor,
+                                              width: 2.0),
+                                        ),
+                                        labelStyle: TextStyle(
+                                            color: themeColor.fgColor
+                                                .withOpacity(.6)),
+                                        floatingLabelAlignment:
+                                            FloatingLabelAlignment.start,
+                                        hintStyle: TextStyle(
+                                            color: themeColor.fgColor
+                                                .withOpacity(.5),
+                                            fontSize: 20),
+                                        labelText: AppLocalizations.of(
+                                                    _scaffoldKey
+                                                        .currentContext!)
+                                                ?.signup1DAKey ??
+                                            '',
+                                        hintText:
+                                            AppLocalizations.of(_scaffoldKey.currentContext!)
+                                                    ?.signup1DAKeyP ??
+                                                '',
+                                        // fillColor: themeColor.inputbgColor,
                                         filled: true),
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     validator: (value) {
-                                      if (value == ValidationServices.code) {
-                                        return null;
-                                      } else {
-                                        return "The selected code is not correct";
+                                      if (value?.isEmpty as bool) {
+                                        return AppLocalizations.of(_scaffoldKey
+                                                    .currentContext!)
+                                                ?.signup1DAKeyV1 ??
+                                            '';
+                                      }
+                                      if (value != ValidationServices.code) {
+                                        return AppLocalizations.of(_scaffoldKey
+                                                    .currentContext!)
+                                                ?.signup1DAKeyV2 ??
+                                            '';
                                       }
                                     },
                                   ),
@@ -218,7 +268,10 @@ class _Signup1PageState extends State<Signup1Page> {
                           actions: <Widget>[
                             TextButton(
                               child: Text(
-                                "Cancel",
+                                AppLocalizations.of(
+                                            _scaffoldKey.currentContext!)
+                                        ?.cancel ??
+                                    '',
                                 style: TextStyle(color: themeColor.errorColor),
                               ),
                               onPressed: () {
@@ -227,7 +280,10 @@ class _Signup1PageState extends State<Signup1Page> {
                               },
                             ),
                             TextButton(
-                              child: const Text("OK"),
+                              child: Text(AppLocalizations.of(
+                                          _scaffoldKey.currentContext!)
+                                      ?.ok ??
+                                  ''),
                               onPressed: () {
                                 if (!_formDialogKey.currentState!.validate()) {
                                   return;
@@ -257,8 +313,8 @@ class _Signup1PageState extends State<Signup1Page> {
                       themeColor.inputbgColor,
                       themeColor.primaryColor
                     ])),
-            child: const Text(
-              'Next',
+            child: Text(
+              AppLocalizations.of(context)?.next ?? '',
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
@@ -276,7 +332,7 @@ class _Signup1PageState extends State<Signup1Page> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Already have an account ',
+            AppLocalizations.of(context)?.alreadyHaveAccount ?? '',
             style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -293,7 +349,7 @@ class _Signup1PageState extends State<Signup1Page> {
               Navigator.pushNamed(context, route.loginPage);
             },
             child: Text(
-              'Login',
+              AppLocalizations.of(context)?.login ?? '',
               style: TextStyle(
                   color: themeColor.secondaryColor,
                   fontSize: 13,
@@ -308,21 +364,26 @@ class _Signup1PageState extends State<Signup1Page> {
   Widget _inputWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Enter your email :", "Example@gmail.com", 'email',
+        _entryField(
+            AppLocalizations.of(context)?.signupEmail ?? '',
+            AppLocalizations.of(context)?.signupEmailP ?? '',
+            'email',
             emailController),
-        _entryField("Enter your first name :", "First name ...", 'name',
+        _entryField(
+            AppLocalizations.of(context)?.signupFirstName ?? '',
+            AppLocalizations.of(context)?.signupFirstNameP ?? '',
+            'name',
             firstNameController),
-        _entryField("Enter your last name :", "Last name ...", 'name',
+        _entryField(
+            AppLocalizations.of(context)?.signupLastName ?? '',
+            AppLocalizations.of(context)?.signupLastNameP ?? '',
+            'name',
             lastNameController),
-        _entryField("Enter the username :", "Username ...", "username",
+        _entryField(
+            AppLocalizations.of(context)?.signupUsername ?? '',
+            AppLocalizations.of(context)?.signupUsernameP ?? '',
+            "username",
             usernameController),
-        Text(
-          "",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: themeColor.errorColor),
-        ),
       ],
     );
   }
@@ -332,47 +393,48 @@ class _Signup1PageState extends State<Signup1Page> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+        key: _scaffoldKey,
         body: Container(
-      color: themeColor.bgColor,
-      height: height,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -width * .4,
-              child: const BezierContainer()),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height * .23),
-                    Image.asset(
-                      "assets/images/microtask_" +
-                          (themeColor.isDarkMod ? "dark" : "light") +
-                          ".png",
-                      width: width * .4,
+          color: themeColor.bgColor,
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: -height * .15,
+                  right: -width * .4,
+                  child: const BezierContainer()),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: height * .23),
+                        Image.asset(
+                          "assets/images/microtask_" +
+                              (themeColor.isDarkMod ? "dark" : "light") +
+                              ".png",
+                          width: width * .4,
+                        ),
+                        const SizedBox(height: 40),
+                        _inputWidget(),
+                        const SizedBox(height: 20),
+                        _submitButton(),
+                        // _divider(),
+                        // SizedBox(height: height * .002),
+                        _loginLabel(),
+                      ],
                     ),
-                    const SizedBox(height: 40),
-                    _inputWidget(),
-                    const SizedBox(height: 20),
-                    _submitButton(),
-                    // _divider(),
-                    // SizedBox(height: height * .002),
-                    _loginLabel(),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Positioned(top: 40, left: 0, child: _backButton()),
+            ],
           ),
-          Positioned(top: 40, left: 0, child: _backButton()),
-        ],
-      ),
-    ));
+        ));
   }
 
   @override

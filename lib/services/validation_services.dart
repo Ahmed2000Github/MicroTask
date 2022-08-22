@@ -1,17 +1,19 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ValidationServices {
   static bool isEmail(String email) => RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(email);
 
-  static String? isValidPassword(String value) {
+  static String? isValidPassword(BuildContext context, String value) {
     if (value.length < 8)
-      return "The password must containe at least 8 caracters.";
+      return AppLocalizations.of(context)?.passwordValidation1 ?? '';
     return null;
   }
 
@@ -29,7 +31,7 @@ class ValidationServices {
     return false;
   }
 
-  static Future<bool> checkEmail(String value) async {
+  static Future<bool> checkEmail(BuildContext context, String value) async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection("users").get();
     final users = querySnapshot.docs
@@ -43,7 +45,7 @@ class ValidationServices {
     return false;
   }
 
-  static sendVerificationEmail(String email) async {
+  static sendVerificationEmail(BuildContext context, String email) async {
     if (code.isEmpty) {
       code = generateCodeVerification();
       print(code);
@@ -54,10 +56,12 @@ class ValidationServices {
       final message = Message()
         ..from = Address(username, 'MicorTask')
         ..recipients.add(email)
-        ..subject = 'Email verification '
-        ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-        ..html =
-            "<h1>Use this code to verify your email.</h1>\n<p>Verification key : <h3><a>$code</a></h3></p>";
+        ..subject = AppLocalizations.of(context)?.emailSubject ?? ''
+        ..html = "<h1>" +
+            (AppLocalizations.of(context)?.emailHtmlText1 ?? '') +
+            "</h1>\n<p>" +
+            (AppLocalizations.of(context)?.emailHtmlText2 ?? '') +
+            "<h3><a>$code</a></h3></p>";
 
       try {
         final sendReport = await send(message, smtpServer);

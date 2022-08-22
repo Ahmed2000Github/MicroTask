@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:microtask/blocs/category/category_bloc.dart';
@@ -21,11 +22,13 @@ import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
+import 'package:microtask/services/enum_translate_services.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/custum_progress.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
 import 'package:microtask/widgets/profile_image_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   User? user;
@@ -70,6 +73,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    Alignment alignment = Alignment.centerLeft;
+    if (AppLocalizations.of(context)?.localeName == 'ar') {
+      alignment = Alignment.centerRight;
+    }
     return BlocListener<SyncBloc, StateStatus>(
       listener: (BuildContext context, state) {
         if (state == StateStatus.LOADED) {
@@ -97,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                     Scaffold.of(context).openDrawer();
                   },
                   key: _thirth,
-                  description: 'Click the icon to see more option',
+                  description: AppLocalizations.of(context)?.homed1 ?? '',
                   child: IconButton(
                     icon: Icon(
                       Icons.menu,
@@ -133,7 +140,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            "Welcome, ${widget.user?.displayName}",
+                            (AppLocalizations.of(context)
+                                    ?.welcome(widget.user?.displayName ?? '') ??
+                                ''),
                             style: TextStyle(
                               fontSize: 25,
                               color: themeColor.fgColor,
@@ -146,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            "${DateFormat('EEEE d MMMM').format(today)}",
+                            "${DateFormat('EEEE d MMMM', AppLocalizations.of(context)?.localeName).format(today)}",
                             style: TextStyle(
                               fontSize: 17,
                               color: themeColor.primaryLightColor,
@@ -164,11 +173,11 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: Container(
-                    alignment: Alignment.centerLeft,
+                    // alignment: Alignment.centerLeft,
                     child: Text(
-                      "${'categories'.toUpperCase()}",
+                      AppLocalizations.of(context)?.categories ?? '',
                       style: TextStyle(
                         fontSize: 30,
                         color: themeColor.fgColor,
@@ -192,8 +201,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     key: _first,
-                    description:
-                        'Here you will show the list category.\n you can press to add one',
+                    description: AppLocalizations.of(context)?.homed2 ?? '',
                     child: BlocBuilder<CategoryBloc, CategoryState>(
                         builder: (context, state) {
                       switch (state.requestState) {
@@ -210,15 +218,18 @@ class _HomePageState extends State<HomePage> {
                               ),
                               height: height * .4,
                               child: NoDataFoundWidget(
-                                text: 'Not category found',
+                                text: AppLocalizations.of(context)
+                                        ?.nocategoryfound ??
+                                    '',
                                 action: ElevatedButton(
                                   onPressed: () {
                                     Navigator.pushNamed(
                                         context, route.addCategoryPage);
                                   },
-                                  child: const Text(
-                                    'Add Category',
-                                    style: TextStyle(
+                                  child: Text(
+                                    AppLocalizations.of(context)?.addCategory ??
+                                        '',
+                                    style: const TextStyle(
                                       fontSize: 22,
                                     ),
                                   ),
@@ -228,8 +239,8 @@ class _HomePageState extends State<HomePage> {
                           }
                           return Container(
                             constraints: const BoxConstraints(
-                              minHeight: 270,
-                              maxHeight: 270,
+                              minHeight: 260,
+                              maxHeight: 260,
                             ),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -246,52 +257,49 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   child: Container(
                                     width: width * .5,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Card(
-                                        color: themeColor.primaryColor,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    "${category?.name?.toUpperCase()}",
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 23),
-                                                  ),
+                                    child: Card(
+                                      color: themeColor.primaryColor,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              alignment: alignment,
+                                              child: Text(
+                                                "${category?.name?.toUpperCase()}",
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 23),
+                                              ),
+                                            ),
+                                          ),
+                                          // const Spacer(),
+                                          CustomProgress(
+                                              percent: percent,
+                                              radius: 110,
+                                              lineWidth: 10,
+                                              textSize: 23,
+                                              themeColor: themeColor),
+                                          const Spacer(),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              alignment: alignment,
+                                              child: Text(
+                                                (AppLocalizations.of(context)
+                                                        ?.total(category
+                                                                ?.numberTask ??
+                                                            0) ??
+                                                    ''),
+                                                style: const TextStyle(
+                                                  fontSize: 19,
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              const Spacer(),
-                                              CustomProgress(
-                                                  percent: percent,
-                                                  radius: 120,
-                                                  lineWidth: 13,
-                                                  textSize: 23,
-                                                  themeColor: themeColor),
-                                              const Spacer(),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                  "Total: ${category?.numberTask} Tasks",
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -308,7 +316,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Showcase(
                   key: _second,
-                  description: 'Here you will show the list today task.',
+                  description: AppLocalizations.of(context)?.homed3 ?? '',
                   child: BlocBuilder<TodayBloc, TodayState>(
                       builder: (context, state) {
                     switch (state.requestState) {
@@ -328,7 +336,9 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "${'today\'s tasks'.toUpperCase()}",
+                                        AppLocalizations.of(context)
+                                                ?.todayTask ??
+                                            '',
                                         style: TextStyle(
                                           fontSize: 30,
                                           color: themeColor.fgColor,
@@ -353,13 +363,14 @@ class _HomePageState extends State<HomePage> {
                         return Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 20, 5, 5),
+                              padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
                               child: Container(
-                                alignment: Alignment.centerLeft,
+                                // alignment: Alignment.centerLeft,
                                 child: Row(
                                   children: [
                                     Text(
-                                      "${'today\'s tasks'.toUpperCase()}",
+                                      AppLocalizations.of(context)?.todayTask ??
+                                          '',
                                       style: TextStyle(
                                         fontSize: 30,
                                         color: themeColor.fgColor,
@@ -367,7 +378,9 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      "${'${state.todayTasks?.length} Tasks'.toUpperCase()}",
+                                      AppLocalizations.of(context)?.tasks(state
+                                              .todayTasks?.length as int) ??
+                                          '',
                                       style: TextStyle(
                                         fontSize: 30,
                                         color: themeColor.fgColor,
@@ -412,7 +425,38 @@ class _HomePageState extends State<HomePage> {
                                                       color: themeColor
                                                           .secondaryColor,
                                                     ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                if (task?.status !=
+                                                    TaskStatus.DONE) {
+                                                  var _task = task;
+                                                  _task?.status =
+                                                      TaskStatus.DONE;
+                                                  context
+                                                      .read<CrudTaskBloc>()
+                                                      .add(CrudTaskEvent(
+                                                          requestEvent:
+                                                              CrudEventStatus
+                                                                  .EDIT,
+                                                          task: _task));
+                                                  context.read<TodayBloc>().add(
+                                                      TodayEvent(
+                                                          requestEvent:
+                                                              CrudEventStatus
+                                                                  .FETCH));
+                                                  context
+                                                      .read<CategoryBloc>()
+                                                      .add(CategoryEvent(
+                                                          requestEvent:
+                                                              CrudEventStatus
+                                                                  .FETCH));
+                                                  context
+                                                      .read<CrudTaskBloc>()
+                                                      .add(CrudTaskEvent(
+                                                          requestEvent:
+                                                              CrudEventStatus
+                                                                  .RESET));
+                                                }
+                                              },
                                             ),
                                             trailing: task?.status ==
                                                     TaskStatus.DONE
@@ -460,9 +504,11 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 Spacer(),
                                                 Text(
-                                                  EnumToString.convertToString(
-                                                          task?.status)
-                                                      .toLowerCase(),
+                                                  EnumTranslateServices
+                                                      .translateTaskStatus(
+                                                          context,
+                                                          task?.status
+                                                              as TaskStatus),
                                                   style: TextStyle(
                                                     color: themeColor
                                                         .secondaryColor,

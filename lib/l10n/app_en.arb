@@ -1,6 +1,301 @@
 {
-    "helloWorld": "Hello World!",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"
-    }
+    "mainDialogTitle":"Cloud service",
+    "mainDialogDescription":"You want to get your old data from server ?",
+    "cancel":"Cancel",
+    "ok":"Ok",
+    "home":"Home",
+    "today":"Today",
+    "reminder":"Reminder",
+
+    
+    "homed1": "Click the icon to see more option",
+    "homed2": "Here you will show the list category.\n you can press to add one",
+    "homed3": "Here you will show the list today task",
+    "welcome": "Welcome, {name}",
+     "@welcome":{ "placeholders": {
+      "name": {}
+    }},
+    "categories": "Categories",
+    "todayTask": "Today's tasks",
+    "tasks": "{number} tasks",
+      "@tasks":{ "placeholders": {
+      "number": {}
+    }},
+    "completed":"Completed",
+    "progress":"In progress",
+    "total":"Total: {number} tasks",
+     "@total":{ "placeholders": {
+      "number": {}
+    }},
+    "nocategoryfound":"No category found",
+    "addCategory":"Add Category",
+    "todo":"To do",
+    "doing":"Doing",
+    "done":"Done",
+    "undone":"Undone",
+
+
+    "settings":"Settings",
+    "theme":"Theme",
+    "switchTo":"Switch to ",
+    "darkMode":"Dark mode",
+    "lightMode":"Light mode",
+    "remindeMe":"Reminde me before {number} minutes ",
+    "@remindeMe":{ "placeholders": {
+      "number": {}
+    }},
+    "desactivate":"disactivate",
+    "minutes":" Minutes",
+    "activate":"Activate",
+    "notificationSound":" notifications sound",
+    "serverStorage":"Server Storage",
+    "autoSynchronization":" auto synchronization",
+    "synchronizeServer":"Synchronize data with server",
+    "settingsd1":"This page is for setting your app",
+    "settingsd2":"Here you can switch the theme of app",
+    "settingsd3":"Here you can set the time between the start time of task and the run of reminder",
+    "settingsd4":"Here you can choose if the reminder run with sound or no",
+    "settingsd5":"This allow you to auto synchronize your data with the server\n disactivate it to do this manually",
+    "settingsSN1":"From now all reminders will be start before {number} minutes",
+      "@settingsSN1":{ "placeholders": {
+      "number": {}
+    }},
+
+
+    "male":"Male",
+    "female":"Female",
+    "profile":"Profile",
+    "logout":"Logout",
+    "profiled1":"This page give you information about your profile",
+
+
+    "back":"Back",
+    "passed":"Passed",
+    "coming":"Coming",
+    "started":"Started",
+    "todayYouHave":"Today you have ",
+    "todayd1":"In this page you can manage your today task.\n using the more option button you can change de status of task",
+
+
+    "category":"  Category",
+    "update":"Update",
+    "updateExist":"Update exist category",
+    "create":"Create",
+    "addCategoryName":"Enter the name",
+    "addCategoryNameP":"Name ...",
+    "addCategoryNameV1":"The name should not be empty",
+    "addCategoryNameV2":"The name should not contain more than 12 characters",
+    "addCategoryDescription":"Enter the description",
+    "addCategoryDescriptionP":"Description ...",
+    "addCategoryDescriptionV1":"The description should not be empty",
+    "createNew":"Create new category",
+    "addCategoryd1":"Choose a name for you category",
+    "addCategoryd2":"Choose a description for the category",
+    "addCategoryd3":"Click to add the category",
+    
+
+    "categoriesTotal":"Total of Categories: ",
+    "categoriesAdd":"Add",
+    "categoriesd1":"In this you will see all categories that you create\n click the item to show more details",
+    "categoriesd2":"Click this button to add new category",
+
+
+    "categoryView":"View",
+    "categoryStatus":"Status ",
+    "categoryAddTask":"Add Task ",
+    "categoryTotalTask":"Total of Tasks : ",
+    "categoryTotalDoneTask":"Total of done Tasks : ",
+    "categoryTotalUndoneTask":"Total of undone Tasks : ",
+    "categord1":"Here you can see the details of category",
+    "categord2":"Click to see the task scuduler of this category",
+    "categord3":"Click here to add task to this category",
+    "categord4":"Here you can see the status of category",
+    "categord5":"Here you can see the total number of tasks that have the current category",
+    "categord6":"Here is the number of done tasks of category",
+    "categord7":"Here the number of tasks not yet completed category",
+    
+    "taskPage":"Tasks",
+    "chooseDate":"Choose date",
+    "taskManager":"Tasks manager",
+    "tasksd1":"In this page you can manage your category task as you like",
+    "tasksd2":"Press this button add new task",
+    "tasksd3":"Press to choose any day you want",
+    "tasksd4":"Press this button to refresh the list of task",
+    "tasksd5":"Press this to hide the header",
+    "tasksd6":"This column is for tasks not yet started or repeated",
+    "tasksd7":"This column is for tasks in the process of doing",
+    "tasksd8":"This column is for done tasks",
+    "tasksd9":"This column contain undone tasks",
+    "tasksd10":"Press this button to move to the current day",
+    "tasksd11":"Press this button to select day from calendar",
+
+
+
+
+    "about":"About",
+    "welcometoMicroTask":"Welcome to MicroTask",
+    "aboutp1":"    MicroTask app is simple tasks manager that give you the ability to manage more efficient your life and make it ease. ",
+    "aboutp2":"\n\n    With this app you can add tasks to do, set reminders, work with your calendar, and more. You can also set the status of tasks by drag and drop its as cards in different columns.",
+    "aboutp3":"\n\n    Also you have the choice to add your data in server and that give you the possibility to access its from any other devise. ",
+    
+
+
+
+    "reminders":"Reminders",
+    "incoming":"Incoming",
+    "refresh":"Refresh",
+    "noTaskFound":"No task found",
+    "remindersd1":"In this page you will be able to activate or disactivate  reminders of tasks",
+    "remindersd2":"All today task's reminders",
+    "remindersd3":"All incoming task's reminders",
+    "remindersd4":"Click here to refresh the page",
+
+
+
+
+    "fogotPassword":"Forgot Password ?",
+    "login":"Login",
+    "loginEmail":"Enter the Email or Username :",
+    "loginEmailP":"Email or Username ...",
+    "loginPassword":"Enter the password :",
+    "loginPasswordP":"Password ...",
+    "dontHaveAccount":"Don't have an account ?",
+    "register":"Register",
+    "loginCompleted":"Your login was completed successfully",
+    "waitingForRedirection":"waiting for redirection",
+    "loginV1":"The value of this input should not be empty",
+    
+
+
+
+    "next":"Next",
+    "alreadyHaveAccount":"Already have an account ?",
+    "signupEmail":"Enter your email :",
+    "signupEmailP":"Email ...",
+    "signupFirstName":"Enter your first name :",
+    "signupFirstNameP":"First name ...",
+    "signupLastName":"Enter your last name :",
+    "signupLastNameP":"Last name ...",
+    "signupUsername":"Enter the username :",
+    "signupUsernameP":"Username ...",
+    "signup1DATitle":"Enter the code sanded to your mail",
+    "signup1DAKey":"Code",
+    "signup1DAKeyP":"Code ....",
+    "signup1DAKeyV1":"The field is empty",
+    "signup1DAKeyV2":"The selected code is not correct",
+    "signupV1":"The value of this input should not be empty",
+    "signupV2":"The value is not email",
+    "signupV3":"{username} already taken",
+    "@signupV3":{ "placeholders": {
+      "username": {}
+    }},
+
+
+    "welcomeTo":"Welcome to",
+    "getStarted":"Get started",
+
+
+
+    "title":"Title",
+    "description":"Description",
+    "taskStart":"Task start",
+    "todayAt":"Today at {time}",
+    "@todayAt":{ "placeholders": {
+      "time": {}
+    }},
+    "haveNewTask":"  You have new task to do.",
+    "doneButton":"Doing",
+    "undoneButton":"Cancel",
+    "notifisd1":"This button move the task in undone column",
+    "notifisd2":"This button move the task in doing column",
+
+
+
+    "select":"Select",
+    "finish":"Finish",
+    "selectYourBirthDay":"Select your birthday :",
+    "selectGender":"Select Gender :",
+    "selectImage":"Choose image Profile :",
+
+
+
+
+    "reset":"Reset",
+    "resetNewPassword":"Enter the new password :",
+    "resetNewPasswordP":"Password ... ",
+    "resetConfirmPassword":"Confirm the new password :",
+    "resetConfirmPasswordP":"Password ... ",
+    "resetV1":"The value of this input should not be empty",
+    "resetV2":"Passwords not matched",
+
+
+
+
+
+    "passwordValidation1":"The password must contain at least 8 characters",
+    "emailSubject":"Email verification",
+    "emailHtmlText1":"Use this code to verify your email.",
+    "emailHtmlText2":"Verification key : ",
+
+
+
+
+    "createTask":"Create Task",
+    "createNewTask":"Create new Task",
+    "updateTask":"Update Task",
+    "updateExistTask":"Update exist Task",
+    "addTaskName":"Enter the name",
+    "addTaskNameP":"Name ...",
+    "addTaskNameV1":"The name should not be empty",
+    "addTaskNameV2":"The name should not contain more than 12 characters",
+    "addTaskDescription":"Enter the description",
+    "addTaskDescriptionP":"Description ...",
+    "addTaskDescriptionV1":"The description should not be empty",
+    "addTaskRepeat":"Select the repeat type",
+    "addTaskRepeatP":"Select option",
+    "addTaskRepeatV1":"select option for reminder",
+    "activateRenminder":"Activate Reminder",
+    "daily":"Daily",
+    "weekly":"Weekly",
+    "monthly":"Monthly",
+    "yearly":"Yearly",
+    "none":"none",
+    "end":"end",
+    "start":"start",
+    "selectTime":"Select Time",
+    "addTaskDateV1":"The end date should not less\n than start date by 10 minute",
+    "addTaskDate":"Enter the {type} date",
+    "@addTaskDate":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskTime":"Enter the {type} time",
+    "@addTaskTime":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskd1":"Select a name for your task",
+    "addTaskd2":"Choose a description for your task",
+    "addTaskd3":"Select a start date end time for the task.\n     You can add a reminder to this task if the time is greater than 10 min of time now",
+    "addTaskd4":"Choose a end date and time and should be greater than the start date and time",
+    "addTaskd5":"Select the Repeat type \n choose none to run one time ",
+    "addTaskd6":"Click to add reminder to this task",
+    "addTaskd7":"Click to add the task to your category",
+    "addTaskdSN1":"The task was {state} successfuly",
+    "@addTaskdSN1":{ "placeholders": {
+      "state": {}
+    }},
+
+    "eRROR_INVALID_EMAIL":"Your email address appears to be malformed.",
+    "eRROR_WRONG_PASSWORD":"Your password is wrong.",
+    "eRROR_USER_NOT_FOUND":"User with this email doesn't exist.",
+    "eRROR_USER_DISABLED":"User with this email has been disabled.",
+    "eRROR_TOO_MANY_REQUESTS":"Too many requests. Try again later.",
+    "eRROR_OPERATION_NOT_ALLOWED":"Signing in with Email and Password is not enabled.",
+    "eRROR_EMAIL_ALREADY_IN_USE":"The email has already been registered.\n Please login or reset your password.",
+    "eRROR_UNDEFINED":"An undefined Error happened.",
+    "eRROR_No_CONNECTION":"Error in the connexion."
+
+
+    
+
+
 }

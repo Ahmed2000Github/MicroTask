@@ -61,6 +61,7 @@ class TaskServices {
     Task? task;
     for (var i = 0; i < box.length; i++) {
       task = (box.getAt(i) as Task);
+
       if (DateFormat('yyyy-MM-dd').format(date!) ==
               DateFormat('yyyy-MM-dd').format(task.startDateTime!) &&
           status == task.status &&

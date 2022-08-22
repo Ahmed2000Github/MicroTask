@@ -1,3 +1,297 @@
 {
-    "helloWorld": "¡Hola Mundo!"
+    "mainDialogTitle":"Servicio en la nube",
+    "mainDialogDescription":"¿Desea obtener sus datos antiguos del servidor?",
+    "cancel":"Cancelar",
+    "ok":"De acuerdo",
+    "home":"Hogar",
+    "today":"Hoy",
+    "reminder":"Recordatorio",
+
+    
+    "homed1": "Haga clic en el icono para ver más opciones",
+    "homed2": "Aquí mostrará la categoría de la lista.\n puede presionar para agregar una",
+    "homed3": "Aquí mostrarás la lista de tareas de hoy",
+    "welcome": "Bienvenido, {name}",
+     "@welcome":{ "placeholders": {
+      "name": {}
+    }},
+    "categories": "Categorías",
+    "todayTask": "Las tareas de hoy",
+    "tasks": "{number} tareas",
+      "@tasks":{ "placeholders": {
+      "number": {}
+    }},
+    "completed":"Completado",
+    "progress":"En curso",
+    "total":"Total: {number} tareas",
+     "@total":{ "placeholders": {
+      "number": {}
+    }},
+    "nocategoryfound":"No se ha encontrado ninguna categoría",
+    "addCategory":"Agregar categoría",
+    "todo":"Para hacer",
+    "doing":"Haciendo",
+    "done":"Hecho",
+    "undone":"Deshecho",
+
+
+    "settings":"Configuración",
+    "theme":"Tema",
+    "switchTo":"Pasar a ",
+    "darkMode":"Modo oscuro",
+    "lightMode":"Modo de luz",
+    "remindeMe":"Recuérdame antes {number} acta ",
+    "@remindeMe":{ "placeholders": {
+      "number": {}
+    }},
+    "desactivate":"Desactivar",
+    "minutes":" Acta",
+    "activate":"Activar",
+    "notificationSound":" sonido de notificaciones",
+    "serverStorage":"Almacenamiento del servidor",
+    "autoSynchronization":" sincronización automática",
+    "synchronizeServer":"Sincronizar datos con el servidor",
+    "settingsd1":"Esta página es para configurar la aplicación",
+    "settingsd2":"Aquí puede cambiar el tema de la aplicación",
+    "settingsd3":"Aquí puede establecer el tiempo entre la hora de inicio de la tarea y la ejecución del recordatorio",
+    "settingsd4":"Aquí puede elegir si el recordatorio se ejecuta con sonido o no",
+    "settingsd5":"Esto le permite sincronizar automáticamente sus datos con el servidorn desactivarlos para hacerlo manualmente",
+    "settingsSN1":"A partir de ahora todos los recordatorios comenzarán antes{number} acta",
+      "@settingsSN1":{ "placeholders": {
+      "number": {}
+    }},
+
+
+    "male":"Masculino",
+    "female":"Hembra",
+    "profile":"Perfil",
+    "logout":"Cerrar sesión",
+    "profiled1":"Esta página le brinda información sobre su perfil",
+
+
+    "back":"Atrás",
+    "passed":"Pasado",
+    "coming":"Venida",
+    "started":"Comenzó",
+    "todayYouHave":"Hoy tienes",
+    "todayd1":"En esta página puede administrar su tarea de hoy.\n Con el botón de opción más, puede cambiar el estado de la tarea",
+
+
+    "category":"  Categoría",
+    "update":"Actualizar",
+    "updateExist":"Actualizar categoría existente",
+    "create":"Crear",
+    "addCategoryName":"Introduzca el nombre",
+    "addCategoryNameP":"Nombre ...",
+    "addCategoryNameV1":"El nombre no debe estar vacío",
+    "addCategoryNameV2":"El nombre no debe contener más de 12 caracteres",
+    "addCategoryDescription":"Introduzca la descripción",
+    "addCategoryDescriptionP":"Descripción ...",
+    "addCategoryDescriptionV1":"La descripción no debe estar vacía",
+    "createNew":"Crear nueva categoría",
+    "addCategoryd1":"Elige un nombre para tu categoría",
+    "addCategoryd2":"Elija una descripción para la categoría",
+    "addCategoryd3":"Haga clic para agregar la categoría",
+    
+
+    "categoriesTotal":"Total de categorías:",
+    "categoriesAdd":"Agregar",
+    "categoriesd1":"En esto verá todas las categorías que cree\n haga clic en el elemento para mostrar más detalles",
+    "categoriesd2":"Haga clic en este botón para agregar una nueva categoría",
+
+
+    "categoryView":"Vista",
+    "categoryStatus":"Estado",
+    "categoryAddTask":"Agregar tarea",
+    "categoryTotalTask":"Total de tareas : ",
+    "categoryTotalDoneTask":"Total de tareas realizadas: ",
+    "categoryTotalUndoneTask":"Total de tareas no realizadas: ",
+    "categord1":"Aquí puedes ver los detalles de la categoría",
+    "categord2":"Haga clic para ver la tarea scuduler de esta categoría",
+    "categord3":"Haga clic aquí para agregar una tarea a esta categoría",
+    "categord4":"Aquí puedes ver el estado de la categoría",
+    "categord5":"Aquí puedes ver el número total de tareas que tienen la categoría actual",
+    "categord6":"Aquí está el número de tareas realizadas de la categoría",
+    "categord7":"Aquí el número de tareas aún no completadas categoría",
+    
+    "taskPage":"Tareas",
+    "chooseDate":"Elegir fecha",
+    "taskManager":"Administrador de tareas",
+    "tasksd1":"En esta página puedes gestionar tu tarea de categoría como más te guste",
+    "tasksd2":"Presione este botón agregar nueva tarea",
+    "tasksd3":"Pulsa para elegir el día que quieras",
+    "tasksd4":"Pulse este botón para actualizar la lista de tareas",
+    "tasksd5":"Presione esto para ocultar el encabezado",
+    "tasksd6":"Esta columna es para tareas que aún no se han iniciado o repetido",
+    "tasksd7":"Esta columna es para tareas en proceso de realización",
+    "tasksd8":"Esta columna es para tareas realizadas",
+    "tasksd9":"Esta columna contiene tareas no hechas",
+    "tasksd10":"Presione este botón para pasar al día actual",
+    "tasksd11":"Presione este botón para seleccionar el día del calendario",
+
+
+
+
+    "about":"Acerca de",
+    "welcometoMicroTask":"Bienvenido a MicroTask",
+    "aboutp1":"    La aplicación MicroTask es un administrador de tareas simple que le brinda la capacidad de administrar su vida de manera más eficiente y facilitarla.",
+    "aboutp2":"\n\n    Con esta aplicación puede agregar tareas para hacer, establecer recordatorios, trabajar con su calendario y más. También puede establecer el estado de las tareas arrastrando y soltando como tarjetas en diferentes columnas.",
+    "aboutp3":"\n\n    También tienes la opción de añadir tus datos en servidor y que te dan la posibilidad de acceder a ellos desde cualquier otro dispositivo.",
+    
+
+
+
+    "reminders":"Recordatorios",
+    "incoming":"Entrante",
+    "refresh":"Actualizar",
+    "noTaskFound":"No se ha encontrado ninguna tarea",
+    "remindersd1":"En esta página podrás activar o desactivar recordatorios de tareas",
+    "remindersd2":"Todos los recordatorios de tareas de hoy",
+    "remindersd3":"Todos los recordatorios de tareas entrantes",
+    "remindersd4":"Haga clic aquí para actualizar la página",
+
+
+
+
+    "fogotPassword":"¿Olvidó su contraseña?",
+    "login":"Login",
+    "loginEmail":"Ingrese el correo electrónico o el nombre de usuario:",
+    "loginEmailP":"Correo electrónico o nombre de usuario ...",
+    "loginPassword":"Introduzca la contraseña:",
+    "loginPasswordP":"Contraseña ...",
+    "dontHaveAccount":"¿No tienes una cuenta?",
+    "register":"Registro",
+    "loginCompleted":"Su inicio de sesión se completó correctamente",
+    "waitingForRedirection":"esperando la redirección",
+    "loginV1":"El valor de esta entrada no debe estar vacío",
+    
+
+
+
+    "next":"Próximo",
+    "alreadyHaveAccount":"¿Ya tienes una cuenta?",
+    "signupEmail":"Ingrese su correo electrónico :",
+    "signupEmailP":"Correo electrónico ...",
+    "signupFirstName":"Introduzca su nombre:",
+    "signupFirstNameP":"Nombre ...",
+    "signupLastName":"Introduzca su apellido:",
+    "signupLastNameP":"Apellido ...",
+    "signupUsername":"Introduzca el nombre de usuario:",
+    "signupUsernameP":"Nombre de usuario ...",
+    "signup1DATitle":"Introduce el código enviado a tu correo",
+    "signup1DAKey":"Código",
+    "signup1DAKeyP":"Código ....",
+    "signup1DAKeyV1":"El campo está vacío",
+    "signup1DAKeyV2":"El código seleccionado no es correcto",
+    "signupV1":"El valor de esta entrada no debe estar vacío",
+    "signupV2":"El valor no es correo electrónico",
+    "signupV3":"{username} ya tomado",
+    "@signupV3":{ "placeholders": {
+      "username": {}
+    }},
+
+
+    "welcomeTo":"Bienvenidos a",
+    "getStarted":"Comenzar",
+
+
+
+    "title":"Título",
+    "description":"Descripción",
+    "taskStart":"Inicio de la tarea",
+    "todayAt":"Hoy en {time}",
+    "@todayAt":{ "placeholders": {
+      "time": {}
+    }},
+    "haveNewTask":"  Tienes una nueva tarea que hacer",
+    "doneButton":"Haciendo",
+    "undoneButton":"Cancelar",
+    "notifisd1":"Este botón mueve la tarea en la columna deshecha",
+    "notifisd2":"Este botón mueve la tarea en la columna Hacer",
+
+
+
+    "select":"Escoger",
+    "finish":"Terminar",
+    "selectYourBirthDay":"Seleccione su cumpleaños :",
+    "selectGender":"Seleccione Género :",
+    "selectImage":"Elija el perfil de la imagen:",
+
+
+
+
+    "reset":"Restablecimiento",
+    "resetNewPassword":"Introduzca la nueva contraseña:",
+    "resetNewPasswordP":"Contraseña ... ",
+    "resetConfirmPassword":"Confirme la nueva contraseña:",
+    "resetConfirmPasswordP":"Contraseña ... ",
+    "resetV1":"El valor de esta entrada no debe estar vacío",
+    "resetV2":"Contraseñas no coincidentes",
+
+
+
+
+
+    "passwordValidation1":"La contraseña debe contener al menos 8 caracteres",
+    "emailSubject":"Verificación de correo electrónico",
+    "emailHtmlText1":"Utilice este código para verificar su correo electrónico.",
+    "emailHtmlText2":"Clave de verificación:",
+
+
+
+
+    "createTask":"Crear tarea",
+    "createNewTask":"Crear nueva tarea",
+    "updateTask":"Tarea de actualización",
+    "updateExistTask":"Actualizar tarea existente",
+    "addTaskName":"Introduzca el nombre",
+    "addTaskNameP":"Nombre ...",
+    "addTaskNameV1":"El nombre no debe estar vacío",
+    "addTaskNameV2":"El nombre no debe contener más de 12 caracteres",
+    "addTaskDescription":"Introduzca la descripción",
+    "addTaskDescriptionP":"Descripción ...",
+    "addTaskDescriptionV1":"La descripción no debe estar vacía",
+    "addTaskRepeat":"Seleccione el tipo de repetición",
+    "addTaskRepeatP":"Seleccionar opción",
+    "addTaskRepeatV1":"seleccionar opción para recordatorio",
+    "activateRenminder":"Activar recordatorio",
+    "daily":"Diario",
+    "weekly":"Semanal",
+    "monthly":"Mensual",
+    "yearly":"Anual",
+    "none":"ninguno",
+    "end":"fin",
+    "start":"empezar",
+    "selectTime":"Seleccione la hora",
+    "addTaskDateV1":"La fecha de finalización no debe ser inferior\n a la fecha de inicio en 10 minutos",
+    "addTaskDate":"Introduzca la fecha de {type}",
+    "@addTaskDate":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskTime":"Introduzca la hora de {type}",
+    "@addTaskTime":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskd1":"Seleccione un nombre para su tarea",
+    "addTaskd2":"Elija una descripción para su tarea",
+    "addTaskd3":"Seleccione una fecha de inicio, hora de finalización de la tarea.\n Puede agregar un recordatorio a esta tarea si la hora es superior a 10 minutos de tiempo ahora",
+    "addTaskd4":"Elija una fecha y hora de finalización y debe ser mayor que la fecha y hora de inicio",
+    "addTaskd5":"Seleccione el tipo de repetición \n elija ninguno para ejecutarse una vez",
+    "addTaskd6":"Haga clic para agregar recordatorio a esta tarea",
+    "addTaskd7":"Haga clic para agregar la tarea a su categoría",
+    "addTaskdSN1":"La tarea se {state} correctamente",
+    "@addTaskdSN1":{ "placeholders": {
+      "state": {}
+    }},
+
+    "eRROR_INVALID_EMAIL":"Su dirección de correo electrónico parece estar mal formada.",
+    "eRROR_WRONG_PASSWORD":"Su contraseña es incorrecta.",
+    "eRROR_USER_NOT_FOUND":"El usuario con este correo electrónico no existe.",
+    "eRROR_USER_DISABLED":"El usuario con este correo electrónico ha sido deshabilitado.",
+    "eRROR_TOO_MANY_REQUESTS":"Demasiadas peticiones. Inténtelo de nuevo más tarde.",
+    "eRROR_OPERATION_NOT_ALLOWED":"Signing in with Email and Password is not enabled.",
+    "eRROR_EMAIL_ALREADY_IN_USE":"El correo electrónico ya ha sido registrado.\n Inicie sesión o restablezca su contraseña.",
+    "eRROR_UNDEFINED":"Se ha producido un error indefinido.",
+    "eRROR_No_CONNECTION":"Error en la conexión."
+    
 }

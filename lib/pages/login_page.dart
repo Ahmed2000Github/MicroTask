@@ -16,6 +16,7 @@ import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'main_page.dart';
 
@@ -28,7 +29,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  dynamic _validationEmailMsg;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
@@ -41,12 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          textDirection: TextDirection.ltr,
           children: <Widget>[
             Container(
               padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
-            Text('Back',
+            Text(AppLocalizations.of(context)?.back ?? '',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -83,9 +84,19 @@ class _LoginPageState extends State<LoginPage> {
               controller: controller,
               obscureText: isPassword,
               decoration: InputDecoration(
-                  border: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0)),
-                  enabledBorder: const OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      borderSide: BorderSide(color: themeColor.secondaryColor)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        BorderSide(color: themeColor.primaryColor, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        BorderSide(color: themeColor.primaryColor, width: 2.0),
+                  ),
                   suffixIcon: inputType == 'password'
                       ? IconButton(
                           icon: Icon(
@@ -103,16 +114,11 @@ class _LoginPageState extends State<LoginPage> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'The value of this input should not be empty.';
+                  return AppLocalizations.of(context)?.loginV1 ?? '';
                 }
                 switch (inputType) {
-                  case "email":
-                    // if (!ValidationServices.isEmail(value)) {
-                    //   return 'The value is not email.';
-                    // }
-                    return _validationEmailMsg;
                   case "password":
-                    return ValidationServices.isValidPassword(value);
+                    return ValidationServices.isValidPassword(context, value);
 
                   default:
                 }
@@ -127,10 +133,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return TextButton(
       onPressed: () async {
-        if (!_formKey.currentState!.validate()) {
-          return;
-        }
-
         if (!_formKey.currentState!.validate()) {
           return;
         }
@@ -151,8 +153,8 @@ class _LoginPageState extends State<LoginPage> {
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: [themeColor.inputbgColor, themeColor.primaryColor])),
-        child: const Text(
-          'Login',
+        child: Text(
+          AppLocalizations.of(context)?.login ?? '',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -168,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Don\'t have an account ?',
+            AppLocalizations.of(context)?.dontHaveAccount ?? '',
             style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -185,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushNamed(context, route.signup1Page);
             },
             child: Text(
-              'Register',
+              AppLocalizations.of(context)?.register ?? '',
               style: TextStyle(
                   color: themeColor.secondaryColor,
                   fontSize: 13,
@@ -230,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 30,
                   ),
                   Text(
-                    'Your login was completed successfully. ',
+                    AppLocalizations.of(context)?.loginCompleted ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -240,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 10,
                   ),
                   Text(
-                    'waiting for redirection.',
+                    AppLocalizations.of(context)?.waitingForRedirection ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -255,18 +257,12 @@ class _LoginPageState extends State<LoginPage> {
       }
       return Column(
         children: <Widget>[
-          _entryField(
-              "Enter the Email or Username :", "Email or Username ...", 'email',
+          _entryField(AppLocalizations.of(context)?.loginEmail ?? '',
+              AppLocalizations.of(context)?.loginEmailP ?? '', 'email',
               controller: emailController),
-          _entryField("Enter the password :", "Password ...", 'password',
+          _entryField(AppLocalizations.of(context)?.loginPassword ?? '',
+              AppLocalizations.of(context)?.loginPasswordP ?? '', 'password',
               isPassword: true, controller: passwordController),
-          Text(
-            "",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: themeColor.errorColor),
-          ),
         ],
       );
     }));
@@ -318,7 +314,8 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushNamed(
                                 context, route.emailVerificationPage);
                           },
-                          child: Text('Forgot Password ?',
+                          child: Text(
+                              AppLocalizations.of(context)?.fogotPassword ?? '',
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -355,7 +352,3 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.dispose();
   }
 }
-
-
-// abdelatif.azdoud@adria-bt.com
-    // Abdelatif98

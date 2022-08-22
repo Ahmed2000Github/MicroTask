@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomProgress extends StatelessWidget {
   double percent;
@@ -32,7 +33,7 @@ class CustomProgress extends StatelessWidget {
             color: themeColor.secondaryColor,
           ),
           Text(
-            "Completed",
+            AppLocalizations.of(context)?.completed ?? '',
             style: TextStyle(
                 color: themeColor.secondaryColor,
                 fontWeight: FontWeight.bold,
@@ -57,7 +58,7 @@ class CustomProgress extends StatelessWidget {
         progressColor: themeColor.secondaryColor,
         backgroundColor: themeColor.errorColor,
         footer: Text(
-          "In progress",
+          AppLocalizations.of(context)?.completed ?? '',
           style: TextStyle(
               color: textColor ?? Colors.white,
               fontWeight: FontWeight.bold,

@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:microtask/blocs/category/category_bloc.dart';
 import 'package:microtask/blocs/crud_category/crud_category_bloc.dart';
 import 'package:microtask/blocs/crud_task/crud_task_bloc.dart';
@@ -32,6 +33,7 @@ import 'package:microtask/models/category_model.dart';
 import 'package:microtask/models/profile_model.dart';
 import 'package:microtask/models/task_model.dart';
 import 'package:microtask/services/category_services.dart';
+import 'package:microtask/services/excepion_handler_services.dart';
 import 'package:microtask/services/login_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/services/notification_service.dart';
@@ -41,7 +43,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void setUp() {
+void setUp(Locale locale) {
   GetIt.I.registerLazySingleton(() => ThemeColor());
   GetIt.I.registerLazySingleton(() => LoginServices());
   GetIt.I.registerLazySingleton(() => TaskServices());
@@ -50,6 +52,7 @@ void setUp() {
   GetIt.I.registerLazySingleton(() => Configuration());
   GetIt.I.registerLazySingleton(() => SyncServices());
   GetIt.I.registerLazySingleton(() => ShowCaseConfig());
+  GetIt.I.registerLazySingleton(() => ExceptionHandler(locale: locale));
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -91,10 +94,14 @@ Future<void> initializeHiveBoxes() async {
 }
 
 Future<void> main() async {
-  setUp();
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final preferred = widgetsBinding.window.locales;
+  const supported = AppLocalizations.supportedLocales;
+  final locale = basicLocaleListResolution(preferred, supported);
+  setUp(locale);
   await Firebase.initializeApp();
   await initializeHiveBoxes();
+  // await initializeDateFormatting();
   init();
   runApp(Splash());
 }
@@ -105,6 +112,7 @@ class Splash extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen.withScreenFunction(
+        duration: 200,
         splashIconSize: 200,
         backgroundColor: Colors.blue,
         splash: 'assets/images/microtask_logo.png',

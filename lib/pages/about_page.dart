@@ -40,7 +40,7 @@ class _AboutPageState extends State<AboutPage> {
         body: Column(
           children: [
             CustomAppBar(
-              title: 'About',
+              title: AppLocalizations.of(context)?.about ?? '',
             ),
             Expanded(
               child: Padding(
@@ -58,7 +58,9 @@ class _AboutPageState extends State<AboutPage> {
                           repeatForever: true,
                           animatedTexts: [
                             ColorizeAnimatedText(
-                              'Welcome to MicroTask',
+                              AppLocalizations.of(context)
+                                      ?.welcometoMicroTask ??
+                                  '',
                               textStyle: colorizeTextStyle!,
                               speed: const Duration(milliseconds: 800),
                               colors: colorizeColors,
@@ -75,20 +77,17 @@ class _AboutPageState extends State<AboutPage> {
                           style: TextStyle(color: Colors.black, fontSize: 40),
                           children: <TextSpan>[
                             TextSpan(
-                              text:
-                                  '    MicroTask app is simple tasks manager that give you the ability to manage more efficient your life and make it ease. ',
+                              text: AppLocalizations.of(context)?.aboutp1 ?? '',
                               style: TextStyle(
                                   height: 1.5, color: themeColor.fgColor),
                             ),
                             TextSpan(
-                              text:
-                                  '\n\n    With this app you can add tasks to do, set reminders, work with your calendar, and more. You can also set the status of tasks by drag and drop its as cards in different columns.',
+                              text: AppLocalizations.of(context)?.aboutp2 ?? '',
                               style: TextStyle(
                                   height: 1.5, color: themeColor.fgColor),
                             ),
                             TextSpan(
-                              text:
-                                  '\n\n    Also you have the choice to add your data in server and that give you the possibility to access its from any other devise. ',
+                              text: AppLocalizations.of(context)?.aboutp3 ?? '',
                               style: TextStyle(
                                   height: 1.5, color: themeColor.fgColor),
                             ),

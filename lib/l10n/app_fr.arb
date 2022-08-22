@@ -1,3 +1,300 @@
 {
-    "helloWorld": "bonjour le monde"
+    "mainDialogTitle":"Service cloud",
+    "mainDialogDescription":"Vous souhaitez récupérer vos anciennes données à partir du serveur ?",
+    "cancel":"Annuler",
+    "ok":"D’accord",
+    "home":"Domicile",
+    "today":"Aujourd’hui",
+    "reminder":"Rappel",
+
+    
+    "homed1": "Cliquez sur l’icône pour voir plus d’option",
+    "homed2": "Ici, vous allez montrer la catégorie de liste.n vous pouvez appuyer pour en ajouter une",
+    "homed3": "Ici, vous allez montrer la liste des tâches d’aujourd’hui",
+    "welcome": "Bienvenue, {name}",
+     "@welcome":{ "placeholders": {
+      "name": {}
+    }},
+    "categories": "Catégories",
+    "todayTask": "Les tâches d’aujourd’hui",
+    "tasks": "{number} tâches",
+      "@tasks":{ "placeholders": {
+      "number": {}
+    }},
+    "completed":"Terminé",
+    "progress":"En cours",
+    "total":"Total: {number} tâches",
+     "@total":{ "placeholders": {
+      "number": {}
+    }},
+    "nocategoryfound":"Aucune catégorie trouvée",
+    "addCategory":"Ajouter une catégorie",
+    "todo":"À faire",
+    "doing":"En cours",
+    "done":"Fait",
+    "undone":"Défait",
+
+
+    "settings":"Paramètres",
+    "theme":"Thème",
+    "switchTo":"Passer au ",
+    "darkMode":"Mode sombre",
+    "lightMode":"Mode d’éclairage",
+    "remindeMe":"Rappelez-moi avant {number} minutes ",
+    "@remindeMe":{ "placeholders": {
+      "number": {}
+    }},
+    "desactivate":"désactiver",
+    "minutes":" Minutes",
+    "activate":"Activer",
+    "notificationSound":" son des notifications",
+    "serverStorage":"Stockage sur serveur",
+    "autoSynchronization":" synchronisation automatique",
+    "synchronizeServer":"Cette page permet de définir votre application",
+    "settingsd1":"Cette page permet de définir votre application",
+    "settingsd2":"Ici, vous pouvez changer le thème de l’application",
+    "settingsd3":"Ici, vous pouvez définir l’heure entre l’heure de début de la tâche et l’exécution du rappel",
+    "settingsd4":"Ici, vous pouvez choisir si le rappel s’exécute avec le son ou non",
+    "settingsd5":"Cela vous permet de synchroniser automatiquement vos données avec le serveur\n désactivez-les pour le faire manuellement",
+    "settingsSN1":"À partir de maintenant, tous les rappels commenceront avant {number} minutes",
+      "@settingsSN1":{ "placeholders": {
+      "number": {}
+    }},
+
+
+    "male":"Mâle",
+    "female":"Femelle",
+    "profile":"Profil",
+    "logout":"Se déconnexion",
+    "profiled1":"Cette page vous donne des informations sur votre profil",
+
+
+    "back":"Précédent",
+    "passed":"Passé",
+    "coming":"Arrivée",
+    "started":"Commencé",
+    "todayYouHave":"Aujourd’hui, vous avez ",
+    "todayd1":"Dans cette page, vous pouvez gérer votre tâche d’aujourd’hui.\n En utilisant le bouton d’option Plus, vous pouvez modifier le statut de la tâche",
+
+
+    "category":"  Catégorie",
+    "update":"Mettre à jour",
+    "updateExist":"Catégorie d’existence de mise à jour",
+    "create":"Créer",
+    "addCategoryName":"Entrez le nom",
+    "addCategoryNameP":"Nom ...",
+    "addCategoryNameV1":"Le nom ne doit pas être vide",
+    "addCategoryNameV2":"Le nom ne doit pas contenir plus de 12 caractères",
+    "addCategoryDescription":"Entrez la description",
+    "addCategoryDescriptionP":"Description ...",
+    "addCategoryDescriptionV1":"La description ne doit pas être vide",
+    "createNew":"Créer une nouvelle catégorie",
+    "addCategoryd1":"Choisissez un nom pour votre catégorie",
+    "addCategoryd2":"Choisissez une description pour la catégorie",
+    "addCategoryd3":"Cliquez pour ajouter la catégorie",
+    
+
+    "categoriesTotal":"Total des catégories: ",
+    "categoriesAdd":"Ajouter",
+    "categoriesd1":"Dans ce cas, vous verrez toutes les catégories que vous créez\n cliquez sur l’élément pour afficher plus de détails",
+    "categoriesd2":"Click this button to add new category",
+
+
+    "categoryView":"Vue",
+    "categoryStatus":"Statut ",
+    "categoryAddTask":"Ajouter une tâche ",
+    "categoryTotalTask":"Total des tâches : ",
+    "categoryTotalDoneTask":"Total des tâches effectuées : ",
+    "categoryTotalUndoneTask":"Total des tâches annulées : ",
+    "categord1":"Ici vous pouvez voir les détails de la catégorie",
+    "categord2":"Cliquez pour voir le scuduler de tâches de cette catégorie",
+    "categord3":"Cliquez ici pour ajouter une tâche à cette catégorie",
+    "categord4":"Ici vous pouvez voir le statut de la catégorie",
+    "categord5":"Ici vous pouvez voir le nombre total de tâches qui ont la catégorie actuelle",
+    "categord6":"Voici le nombre de tâches effectuées de catégorie",
+    "categord7":"Ici le nombre de tâches non encore terminées catégorie",
+    
+    "taskPage":"Tâches",
+    "chooseDate":"Choisissez la date",
+    "taskManager":"Gestionnaire de tâches",
+    "tasksd1":"Dans cette page, vous pouvez gérer votre tâche de catégorie comme vous le souhaitez",
+    "tasksd2":"Appuyez sur ce bouton pour ajouter une nouvelle tâche",
+    "tasksd3":"Appuyez pour choisir le jour de votre choix",
+    "tasksd4":"Appuyez sur ce bouton pour actualiser la liste des tâches",
+    "tasksd5":"Appuyez sur cette touche pour masquer l’en-tête",
+    "tasksd6":"Cette colonne concerne les tâches non encore démarrées ou répétées",
+    "tasksd7":"Cette colonne est destinée aux tâches en cours d’exécution",
+    "tasksd8":"Cette colonne concerne les tâches terminées",
+    "tasksd9":"Cette colonne contient des tâches annulées",
+    "tasksd10":"Appuyez sur ce bouton pour passer au jour en cours",
+    "tasksd11":"Appuyez sur ce bouton pour sélectionner le jour dans le calendrier",
+
+
+
+
+    "about":"À propos",
+    "welcometoMicroTask":"Bienvenue chez MicroTask",
+    "aboutp1":"    L’application MicroTask est un gestionnaire de tâches simple qui vous donne la possibilité de gérer votre vie plus efficacement et de la rendre facile. ",
+    "aboutp2":"\n\n    Avec cette application, vous pouvez ajouter des tâches à faire, définir des rappels, travailler avec votre calendrier, etc. Vous pouvez également définir l’état des tâches par glisser-déposer sous forme de cartes dans différentes colonnes.",
+    "aboutp3":"\n\n    Vous avez également le choix d’ajouter vos données dans le serveur et cela vous donne la possibilité d’y accéder à partir de n’importe quel autre concept. ",
+    
+
+
+
+    "reminders":"Rappels",
+    "incoming":"Entrant",
+    "refresh":"Rafraîchir",
+    "noTaskFound":"Aucune tâche trouvée",
+    "remindersd1":"Dans cette page, vous pourrez activer ou désactiver les rappels de tâches",
+    "remindersd2":"Tous les rappels de la tâche d’aujourd’hui",
+    "remindersd3":"Tous les rappels des tâches entrantes",
+    "remindersd4":"Cliquez ici pour actualiser la page",
+
+
+
+
+    "fogotPassword":"Mot de passe oublié ?",
+    "login":"se connecter",
+    "loginEmail":"Entrez l’adresse e-mail ou le nom d’utilisateur :",
+    "loginEmailP":"Adresse e-mail ou nom d’utilisateur ...",
+    "loginPassword":"Entrez le mot de passe :",
+    "loginPasswordP":"Mot de passe ...",
+    "dontHaveAccount":"Vous n’avez pas de compte ?",
+    "register":"Registre",
+    "loginCompleted":"Votre connexion s’est terminée avec succès",
+    "waitingForRedirection":"en attente de redirection",
+    "loginV1":"La valeur de cette entrée ne doit pas être vide",
+    
+
+
+
+    "next":"Prochain",
+    "alreadyHaveAccount":"Vous avez déjà un compte ?",
+    "signupEmail":"Entrez votre email :",
+    "signupEmailP":"Email ...",
+    "signupFirstName":"Entrez votre prénom :",
+    "signupFirstNameP":"Prénom...",
+    "signupLastName":"Entrez votre nom de famille :",
+    "signupLastNameP":"Nom ...",
+    "signupUsername":"Entrez le nom d’utilisateur :",
+    "signupUsernameP":"Nom d’utilisateur ...",
+    "signup1DATitle":"Entrez le code poncé dans votre courrier",
+    "signup1DAKey":"Code",
+    "signup1DAKeyP":"Code ....",
+    "signup1DAKeyV1":"Le champ est vide",
+    "signup1DAKeyV2":"Le code sélectionné n’est pas correct",
+    "signupV1":"La valeur de cette entrée ne doit pas être vide",
+    "signupV2":"La valeur n’est pas email",
+    "signupV3":"{username} déjà pris",
+    "@signupV3":{ "placeholders": {
+      "username": {}
+    }},
+
+
+    "welcomeTo":"Bienvenue sur",
+    "getStarted":"Démarrer",
+
+
+
+    "title":"Titre",
+    "description":"Description",
+    "taskStart":"Début de la tâche",
+    "todayAt":"Aujourd’hui à {time}",
+    "@todayAt":{ "placeholders": {
+      "time": {}
+    }},
+    "haveNewTask":"  Vous avez une nouvelle tâche à faire",
+    "doneButton":"Faire",
+    "undoneButton":"Annuler",
+    "notifisd1":"Ce bouton déplace la tâche dans la colonne Annulée",
+    "notifisd2":"Ce bouton déplace la tâche dans la colonne Doing",
+
+
+
+    "select":"Choisir",
+    "finish":"Finir",
+    "selectYourBirthDay":"Sélectionnez votre anniversaire :",
+    "selectGender":"Sélectionnez Le genre :",
+    "selectImage":"Choisissez le profil de l’image :",
+
+
+
+
+    "reset":"Réinitialisation",
+    "resetNewPassword":"Entrez le nouveau mot de passe :",
+    "resetNewPasswordP":"Mot de passe ... ",
+    "resetConfirmPassword":"Confirmez le nouveau mot de passe :",
+    "resetConfirmPasswordP":"Mot de passe ... ",
+    "resetV1":"La valeur de cette entrée ne doit pas être vide",
+    "resetV2":"Mots de passe ne correspondant pas",
+
+
+
+
+
+    "passwordValidation1":"Le mot de passe doit contenir au moins 8 caractères",
+    "emailSubject":"Vérification des e-mails",
+    "emailHtmlText1":"Utilisez ce code pour vérifier votre adresse e-mail.",
+    "emailHtmlText2":"Clé de vérification : ",
+
+
+
+
+    "createTask":"Créer une tâche",
+    "createNewTask":"Créer une nouvelle tâche",
+    "updateTask":"Tâche de mise à jour",
+    "updateExistTask":"Mise à jour existe Tâche",
+    "addTaskName":"Entrez le nom",
+    "addTaskNameP":"Nom ...",
+    "addTaskNameV1":"Le nom ne doit pas être vide",
+    "addTaskNameV2":"Le nom ne doit pas contenir plus de 12 caractères",
+    "addTaskDescription":"Entrez la description",
+    "addTaskDescriptionP":"Description ...",
+    "addTaskDescriptionV1":"La description ne doit pas être vide",
+    "addTaskRepeat":"Sélectionnez le type de répétition",
+    "addTaskRepeatP":"Sélectionner une option",
+    "addTaskRepeatV1":"sélectionnez une option de rappel",
+    "activateRenminder":"Activer le rappel",
+    "daily":"Quotidien",
+    "weekly":"Hebdomadaire",
+    "monthly":"Mensuel",
+    "yearly":"Annuel",
+    "none":"aucun",
+    "end":"fin",
+    "start":"commencer",
+    "selectTime":"Sélectionnez l’heure",
+    "addTaskDateV1":"La date de fin ne doit pas être inférieure\n à la date de début de 10 minutes",
+    "addTaskDate":"Entrez la date de {type}",
+    "@addTaskDate":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskTime":"Entrez la Heure de {type}",
+    "@addTaskTime":{ "placeholders": {
+      "type": {}
+    }},
+    "addTaskd1":"Sélectionnez un nom pour votre tâche",
+    "addTaskd2":"Choisissez une description pour votre tâche",
+    "addTaskd3":"Sélectionnez une date de début et une heure de fin pour la tâche.\n    Vous pouvez ajouter un rappel à cette tâche si l’heure est supérieure à 10 minutes maintenant.",
+    "addTaskd4":"Choisissez une date et une heure de fin et devez être supérieur à la date et à l’heure de début",
+    "addTaskd5":"Sélectionnez le type de répétition \n choisir aucun pour exécuter une seule fois ",
+    "addTaskd6":"Cliquez pour ajouter un rappel à cette tâche",
+    "addTaskd7":"Cliquez pour ajouter la tâche à votre catégorie",
+    "addTaskdSN1":"La tâche a été {state} avec succès",
+    "@addTaskdSN1":{ "placeholders": {
+      "state": {}
+    }},
+
+
+
+     "eRROR_INVALID_EMAIL":"Votre adresse e-mail semble mal formée.",
+    "eRROR_WRONG_PASSWORD":"Votre mot de passe est erroné.",
+    "eRROR_USER_NOT_FOUND":"L’utilisateur avec cet e-mail n’existe pas.",
+    "eRROR_USER_DISABLED":"L’utilisateur avec cet e-mail a été désactivé.",
+    "eRROR_TOO_MANY_REQUESTS":"Trop de demandes. Réessayez plus tard.",
+    "eRROR_OPERATION_NOT_ALLOWED":"La connexion avec e-mail et mot de passe n’est pas activée.",
+    "eRROR_EMAIL_ALREADY_IN_USE":"L’e-mail a déjà été enregistré.\n Veuillez vous connecter ou réinitialiser votre mot de passe.",
+    "eRROR_UNDEFINED":"An undefined Error happened.",
+    "eRROR_No_CONNECTION":"Erreur dans la connexion."
+
+    
 }

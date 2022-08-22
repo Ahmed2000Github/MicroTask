@@ -16,9 +16,11 @@ import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
+import 'package:microtask/services/enum_translate_services.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/profile_image_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -63,10 +65,10 @@ class _ProfilePageState extends State<ProfilePage> {
             key: _list[0],
             showcaseBackgroundColor: themeColor.drowerLightBgClor,
             textColor: themeColor.fgColor,
-            description: 'This page give you information about your profile',
+            description: AppLocalizations.of(context)?.profiled1 ?? '',
             child: ListTile(
               title: Text(
-                "Profile",
+                AppLocalizations.of(context)?.profile ?? '',
                 style: TextStyle(
                   fontSize: 30,
                   color: themeColor.fgColor,
@@ -132,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: Text(
                             "${user?.email}",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               color: themeColor.fgColor,
                             ),
                           ),
@@ -166,7 +168,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: themeColor.secondaryColor,
                           ),
                           title: Text(
-                            "${EnumToString.convertToString(state.profile?.gender).toLowerCase()}",
+                            EnumTranslateServices.translateGender(
+                                context, state.profile?.gender as Gender),
                             style: TextStyle(
                               fontSize: 20,
                               color: themeColor.fgColor,
@@ -206,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: themeColor.errorColor,
                             ),
                             title: Text(
-                              "Logout",
+                              AppLocalizations.of(context)?.logout ?? '',
                               style: TextStyle(
                                 fontSize: 20,
                                 color: themeColor.errorColor,

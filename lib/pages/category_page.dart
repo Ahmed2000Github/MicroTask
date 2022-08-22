@@ -8,9 +8,11 @@ import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/category_model.dart';
+import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custum_progress.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryPage extends StatefulWidget {
   Category category;
@@ -46,7 +48,7 @@ class _CategoryPageState extends State<CategoryPage> {
         widget.category.numberTaskDone! / (widget.category.numberTask!);
     if (showCaseConfig.isLunched(route.categoryPage)) {
       WidgetsBinding.instance?.addPostFrameCallback(
-        (_) => Future.delayed(Duration(seconds: 1)).then((value) =>
+        (_) => Future.delayed(const Duration(seconds: 1)).then((value) =>
             ShowCaseWidget.of(context).startShowCase(
                 [_first, _second, _thirth, _forth, _fifth, _sixth, _seventh])),
       );
@@ -75,76 +77,41 @@ class _CategoryPageState extends State<CategoryPage> {
         },
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(
-                                left: 0, top: 10, bottom: 10),
-                            child: Icon(Icons.keyboard_arrow_left,
-                                color: themeColor.fgColor),
-                          ),
-                          Text('Back',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: themeColor.fgColor)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Showcase(
-                    key: _first,
-                    showcaseBackgroundColor: themeColor.drowerLightBgClor,
-                    textColor: themeColor.fgColor,
-                    description: 'Here you can see the details of category',
-                    child: Text(widget.category.name!.toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w500,
-                            color: themeColor.fgColor)),
-                  ),
-                  Spacer(),
-                  Showcase(
-                    key: _seventh,
-                    showcaseBackgroundColor: themeColor.drowerLightBgClor,
-                    textColor: themeColor.fgColor,
-                    shapeBorder: CircleBorder(),
-                    disposeOnTap: true,
-                    onTargetClick: () {
+            Showcase(
+              key: _first,
+              showcaseBackgroundColor: themeColor.drowerLightBgClor,
+              textColor: themeColor.fgColor,
+              description: AppLocalizations.of(context)?.categord1 ?? '',
+              child: CustomAppBar(
+                title: widget.category.name!.toUpperCase(),
+                action: Showcase(
+                  key: _seventh,
+                  showcaseBackgroundColor: themeColor.drowerLightBgClor,
+                  textColor: themeColor.fgColor,
+                  shapeBorder: const CircleBorder(),
+                  disposeOnTap: true,
+                  onTargetClick: () {
+                    Navigator.pushNamed(context, route.taskPage,
+                        arguments: widget.category.id);
+                  },
+                  description: AppLocalizations.of(context)?.categord2 ?? '',
+                  child: FloatingActionButton(
+                    elevation: 4,
+                    tooltip: AppLocalizations.of(context)?.categoryView ?? '',
+                    backgroundColor: themeColor.primaryColor,
+                    onPressed: () {
                       Navigator.pushNamed(context, route.taskPage,
                           arguments: widget.category.id);
                     },
-                    description:
-                        'Click to see the task scuduler of this category',
-                    child: FloatingActionButton(
-                      elevation: 4,
-                      tooltip: 'View',
-                      backgroundColor: themeColor.primaryColor,
-                      onPressed: () {
-                        Navigator.pushNamed(context, route.taskPage,
-                            arguments: widget.category.id);
-                      },
-                      child: const Icon(
-                        Icons.visibility,
-                        size: 30,
-                      ),
+                    child: const Icon(
+                      Icons.visibility,
+                      size: 30,
                     ),
                   ),
-                ],
+                ),
               ),
             ),
             Expanded(
@@ -165,12 +132,14 @@ class _CategoryPageState extends State<CategoryPage> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      "Status ",
+                                      AppLocalizations.of(context)
+                                              ?.categoryStatus ??
+                                          '',
                                       style: TextStyle(
                                           color: themeColor.fgColor,
                                           fontSize: 21),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Showcase(
                                       key: _sixth,
                                       showcaseBackgroundColor:
@@ -189,8 +158,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                           });
                                         });
                                       },
-                                      description:
-                                          'Click here to add task to this category',
+                                      description: AppLocalizations.of(context)
+                                              ?.categord3 ??
+                                          '',
                                       child: GestureDetector(
                                         onTap: () {
                                           Navigator.pushNamed(
@@ -210,7 +180,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "Add Task ",
+                                              AppLocalizations.of(context)
+                                                      ?.categoryAddTask ??
+                                                  '',
                                               style: TextStyle(
                                                   color:
                                                       themeColor.primaryColor,
@@ -230,7 +202,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   themeColor.drowerLightBgClor,
                               textColor: themeColor.fgColor,
                               description:
-                                  'Here you can see the status of category',
+                                  AppLocalizations.of(context)?.categord4 ?? '',
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CustomProgress(
@@ -271,11 +243,13 @@ class _CategoryPageState extends State<CategoryPage> {
                         showcaseBackgroundColor: themeColor.drowerLightBgClor,
                         textColor: themeColor.fgColor,
                         description:
-                            'Here you can see the total number of tasks that have the current category',
+                            AppLocalizations.of(context)?.categord5 ?? '',
                         child: ListTile(
                             title: RichText(
                           text: TextSpan(
-                            text: 'Total of Tasks : ',
+                            text: AppLocalizations.of(context)
+                                    ?.categoryTotalTask ??
+                                '',
                             style: TextStyle(
                                 fontSize: 21, color: themeColor.fgColor),
                             children: <TextSpan>[
@@ -299,11 +273,13 @@ class _CategoryPageState extends State<CategoryPage> {
                         showcaseBackgroundColor: themeColor.drowerLightBgClor,
                         textColor: themeColor.fgColor,
                         description:
-                            'Here is the number of done tasks of category',
+                            AppLocalizations.of(context)?.categord6 ?? '',
                         child: ListTile(
                             title: RichText(
                           text: TextSpan(
-                            text: 'Total of done Tasks : ',
+                            text: AppLocalizations.of(context)
+                                    ?.categoryTotalDoneTask ??
+                                '',
                             style: TextStyle(
                                 fontSize: 21, color: themeColor.fgColor),
                             children: <TextSpan>[
@@ -328,11 +304,13 @@ class _CategoryPageState extends State<CategoryPage> {
                         showcaseBackgroundColor: themeColor.drowerLightBgClor,
                         textColor: themeColor.fgColor,
                         description:
-                            'Here the number of tasks not yet completed category',
+                            AppLocalizations.of(context)?.categord7 ?? '',
                         child: ListTile(
                             title: RichText(
                           text: TextSpan(
-                            text: 'Total of undone Tasks : ',
+                            text: AppLocalizations.of(context)
+                                    ?.categoryTotalUndoneTask ??
+                                '',
                             style: TextStyle(
                                 fontSize: 21, color: themeColor.fgColor),
                             children: <TextSpan>[

@@ -15,9 +15,11 @@ import 'package:microtask/configurations/show_case_config.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
+import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoriesPage extends StatefulWidget {
   @override
@@ -57,55 +59,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 0, top: 10, bottom: 10),
-                          child: Icon(Icons.keyboard_arrow_left,
-                              color: themeColor.fgColor),
-                        ),
-                        Text('Back',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500,
-                                color: themeColor.fgColor)),
-                      ],
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Text('Categories',
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
-                        color: themeColor.fgColor)),
-                const Spacer(),
-                // FloatingActionButton(
-                //   elevation: 4,
-                //   tooltip: 'Add',
-                //   backgroundColor: themeColor.primaryColor,
-                //   onPressed: () {
-                //     // Navigator.pushNamed(context, route.taskPage);
-                //   },
-                //   child: const Icon(
-                //     Icons.visibility,
-                //     size: 30,
-                //   ),
-                // ),
-              ],
-            ),
-          ),
+          CustomAppBar(title: AppLocalizations.of(context)?.categories ?? ''),
           BlocBuilder<CategoryBloc, CategoryState>(builder: (context, state) {
             switch (state.requestState) {
               case StateStatus.NONE:
@@ -129,7 +83,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   themeColor.drowerLightBgClor,
                               textColor: themeColor.fgColor,
                               description:
-                                  'In this you will see all categories that you create\n click the item to show more details',
+                                  AppLocalizations.of(context)?.categoriesd1 ??
+                                      '',
                               child: Lottie.asset(
                                   'assets/lotties/no_data_found.json',
                                   width: width * .8),
@@ -146,12 +101,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         showcaseBackgroundColor: themeColor.drowerLightBgClor,
                         textColor: themeColor.fgColor,
                         description:
-                            'In this page you will see all categories that you create \n click the item to show more details',
+                            AppLocalizations.of(context)?.categoriesd1 ?? '',
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(20, 8, 8, 10),
                           child: RichText(
                             text: TextSpan(
-                              text: 'Total of Categories: ',
+                              text: AppLocalizations.of(context)
+                                      ?.categoriesTotal ??
+                                  '',
                               style: TextStyle(
                                   fontSize: 21, color: themeColor.fgColor),
                               children: <TextSpan>[
@@ -261,10 +218,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
         },
         showcaseBackgroundColor: themeColor.drowerLightBgClor,
         textColor: themeColor.fgColor,
-        description: 'Click this button to add new category',
+        description: AppLocalizations.of(context)?.categoriesd2 ?? '',
         child: FloatingActionButton(
           elevation: 4,
-          tooltip: 'Add',
+          tooltip: AppLocalizations.of(context)?.categoriesAdd ?? '',
           backgroundColor: themeColor.secondaryColor,
           onPressed: () {
             Navigator.pushNamed(context, route.addCategoryPage);

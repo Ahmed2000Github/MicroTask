@@ -7,12 +7,14 @@ import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/login_state.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
+import 'package:microtask/services/excepion_handler_services.dart';
 import 'package:microtask/services/login_services.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginState(requestState: StateStatus.NONE));
 
   LoginServices get loginServices => GetIt.I<LoginServices>();
+  ExceptionHandler get exceptionHandler => GetIt.I<ExceptionHandler>();
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     try {
@@ -33,19 +35,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
               yield LoginState(requestState: StateStatus.LOADED);
             }
-          } on SocketException catch (_) {
+          } on SocketException catch (e) {
             yield LoginState(
                 requestState: StateStatus.ERROR,
-                errorMessage: 'You are not connected');
+                errorMessage: await exceptionHandler.handleSocketException(e));
           } on FirebaseAuthException catch (e) {
             yield LoginState(
                 requestState: StateStatus.ERROR,
-                errorMessage: e.code.replaceAll('-', ' ').toUpperCase());
+                errorMessage:
+                    await exceptionHandler.handleFirebaseAuthException(e));
           } catch (e) {
             print('errro $e');
             yield LoginState(
                 requestState: StateStatus.ERROR,
-                errorMessage: e.toString().split('Exception: ')[1]);
+                errorMessage: await exceptionHandler.handleException(e));
           }
 
           break;

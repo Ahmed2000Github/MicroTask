@@ -12,9 +12,11 @@ import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/category_model.dart';
+import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddCategoryPage extends StatefulWidget {
   Category? category;
@@ -61,7 +63,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       style: TextStyle(color: themeColor.fgColor, fontSize: 20),
       controller: nameController,
       decoration: InputDecoration(
-          labelText: 'Enter the name',
+          labelText: AppLocalizations.of(context)?.addCategoryName ?? '',
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(color: themeColor.secondaryColor)),
@@ -77,16 +79,16 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
               color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-          hintText: "Name ...",
+          hintText: AppLocalizations.of(context)?.addCategoryNameP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value?.isEmpty as bool) {
-          return 'The name should not be empty';
+          return AppLocalizations.of(context)?.addCategoryNameV1 ?? '';
         }
         if (value?.length as int > 12) {
-          return 'The name should not contains more than 12 caracters';
+          return AppLocalizations.of(context)?.addCategoryNameV2 ?? '';
         }
       },
     );
@@ -100,7 +102,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       style: TextStyle(color: themeColor.fgColor, fontSize: 20),
       controller: descriptionController,
       decoration: InputDecoration(
-          labelText: 'Enter the description',
+          labelText: AppLocalizations.of(context)?.addCategoryDescription ?? '',
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(color: themeColor.secondaryColor)),
@@ -118,13 +120,13 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
               color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-          hintText: "Description ...",
+          hintText: AppLocalizations.of(context)?.addCategoryDescriptionP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value?.isEmpty as bool) {
-          return 'The description should not be empty';
+          return AppLocalizations.of(context)?.addCategoryDescriptionV1 ?? '';
         }
       },
     );
@@ -144,49 +146,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             const SizedBox(
               height: 12,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(
-                                left: 0, top: 10, bottom: 10),
-                            child: Icon(Icons.keyboard_arrow_left,
-                                color: themeColor.fgColor),
-                          ),
-                          Text('Back',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: themeColor.fgColor)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Spacer(),
-                  // FloatingActionButton(
-                  //   elevation: 4,
-                  //   tooltip: 'Add',
-                  //   backgroundColor: themeColor.primaryColor,
-                  //   onPressed: () {
-                  //     // Navigator.pushNamed(context, route.taskPage);
-                  //   },
-                  //   child: const Icon(
-                  //     Icons.visibility,
-                  //     size: 30,
-                  //   ),
-                  // ),
-                ],
-              ),
+            CustomAppBar(
+              title: '',
             ),
             Expanded(
               child: ListView(
@@ -195,8 +156,11 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                     child: Column(
                       children: [
                         Text(
-                            (widget.category == null ? 'Create' : 'Update') +
-                                ' Category',
+                            (widget.category == null
+                                    ? AppLocalizations.of(context)?.create ?? ''
+                                    : AppLocalizations.of(context)?.update ??
+                                        '') +
+                                (AppLocalizations.of(context)?.category ?? ''),
                             style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.w500,
@@ -206,9 +170,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         ),
                         Text(
                             (widget.category == null
-                                    ? 'Create new'
-                                    : 'Update exist') +
-                                ' Category',
+                                ? AppLocalizations.of(context)?.createNew ?? ''
+                                : AppLocalizations.of(context)?.updateExist ??
+                                    ''),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -268,7 +232,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                     Showcase(
                                         key: _first,
                                         description:
-                                            'Choose a name for you category',
+                                            AppLocalizations.of(context)
+                                                    ?.addCategoryd1 ??
+                                                '',
                                         child: _titleField()),
                                     SizedBox(
                                       height: height * .08,
@@ -276,7 +242,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                     Showcase(
                                         key: _second,
                                         description:
-                                            'Choose a description for the category',
+                                            AppLocalizations.of(context)
+                                                    ?.addCategoryd2 ??
+                                                '',
                                         child: _descriptionField()),
                                     SizedBox(
                                       height: height * .08,
@@ -286,7 +254,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                       child: Showcase(
                                         key: _thirth,
                                         description:
-                                            'Click to add the category',
+                                            AppLocalizations.of(context)
+                                                    ?.addCategoryd3 ??
+                                                '',
                                         child: Container(
                                           width: width,
                                           height: 50,
@@ -297,8 +267,12 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                               color: themeColor.primaryColor),
                                           child: Text(
                                               (widget.category == null
-                                                  ? 'create'
-                                                  : 'Update'),
+                                                  ? AppLocalizations.of(context)
+                                                          ?.create ??
+                                                      ''
+                                                  : AppLocalizations.of(context)
+                                                          ?.update ??
+                                                      ''),
                                               style: TextStyle(
                                                   letterSpacing: 2,
                                                   fontSize: 22,

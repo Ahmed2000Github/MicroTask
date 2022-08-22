@@ -22,9 +22,12 @@ import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
 import 'package:microtask/models/task_model.dart';
+import 'package:microtask/services/enum_translate_services.dart';
+import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskPage extends StatefulWidget {
   Task? task;
@@ -103,7 +106,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       style: TextStyle(color: themeColor.fgColor, fontSize: 20),
       controller: nameController,
       decoration: InputDecoration(
-          labelText: 'Enter the name',
+          labelText: AppLocalizations.of(context)?.addTaskName ?? '',
           focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(color: themeColor.secondaryColor)),
@@ -119,16 +122,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
               color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-          hintText: "Name ... ",
+          hintText: AppLocalizations.of(context)?.addTaskNameP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value?.isEmpty as bool) {
-          return 'The name should not be empty';
+          return AppLocalizations.of(context)?.addTaskNameV1 ?? '';
         }
         if (value?.length as int > 12) {
-          return 'The name should not contains more than 12 caracters';
+          return AppLocalizations.of(context)?.addTaskNameV2 ?? '';
         }
       },
     );
@@ -142,7 +145,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       style: TextStyle(color: themeColor.fgColor, fontSize: 20),
       controller: descriptionController,
       decoration: InputDecoration(
-          labelText: 'Enter the description',
+          labelText: AppLocalizations.of(context)?.addTaskDescription ?? '',
           border: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(color: themeColor.secondaryColor)),
@@ -160,13 +163,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
               color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-          hintText: "description ...",
+          hintText: AppLocalizations.of(context)?.addTaskDescriptionP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value?.isEmpty as bool) {
-          return 'The description should not be empty';
+          return AppLocalizations.of(context)?.addTaskDescriptionV1 ?? '';
         }
       },
     );
@@ -174,6 +177,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   Widget _dateField(TextEditingController dateController,
       TextEditingController timeController, String type) {
+    var transType = AppLocalizations.of(context)?.end ?? '';
+    if (type == 'start') {
+      transType = AppLocalizations.of(context)?.start ?? '';
+    }
     return Form(
       key: type == 'end' ? _subFormKey2 : _subFormKey1,
       child: Row(
@@ -194,6 +201,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onPressed: () async {
                       DateTime? date = await showDatePicker(
                           context: context,
+                          locale: Locale(
+                              AppLocalizations.of(context)?.localeName ?? ''),
                           initialDate: getDateTime(
                               dateController.text, timeController.text),
                           firstDate: DateTime.now(),
@@ -208,7 +217,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       }
                     },
                   ),
-                  labelText: 'Enter the $type date',
+                  labelText:
+                      AppLocalizations.of(context)?.addTaskDate(transType) ??
+                          '',
                   border: OutlineInputBorder(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
@@ -229,20 +240,20 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   floatingLabelAlignment: FloatingLabelAlignment.start,
                   hintStyle: TextStyle(
                       color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-                  hintText: "Start date ...",
+                  // hintText: "Start date ...",
                   filled: true),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
-                if (value?.isEmpty as bool) {
-                  return 'The date should not be empty';
-                }
+                // if (value?.isEmpty as bool) {
+                //   return 'The date should not be empty';
+                // }
                 final duration = getDateTime(
                         endDateController.text, endTimeController.text)
                     .difference(getDateTime(
                         startDateController.text, startTimeController.text));
                 if (duration.compareTo(const Duration(minutes: 10)) < 0 &&
                     type == 'end') {
-                  return 'The and date should not less\n than start date by 10 minute';
+                  return AppLocalizations.of(context)?.addTaskDateV1 ?? '';
                 }
               },
             ),
@@ -264,6 +275,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     onPressed: () async {
                       TimeOfDay? time = await showTimePicker(
                         context: context,
+                        helpText:
+                            AppLocalizations.of(context)?.selectTime ?? '',
+                        cancelText: AppLocalizations.of(context)?.cancel ?? '',
+                        confirmText: AppLocalizations.of(context)?.ok ?? '',
                         initialTime: TimeOfDay(
                             hour: int.parse(timeController.text.split(":")[0]),
                             minute:
@@ -279,7 +294,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       }
                     },
                   ),
-                  labelText: 'Enter the $type time',
+                  labelText:
+                      AppLocalizations.of(context)?.addTaskTime(transType) ??
+                          '',
                   border: OutlineInputBorder(
                       borderRadius:
                           const BorderRadius.all(const Radius.circular(10.0)),
@@ -300,14 +317,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   floatingLabelAlignment: FloatingLabelAlignment.start,
                   hintStyle: TextStyle(
                       color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-                  hintText: "Start date ...",
+                  // hintText: "Start date ...",
                   // fillColor: themeColor.inputbgColor,
                   filled: true),
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
-                if (value?.isEmpty as bool) {
-                  return 'The date should not be empty';
-                }
+                // if (value?.isEmpty as bool) {
+                //   return 'The date should not be empty';
+                // }
                 final duration = getDateTime(
                         endDateController.text, endTimeController.text)
                     .difference(getDateTime(
@@ -328,7 +345,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return RepeatType.values
         .map((item) => DropdownMenuItem(
               value: item,
-              child: Text(EnumToString.convertToString(item),
+              child: Text(
+                  EnumTranslateServices.translateTaskRepeatType(context, item),
                   style: TextStyle(fontSize: 22, color: themeColor.fgColor)),
             ))
         .toList();
@@ -345,7 +363,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
       style: TextStyle(color: themeColor.fgColor, fontSize: 20),
       decoration: InputDecoration(
-          labelText: 'Select the repeat type',
+          labelText: AppLocalizations.of(context)?.addTaskRepeat ?? '',
           border: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(color: themeColor.secondaryColor)),
@@ -363,13 +381,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
               color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
-          hintText: "Select option",
+          hintText: AppLocalizations.of(context)?.addTaskRepeatP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null) {
-          return 'select option for reminder';
+          return AppLocalizations.of(context)?.addTaskRepeatV1 ?? '';
         }
       },
     );
@@ -388,54 +406,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: Icon(Icons.keyboard_arrow_left,
-                                color: themeColor.fgColor),
-                          ),
-                          Text('Back',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w500,
-                                  color: themeColor.fgColor)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  const Spacer(),
-                  // FloatingActionButton(
-                  //   elevation: 4,
-                  //   tooltip: 'Add',
-                  //   backgroundColor: themeColor.primaryColor,
-                  //   onPressed: () {
-                  //     // Navigator.pushNamed(context, route.taskPage);
-                  //   },
-                  //   child: const Icon(
-                  //     Icons.visibility,
-                  //     size: 30,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
+            CustomAppBar(title: ''),
             Expanded(
               child: Column(
                 children: [
                   Expanded(
-
-                      // color: themeColor.errorColor,
                       child: Center(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -500,7 +475,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                     showcaseBackgroundColor:
                                         themeColor.drowerLightBgClor,
                                     textColor: themeColor.fgColor,
-                                    description: 'Select a name for your task',
+                                    description: AppLocalizations.of(context)
+                                            ?.addTaskd1 ??
+                                        '',
                                     child: _titleField()),
                                 SizedBox(
                                   height: height * .08,
@@ -510,8 +487,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                     showcaseBackgroundColor:
                                         themeColor.drowerLightBgClor,
                                     textColor: themeColor.fgColor,
-                                    description:
-                                        'Choose a description for your task',
+                                    description: AppLocalizations.of(context)
+                                            ?.addTaskd2 ??
+                                        '',
                                     child: _descriptionField()),
                                 SizedBox(
                                   height: height * .08,
@@ -522,7 +500,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                       themeColor.drowerLightBgClor,
                                   textColor: themeColor.fgColor,
                                   description:
-                                      'Select a start date end time for the task.\n     You can add a reminder to this task if the time is greater than 10 min of time now',
+                                      AppLocalizations.of(context)?.addTaskd3 ??
+                                          '',
                                   child: _dateField(startDateController,
                                       startTimeController, 'start'),
                                 ),
@@ -535,7 +514,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                       themeColor.drowerLightBgClor,
                                   textColor: themeColor.fgColor,
                                   description:
-                                      'Choose a end date and time and should be greater than the start date and time',
+                                      AppLocalizations.of(context)?.addTaskd4 ??
+                                          '',
                                   child: _dateField(endDateController,
                                       endTimeController, 'end'),
                                 ),
@@ -564,7 +544,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                                           .drowerLightBgClor,
                                                   textColor: themeColor.fgColor,
                                                   description:
-                                                      'Select the Repeat type \n choose none to run one time ',
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.addTaskd5 ??
+                                                          '',
                                                   child: dropDown),
                                               GestureDetector(
                                                 onTap: () {
@@ -614,7 +597,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                                     }
                                                   },
                                                   description:
-                                                      'Click to add reminder to this task',
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.addTaskd6 ??
+                                                          '',
                                                   child: Row(
                                                     children: [
                                                       Checkbox(
@@ -625,7 +611,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                                           });
                                                         },
                                                       ),
-                                                      Text('Activate Reminder',
+                                                      Text(
+                                                          AppLocalizations.of(
+                                                                      context)
+                                                                  ?.activateRenminder ??
+                                                              '',
                                                           style: TextStyle(
                                                               letterSpacing: 2,
                                                               fontSize: 22,
@@ -654,7 +644,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                       themeColor.drowerLightBgClor,
                                   textColor: themeColor.fgColor,
                                   description:
-                                      'Click to add the task to your category',
+                                      AppLocalizations.of(context)?.addTaskd7 ??
+                                          '',
                                   child: GestureDetector(
                                     onTap: handleRequest,
                                     child: Container(
@@ -667,8 +658,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           color: themeColor.primaryColor),
                                       child: Text(
                                           (widget.task == null
-                                              ? 'create'
-                                              : 'Update'),
+                                              ? AppLocalizations.of(context)
+                                                      ?.create ??
+                                                  ''
+                                              : AppLocalizations.of(context)
+                                                      ?.update ??
+                                                  ''),
                                           style: const TextStyle(
                                               letterSpacing: 2,
                                               fontSize: 22,
@@ -697,7 +692,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   bool _setVisiblity() {
-    print('visisisisisisi');
     final duration =
         getDateTime(startDateController.text, startTimeController.text)
             .difference(DateTime.now());
@@ -765,9 +759,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
     });
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() {
-        CustomSnakbarWidget(context: context).show("The task was " +
-            (widget.task == null ? 'created' : 'Updated') +
-            'successfuly');
+        CustomSnakbarWidget(context: context).show(AppLocalizations.of(context)
+                ?.addTaskdSN1((widget.task == null
+                    ? AppLocalizations.of(context)?.create ?? ''
+                    : AppLocalizations.of(context)?.update ?? '')) ??
+            '');
         widget.task = null;
       });
     });
@@ -777,10 +773,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
     context
         .read<ReminderBloc>()
         .add(ReminderEvent(requestEvent: ReminderEventStatus.TODAY));
-    context.read<TaskBloc>().add(TaskEvent(
-        requestEvent: CrudEventStatus.FETCH,
-        date: DateTime.now(),
-        categoryId: widget.categoryId!));
+    // context.read<TaskBloc>().add(TaskEvent(
+    //     requestEvent: CrudEventStatus.FETCH,
+    //     date: DateTime.now(),
+    //     categoryId: widget.categoryId!));
     context
         .read<CategoryBloc>()
         .add(CategoryEvent(requestEvent: CrudEventStatus.FETCH));

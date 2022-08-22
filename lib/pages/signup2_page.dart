@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/login_state.dart';
@@ -15,13 +15,12 @@ import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/pages/main_page.dart';
 import 'package:microtask/configurations/route.dart' as route;
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:microtask/pages/login_page.dart';
 import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
-
-import '../widgets/custom_snakbar_widget.dart';
+import 'package:microtask/widgets/custom_snakbar_widget.dart';
 
 class Signup2Page extends StatefulWidget {
   Map<String, dynamic> colletedData;
@@ -47,14 +46,15 @@ class _Signup2PageState extends State<Signup2Page> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          textDirection: TextDirection.ltr,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
-            Text('Back',
+            Text(AppLocalizations.of(context)?.back ?? '',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -71,7 +71,7 @@ class _Signup2PageState extends State<Signup2Page> {
       {bool isPassword = false, Widget? widget}) {
     return StatefulBuilder(builder: (context, setInnerState) {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -82,7 +82,7 @@ class _Signup2PageState extends State<Signup2Page> {
                   fontSize: 15,
                   color: themeColor.fgColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -93,8 +93,21 @@ class _Signup2PageState extends State<Signup2Page> {
                     readOnly: widget == null ? false : true,
                     obscureText: isPassword,
                     decoration: InputDecoration(
-                        border: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0)),
+                            borderSide:
+                                BorderSide(color: themeColor.secondaryColor)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                              color: themeColor.primaryColor, width: 2.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                              color: themeColor.primaryColor, width: 2.0),
+                        ),
                         hintText: placeholder,
                         suffixIcon: ['password', 'comfirm'].contains(inputType)
                             ? IconButton(
@@ -102,11 +115,12 @@ class _Signup2PageState extends State<Signup2Page> {
                                   isPassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
+                                  color: Colors.black,
                                 ),
                                 onPressed: () => setInnerState(
                                     () => isPassword = !isPassword),
                               )
-                            : null,
+                            : widget,
                         fillColor: themeColor.inputbgColor,
                         filled: true),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -116,7 +130,8 @@ class _Signup2PageState extends State<Signup2Page> {
                       }
                       switch (inputType) {
                         case "password":
-                          return ValidationServices.isValidPassword(value);
+                          return ValidationServices.isValidPassword(
+                              context, value);
                         case "date":
                           break;
                         case "comfirm":
@@ -130,7 +145,6 @@ class _Signup2PageState extends State<Signup2Page> {
                     },
                   ),
                 ),
-                widget == null ? Container() : widget,
               ],
             ),
           ],
@@ -142,7 +156,7 @@ class _Signup2PageState extends State<Signup2Page> {
   Widget _submitButton() {
     return Row(
       children: [
-        Spacer(),
+        const Spacer(),
         TextButton(
           onPressed: () {
             if (!_formKey.currentState!.validate()) {
@@ -167,10 +181,10 @@ class _Signup2PageState extends State<Signup2Page> {
           },
           child: Container(
             width: MediaQuery.of(context).size.width * .5,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
                 gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
@@ -179,8 +193,8 @@ class _Signup2PageState extends State<Signup2Page> {
                       themeColor.primaryColor
                     ])),
             child: Text(
-              'Finish',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              AppLocalizations.of(context)?.finish ?? '',
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
         ),
@@ -190,20 +204,20 @@ class _Signup2PageState extends State<Signup2Page> {
 
   Widget _loginLabel() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.all(15),
       alignment: Alignment.bottomCenter,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Already have an account ?',
+            AppLocalizations.of(context)?.alreadyHaveAccount ?? '',
             style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           GestureDetector(
@@ -214,7 +228,7 @@ class _Signup2PageState extends State<Signup2Page> {
               Navigator.pushNamed(context, route.loginPage);
             },
             child: Text(
-              'Login',
+              AppLocalizations.of(context)?.login ?? '',
               style: TextStyle(
                   color: themeColor.secondaryColor,
                   fontSize: 13,
@@ -228,18 +242,19 @@ class _Signup2PageState extends State<Signup2Page> {
 
   _getSelectedDate() async {
     DateTime? date = await showDatePicker(
+        locale: Locale(AppLocalizations.of(context)?.localeName ?? ''),
         context: context,
         initialDate: DateTime(1999),
         firstDate: DateTime(1950),
         lastDate: DateTime(DateTime.now().year - 10));
     if (date != null) {
-      dateController.text = DateFormat("yyyy-MM-dd").format(date);
+      dateController.text = intl.DateFormat("yyyy-MM-dd").format(date);
     }
   }
 
   Widget _radioField(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -250,7 +265,7 @@ class _Signup2PageState extends State<Signup2Page> {
                 fontSize: 15,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -267,7 +282,7 @@ class _Signup2PageState extends State<Signup2Page> {
                 activeColor: themeColor.primaryColor,
               ),
               Text(
-                "Male",
+                AppLocalizations.of(context)?.male ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -287,7 +302,7 @@ class _Signup2PageState extends State<Signup2Page> {
                 activeColor: themeColor.primaryColor,
               ),
               Text(
-                "Female",
+                AppLocalizations.of(context)?.female ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -304,17 +319,18 @@ class _Signup2PageState extends State<Signup2Page> {
   Future<void> pickImage() async {
     ImagePicker imagePicker = ImagePicker();
     XFile? _image = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (_image != null)
+    if (_image != null) {
       setState(() {
         image = File(_image.path);
         isLoaded = true;
         // pathOfImage = _image.path;
       });
+    }
   }
 
   Widget _imageField(String title) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -325,7 +341,7 @@ class _Signup2PageState extends State<Signup2Page> {
                 fontSize: 15,
                 color: themeColor.fgColor),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -349,17 +365,17 @@ class _Signup2PageState extends State<Signup2Page> {
                             fit: BoxFit.cover,
                           )),
               ),
-              Spacer(),
+              const Spacer(),
               TextButton(
                 onPressed: () async {
                   pickImage();
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * .35,
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
                       gradient: LinearGradient(
                           begin: Alignment.bottomLeft,
                           end: Alignment.topRight,
@@ -368,8 +384,8 @@ class _Signup2PageState extends State<Signup2Page> {
                             themeColor.primaryColor
                           ])),
                   child: Text(
-                    'Select',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    AppLocalizations.of(context)?.select ?? '',
+                    style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
               ),
@@ -393,21 +409,21 @@ class _Signup2PageState extends State<Signup2Page> {
                 children: [
                   SpinKitSpinningLines(
                       lineWidth: 5, color: themeColor.primaryColor),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Text(
-                    'Your registration was completed successfully. ',
+                    AppLocalizations.of(context)?.loginCompleted ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                         color: themeColor.secondaryColor),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'waiting for redirection.',
+                    AppLocalizations.of(context)?.waitingForRedirection ?? '',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -438,15 +454,21 @@ class _Signup2PageState extends State<Signup2Page> {
       }
       return Column(
         children: <Widget>[
-          _entryField("Enter your password :", "Password ...", 'password',
+          _entryField(
+              AppLocalizations.of(context)?.resetNewPassword ?? '',
+              AppLocalizations.of(context)?.resetNewPasswordP ?? '',
+              'password',
               passwordController,
               isPassword: true),
-          _entryField("Comfirm the  password :", "Password ... ", 'comfirm',
+          _entryField(
+              AppLocalizations.of(context)?.resetConfirmPassword ?? '',
+              AppLocalizations.of(context)?.resetConfirmPasswordP ?? '',
+              'comfirm',
               passwordConfirmController,
               isPassword: true),
           _entryField(
-              "Select your birthDay :",
-              DateFormat("yyyy-MM-dd").format(selectedDate!),
+              AppLocalizations.of(context)?.selectYourBirthDay ?? '',
+              intl.DateFormat("yyyy-MM-dd").format(selectedDate!),
               'date',
               dateController,
               widget: IconButton(
@@ -454,17 +476,10 @@ class _Signup2PageState extends State<Signup2Page> {
                   _getSelectedDate();
                 },
                 icon: const Icon(Icons.calendar_today_outlined),
-                color: themeColor.fgColor,
+                color: Colors.black,
               )),
-          _radioField("Select your Gender :"),
-          _imageField("Choose image Profile :"),
-          Text(
-            "",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: themeColor.errorColor),
-          ),
+          _radioField(AppLocalizations.of(context)?.selectGender ?? ''),
+          _imageField(AppLocalizations.of(context)?.selectImage ?? ''),
         ],
       );
     });
@@ -481,9 +496,11 @@ class _Signup2PageState extends State<Signup2Page> {
       child: Stack(
         children: <Widget>[
           Positioned(
-              top: -height * .15, right: -width * .4, child: BezierContainer()),
+              top: -height * .15,
+              right: -width * .4,
+              child: const BezierContainer()),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -498,9 +515,9 @@ class _Signup2PageState extends State<Signup2Page> {
                           ".png",
                       width: width * .4,
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     _inputWidget(),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _submitButton(),
                     _loginLabel(),
                   ],

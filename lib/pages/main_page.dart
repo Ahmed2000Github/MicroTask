@@ -24,6 +24,7 @@ import 'package:microtask/pages/settings_page.dart';
 import 'package:microtask/services/login_services.dart';
 import 'package:microtask/services/notification_service.dart';
 import 'package:microtask/widgets/profile_image_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../blocs/profile/profile_state.dart';
 
@@ -76,7 +77,10 @@ class _MainPageState extends State<MainPage> {
               context: context,
               builder: (context) => AlertDialog(
                     backgroundColor: themeColor.drowerBgClor,
-                    title: Text("Cloud service",
+                    title: Text(
+                        AppLocalizations.of(_scaffoldKey.currentContext!)
+                                ?.mainDialogTitle ??
+                            '',
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w500,
@@ -91,7 +95,9 @@ class _MainPageState extends State<MainPage> {
                           width: width * .9,
                           child: Center(
                             child: Text(
-                              "You want to get your old data from server ?",
+                              AppLocalizations.of(_scaffoldKey.currentContext!)
+                                      ?.mainDialogDescription ??
+                                  '',
                               style: TextStyle(color: themeColor.fgColor),
                             ),
                           ),
@@ -101,7 +107,9 @@ class _MainPageState extends State<MainPage> {
                     actions: <Widget>[
                       TextButton(
                         child: Text(
-                          "Cancel",
+                          AppLocalizations.of(_scaffoldKey.currentContext!)
+                                  ?.cancel ??
+                              '',
                           style: TextStyle(color: themeColor.errorColor),
                         ),
                         onPressed: () {
@@ -109,9 +117,11 @@ class _MainPageState extends State<MainPage> {
                         },
                       ),
                       TextButton(
-                        child: const Text("OK"),
+                        child: Text(
+                            AppLocalizations.of(_scaffoldKey.currentContext!)
+                                    ?.ok ??
+                                ''),
                         onPressed: () {
-                          print('ddsddsddsdd');
                           Navigator.pop(context, true);
                         },
                       ),
@@ -202,12 +212,26 @@ class _MainPageState extends State<MainPage> {
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border(
-                            right: BorderSide(
-                              color: state == HomeState.HOME
-                                  ? themeColor.secondaryColor
-                                  : Colors.transparent,
-                              width: 3.0,
-                            ),
+                            right: (AppLocalizations.of(context)?.localeName ??
+                                        '') ==
+                                    'ar'
+                                ? BorderSide.none
+                                : BorderSide(
+                                    color: state == HomeState.HOME
+                                        ? themeColor.secondaryColor
+                                        : Colors.transparent,
+                                    width: 3.0,
+                                  ),
+                            left: (AppLocalizations.of(context)?.localeName ??
+                                        '') !=
+                                    'ar'
+                                ? BorderSide.none
+                                : BorderSide(
+                                    color: state == HomeState.HOME
+                                        ? themeColor.secondaryColor
+                                        : Colors.transparent,
+                                    width: 3.0,
+                                  ),
                           )),
                           child: TextButton(
                             onPressed: () {
@@ -222,7 +246,7 @@ class _MainPageState extends State<MainPage> {
                                     : themeColor.fgColor,
                               ),
                               title: Text(
-                                '  Home',
+                                '  ${AppLocalizations.of(context)?.home ?? ''}',
                                 style: TextStyle(
                                     fontSize: 25,
                                     color: state == HomeState.HOME
@@ -246,7 +270,7 @@ class _MainPageState extends State<MainPage> {
                               color: themeColor.fgColor,
                             ),
                             title: Text(
-                              '  ToDay',
+                              '  ${AppLocalizations.of(context)?.today ?? ''}',
                               style: TextStyle(
                                   fontSize: 25, color: themeColor.fgColor),
                             ),
@@ -286,7 +310,7 @@ class _MainPageState extends State<MainPage> {
                               color: themeColor.fgColor,
                             ),
                             title: Text(
-                              '  Reminder',
+                              '  ${AppLocalizations.of(context)?.reminder ?? ''}',
                               style: TextStyle(
                                   fontSize: 25, color: themeColor.fgColor),
                             ),
@@ -306,7 +330,7 @@ class _MainPageState extends State<MainPage> {
                               color: themeColor.fgColor,
                             ),
                             title: Text(
-                              '  Categories',
+                              '  ${AppLocalizations.of(context)?.categories ?? ''}',
                               style: TextStyle(
                                   fontSize: 25, color: themeColor.fgColor),
                             ),
@@ -326,7 +350,7 @@ class _MainPageState extends State<MainPage> {
                               color: themeColor.fgColor,
                             ),
                             title: Text(
-                              '  About',
+                              AppLocalizations.of(context)?.about ?? '',
                               style: TextStyle(
                                   fontSize: 25, color: themeColor.fgColor),
                             ),

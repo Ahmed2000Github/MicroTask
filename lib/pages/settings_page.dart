@@ -11,6 +11,7 @@ import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   VoidCallback? setParentState;
@@ -36,10 +37,12 @@ class _SettingsPageState extends State<SettingsPage> {
     GlobalKey(),
   ];
   int timeIndex = 0;
+  Alignment alignment = Alignment.centerLeft;
 
   @override
   void initState() {
     super.initState();
+
     timeIndex = timeList.indexOf(configuration.remindeTime);
     if (showCaseConfig.isLunched('settings')) {
       WidgetsBinding.instance?.addPostFrameCallback(
@@ -53,6 +56,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    if (AppLocalizations.of(context)?.localeName == 'ar') {
+      alignment = Alignment.centerRight;
+    }
     return Container(
       color: themeColor.bgColor,
       child: Column(children: [
@@ -63,9 +69,9 @@ class _SettingsPageState extends State<SettingsPage> {
               key: _list[0],
               showcaseBackgroundColor: themeColor.drowerLightBgClor,
               textColor: themeColor.fgColor,
-              description: 'This page is for setting your app',
+              description: AppLocalizations.of(context)?.settingsd1 ?? '',
               child: Text(
-                "Settings",
+                AppLocalizations.of(context)?.settings ?? '',
                 style: TextStyle(
                   fontSize: 30,
                   color: themeColor.fgColor,
@@ -94,12 +100,12 @@ class _SettingsPageState extends State<SettingsPage> {
         color: themeColor.drowerBgClor,
         child: Column(
           children: [
-            _getCategory("Theme"),
+            _getCategory(AppLocalizations.of(context)?.theme ?? ''),
             Showcase(
               key: _list[1],
               showcaseBackgroundColor: themeColor.drowerLightBgClor,
               textColor: themeColor.fgColor,
-              description: 'Here you can switch the theme of app',
+              description: AppLocalizations.of(context)?.settingsd2 ?? '',
               child: ListTile(
                 leading: Icon(
                   themeColor.isDarkMod ? Icons.dark_mode : Icons.light_mode,
@@ -114,11 +120,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       widget.setParentState!();
                     }),
                 title: Text(
-                  "Switch to " +
-                      (!themeColor.isDarkMod ? "Dark" : "Light") +
-                      " mode",
+                  (AppLocalizations.of(context)?.switchTo ?? '') +
+                      (!themeColor.isDarkMod
+                          ? (AppLocalizations.of(context)?.darkMode ?? '')
+                          : (AppLocalizations.of(context)?.lightMode ?? '')),
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 17,
                     color: themeColor.fgColor,
                   ),
                 ),
@@ -142,14 +149,13 @@ class _SettingsPageState extends State<SettingsPage> {
           color: themeColor.drowerBgClor,
           child: Column(
             children: [
-              _getCategory("Reminder"),
+              _getCategory(AppLocalizations.of(context)?.reminder ?? ''),
               StatefulBuilder(builder: (context, setInnetState) {
                 return Showcase(
                   key: _list[2],
                   showcaseBackgroundColor: themeColor.drowerLightBgClor,
                   textColor: themeColor.fgColor,
-                  description:
-                      'Here tou can set the time between the start time of task and the run of reminder',
+                  description: AppLocalizations.of(context)?.settingsd3 ?? '',
                   child: ListTile(
                     leading: Icon(
                       Icons.alarm,
@@ -165,9 +171,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     title: Text(
-                      "Reminde me before ${timeList[timeIndex]} minutes ",
+                      AppLocalizations.of(context)
+                              ?.remindeMe(timeList[timeIndex]) ??
+                          '',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: themeColor.fgColor,
                       ),
                     ),
@@ -179,8 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   key: _list[3],
                   showcaseBackgroundColor: themeColor.drowerLightBgClor,
                   textColor: themeColor.fgColor,
-                  description:
-                      'Here you can choose if the reminder run with sound or no',
+                  description: AppLocalizations.of(context)?.settingsd4 ?? '',
                   child: ListTile(
                     leading: Icon(
                       configuration.reminderSound
@@ -205,11 +212,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     title: Text(
                       "" +
                           (configuration.reminderSound
-                              ? "Desactivate"
-                              : "Activate") +
-                          " notification sound",
+                              ? (AppLocalizations.of(context)?.desactivate ??
+                                  '')
+                              : (AppLocalizations.of(context)?.activate ??
+                                  '')) +
+                          (AppLocalizations.of(context)?.notificationSound ??
+                              ''),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: themeColor.fgColor,
                       ),
                     ),
@@ -236,13 +246,13 @@ class _SettingsPageState extends State<SettingsPage> {
           child: StatefulBuilder(builder: (context, setInnetState) {
             return Column(
               children: [
-                _getCategory("Server Storage"),
+                _getCategory(
+                    (AppLocalizations.of(context)?.serverStorage ?? '')),
                 Showcase(
                   key: _list[4],
                   showcaseBackgroundColor: themeColor.drowerLightBgClor,
                   textColor: themeColor.fgColor,
-                  description:
-                      'This allow you to auto synchronize your data with the server\n desactivate it to do this manually',
+                  description: (AppLocalizations.of(context)?.settingsd5 ?? ''),
                   child: ListTile(
                     leading: Icon(
                       configuration.isAutoSyncronize
@@ -261,11 +271,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     title: Text(
                       "" +
                           (configuration.isAutoSyncronize
-                              ? "Desactivate"
-                              : "Activate") +
-                          " auto synchronization",
+                              ? (AppLocalizations.of(context)?.desactivate ??
+                                  '')
+                              : (AppLocalizations.of(context)?.activate ??
+                                  '')) +
+                          (AppLocalizations.of(context)?.autoSynchronization ??
+                              ''),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: themeColor.fgColor,
                       ),
                     ),
@@ -308,9 +321,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       );
                     }),
                     title: Text(
-                      "Synchronize data with server",
+                      AppLocalizations.of(context)?.synchronizeServer ?? '',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: themeColor.fgColor,
                       ),
                     ),
@@ -330,11 +343,11 @@ class _SettingsPageState extends State<SettingsPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            alignment: Alignment.centerLeft,
+            alignment: alignment,
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
                 color: themeColor.fgColor,
               ),
@@ -381,15 +394,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                       context: context,
                                       height: 200,
                                       color: themeColor.primaryColor)
-                                  .show(
-                                      'From now all reminders will be start before ${timeList[index]} minutes.');
+                                  .show(AppLocalizations.of(context)
+                                          ?.settingsSN1(timeList[timeIndex]) ??
+                                      '');
                               setInnerState(() {
                                 timeIndex = index;
                               });
                               Navigator.of(context).pop();
                             },
                             child: Container(
-                              alignment: Alignment.centerLeft,
+                              alignment: alignment,
                               child: RichText(
                                   text: TextSpan(children: [
                                 TextSpan(
@@ -401,7 +415,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '  Minutes',
+                                  text: AppLocalizations.of(context)?.minutes ??
+                                      '',
                                   style: TextStyle(
                                     fontSize: 24,
                                     color: themeColor.fgColor,

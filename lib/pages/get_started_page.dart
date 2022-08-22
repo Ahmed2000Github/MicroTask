@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GetStartedPage extends StatelessWidget {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
@@ -11,6 +12,10 @@ class GetStartedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    var alignment = Alignment.centerLeft;
+    if ((AppLocalizations.of(context)?.localeName ?? '') == 'ar') {
+      alignment = Alignment.centerRight;
+    }
     return Scaffold(
       backgroundColor: themeColor.bgColor,
       body: Center(
@@ -18,11 +23,11 @@ class GetStartedPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            alignment: Alignment.centerLeft,
+            alignment: alignment,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
               child: Text(
-                "Welcome to",
+                AppLocalizations.of(context)?.welcomeTo ?? '',
                 style: TextStyle(
                   color: themeColor.fgColor,
                   fontWeight: FontWeight.bold,
@@ -46,7 +51,7 @@ class GetStartedPage extends StatelessWidget {
           ),
           Lottie.asset('assets/lotties/flying_rocket_sky.json',
               width: width * .8),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           SizedBox(
@@ -59,10 +64,10 @@ class GetStartedPage extends StatelessWidget {
               child: Card(
                 elevation: 4,
                 color: themeColor.primaryColor,
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "Get started",
-                    style: TextStyle(
+                    AppLocalizations.of(context)?.getStarted ?? '',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 32,
                     ),

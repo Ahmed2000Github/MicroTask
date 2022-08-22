@@ -17,8 +17,10 @@ import 'package:microtask/configurations/theme_color_services.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/task_model.dart';
+import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReminderPage extends StatefulWidget {
   @override
@@ -62,50 +64,13 @@ class _ReminderPageState extends State<ReminderPage> {
           const SizedBox(
             height: 16,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 0, top: 10, bottom: 10),
-                          child: Icon(Icons.keyboard_arrow_left,
-                              color: themeColor.fgColor),
-                        ),
-                        Text('Back',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w500,
-                                color: themeColor.fgColor)),
-                      ],
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Showcase(
-                  key: _list[0],
-                  showcaseBackgroundColor: themeColor.drowerLightBgClor,
-                  textColor: themeColor.fgColor,
-                  description:
-                      'In this page you will be able to activate or desactivate  reminders of tasks',
-                  child: Text('Reminders',
-                      style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500,
-                          color: themeColor.fgColor)),
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
+          Showcase(
+              key: _list[0],
+              showcaseBackgroundColor: themeColor.drowerLightBgClor,
+              textColor: themeColor.fgColor,
+              description: AppLocalizations.of(context)?.remindersd1 ?? '',
+              child: CustomAppBar(
+                  title: AppLocalizations.of(context)?.reminders ?? '')),
           Container(
             child: StatefulBuilder(builder: (context, setInnerState) {
               return DefaultTabController(
@@ -134,18 +99,19 @@ class _ReminderPageState extends State<ReminderPage> {
                       key: _list[1],
                       showcaseBackgroundColor: themeColor.drowerLightBgClor,
                       textColor: themeColor.fgColor,
-                      description: 'All today task\'s reminders',
+                      description:
+                          AppLocalizations.of(context)?.remindersd2 ?? '',
                       child: Tab(
                         icon: Icon(
                           Icons.today,
                           color: currenIndex == 0
                               ? themeColor.secondaryColor
                               : themeColor.fgColor,
-                          size: 30,
+                          size: 28,
                         ),
-                        child: Text('ToDay',
+                        child: Text(AppLocalizations.of(context)?.today ?? '',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w500,
                                 color: currenIndex == 0
                                     ? themeColor.secondaryColor
@@ -156,18 +122,20 @@ class _ReminderPageState extends State<ReminderPage> {
                       key: _list[2],
                       showcaseBackgroundColor: themeColor.drowerLightBgClor,
                       textColor: themeColor.fgColor,
-                      description: 'All icoming task\'s reminders',
+                      description:
+                          AppLocalizations.of(context)?.remindersd3 ?? '',
                       child: Tab(
                         icon: Icon(
                           Icons.info_outline,
                           color: currenIndex == 1
                               ? themeColor.secondaryColor
                               : themeColor.fgColor,
-                          size: 30,
+                          size: 28,
                         ),
-                        child: Text('Incoming',
+                        child: Text(
+                            AppLocalizations.of(context)?.incoming ?? '',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w500,
                                 color: currenIndex == 1
                                     ? themeColor.secondaryColor
@@ -202,7 +170,7 @@ class _ReminderPageState extends State<ReminderPage> {
                   if (state.tasks?.isEmpty as bool) {
                     return SizedBox(
                       child: NoDataFoundWidget(
-                        text: 'Not task found',
+                        text: AppLocalizations.of(context)?.noTaskFound ?? '',
                       ),
                     );
                   }
@@ -300,9 +268,9 @@ class _ReminderPageState extends State<ReminderPage> {
         showcaseBackgroundColor: themeColor.drowerLightBgClor,
         textColor: themeColor.fgColor,
         shapeBorder: CircleBorder(),
-        description: 'Click here to refresh the page',
+        description: AppLocalizations.of(context)?.remindersd4 ?? '',
         child: FloatingActionButton(
-          tooltip: 'Refresh',
+          tooltip: AppLocalizations.of(context)?.refresh ?? '',
           backgroundColor: themeColor.primaryColor,
           onPressed: () {
             if (currenIndex == 0) {

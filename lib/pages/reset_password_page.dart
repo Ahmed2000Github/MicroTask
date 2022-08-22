@@ -13,6 +13,7 @@ import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   Map<String, dynamic> colletedData;
@@ -34,14 +35,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         Navigator.pop(context);
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          textDirection: TextDirection.ltr,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
               child: Icon(Icons.keyboard_arrow_left, color: themeColor.fgColor),
             ),
-            Text('Back',
+            Text(AppLocalizations.of(context)?.back ?? '',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -57,7 +59,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       {bool isPassword = true}) {
     return StatefulBuilder(builder: (context, setInnerState) {
       return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -68,56 +70,59 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   fontSize: 15,
                   color: themeColor.fgColor),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Focus(
-                child: TextFormField(
-                  obscureText: isPassword,
-                  controller: controller,
-                  decoration: InputDecoration(
-                      border: UnderlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      hintText: placeholder,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isPassword ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () =>
-                            setInnerState(() => isPassword = !isPassword),
+              child: TextFormField(
+                obscureText: isPassword,
+                controller: controller,
+                decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0)),
+                        borderSide:
+                            BorderSide(color: themeColor.secondaryColor)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                          color: themeColor.primaryColor, width: 2.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                          color: themeColor.primaryColor, width: 2.0),
+                    ),
+                    hintText: placeholder,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        isPassword ? Icons.visibility : Icons.visibility_off,
                       ),
-                      fillColor: themeColor.inputbgColor,
-                      filled: true),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'The value of this input should not be empty.';
-                    }
-                    switch (inputType) {
-                      case "comfirm":
-                        if (passwordController.text != value) {
-                          return "Password not matched";
-                        }
-                        return null;
-                      case "password":
-                        return ValidationServices.isValidPassword(value);
+                      onPressed: () =>
+                          setInnerState(() => isPassword = !isPassword),
+                    ),
+                    fillColor: themeColor.inputbgColor,
+                    filled: true),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)?.resetV1 ?? '';
+                  }
+                  switch (inputType) {
+                    case "comfirm":
+                      if (passwordController.text != value) {
+                        return AppLocalizations.of(context)?.resetV2 ?? '';
+                      }
+                      return null;
+                    case "password":
+                      return ValidationServices.isValidPassword(context, value);
 
-                      default:
-                    }
-                    return null;
-                  },
-                ),
-                onFocusChange: (hasFocus) {
-                  // switch (inputType) {
-                  //   case 'username':
-                  //     if (!hasFocus) validateUsername(usernameController.text);
-                  //     break;
-                  //   case 'email':
-                  //     if (!hasFocus) validateEmail(passwordController.text);
-                  //     break;
-                  //   default:
-                  // }
-                }),
+                    default:
+                  }
+                  return null;
+                },
+              ),
+            ),
           ],
         ),
       );
@@ -127,7 +132,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget _submitButton() {
     return Row(
       children: [
-        Spacer(),
+        const Spacer(),
         TextButton(
           onPressed: () async {
             if (!_formKey.currentState!.validate()) {
@@ -143,10 +148,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           },
           child: Container(
             width: MediaQuery.of(context).size.width * .5,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
                 gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
@@ -155,8 +160,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       themeColor.primaryColor
                     ])),
             child: Text(
-              'Reset',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              AppLocalizations.of(context)?.reset ?? '',
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
         ),
@@ -186,21 +191,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   children: [
                     SpinKitSpinningLines(
                         lineWidth: 5, color: themeColor.primaryColor),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Text(
-                      'Your login was completed successfully. ',
+                      AppLocalizations.of(context)?.loginCompleted ?? '',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                           color: themeColor.secondaryColor),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      'waiting for redirection.',
+                      AppLocalizations.of(context)?.waitingForRedirection ?? '',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -225,10 +230,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         }
         return Column(
           children: <Widget>[
-            _entryField("Enter the new password :", "Password ... ", 'password',
+            _entryField(
+                AppLocalizations.of(context)?.resetNewPassword ?? '',
+                AppLocalizations.of(context)?.resetNewPasswordP ?? '',
+                'password',
                 passwordController),
-            _entryField("Comfirm the new password :", "Password ... ",
-                'comfirm', passwordConfirmController),
+            _entryField(
+                AppLocalizations.of(context)?.resetConfirmPassword ?? '',
+                AppLocalizations.of(context)?.resetConfirmPasswordP ?? '',
+                'comfirm',
+                passwordConfirmController),
           ],
         );
       },
@@ -246,7 +257,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: Stack(
         children: <Widget>[
           Positioned(
-              top: -height * .15, right: -width * .4, child: BezierContainer()),
+              top: -height * .15,
+              right: -width * .4,
+              child: const BezierContainer()),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(

@@ -21,10 +21,12 @@ import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
 import 'package:microtask/models/task_model.dart';
+import 'package:microtask/services/enum_translate_services.dart';
 import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:microtask/widgets/custom_loading_progress.dart';
 import 'package:microtask/widgets/no_data_found_widget.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TodayPage extends StatefulWidget {
   @override
@@ -40,6 +42,8 @@ class _TodayPageState extends State<TodayPage>
     GlobalKey(),
     GlobalKey(),
   ];
+  Alignment alignment = Alignment.centerLeft;
+
   @override
   initState() {
     super.initState();
@@ -55,6 +59,9 @@ class _TodayPageState extends State<TodayPage>
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    if (AppLocalizations.of(context)?.localeName == 'ar') {
+      alignment = Alignment.centerRight;
+    }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: themeColor.bgColor,
@@ -68,8 +75,7 @@ class _TodayPageState extends State<TodayPage>
               key: _list[0],
               showcaseBackgroundColor: themeColor.drowerLightBgClor,
               textColor: themeColor.fgColor,
-              description:
-                  'In this page you can manage your today task.\n using the more option button you can change de status of task',
+              description: AppLocalizations.of(context)?.todayd1 ?? '',
               child: Card(
                 elevation: 0,
                 color: themeColor.drowerBgClor,
@@ -85,7 +91,8 @@ class _TodayPageState extends State<TodayPage>
                       ),
                       child: AnimatedTextKit(
                         animatedTexts: [
-                          WavyAnimatedText('Today you have '),
+                          WavyAnimatedText(
+                              AppLocalizations.of(context)?.todayYouHave ?? ''),
                         ],
                         isRepeatingAnimation: true,
                         repeatForever: true,
@@ -95,7 +102,9 @@ class _TodayPageState extends State<TodayPage>
                         builder: (context, state) {
                       if (state.requestState == StateStatus.LOADED) {
                         return Text(
-                          "${state.todayTasks?.length} tasks ",
+                          AppLocalizations.of(context)
+                                  ?.tasks(state.todayTasks?.length as int) ??
+                              '',
                           style: TextStyle(
                             color: themeColor.primaryLightColor,
                             fontSize: 22,
@@ -103,7 +112,7 @@ class _TodayPageState extends State<TodayPage>
                         );
                       } else {
                         return Text(
-                          "0 tasks ",
+                          AppLocalizations.of(context)?.tasks(0) ?? '',
                           style: TextStyle(
                             color: themeColor.primaryLightColor,
                             fontSize: 22,
@@ -184,7 +193,7 @@ class _TodayPageState extends State<TodayPage>
               constraints: BoxConstraints(maxHeight: 100),
               child: SingleChildScrollView(
                 child: Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: alignment,
                   child: Text(
                     "         ${task.description}",
                     style: TextStyle(
@@ -205,15 +214,21 @@ class _TodayPageState extends State<TodayPage>
 
   Widget _getListTile(DateTime start, DateTime end) {
     Map<String, dynamic> data = {
-      'status': 'Passed',
+      'status': AppLocalizations.of(context)?.passed ?? '',
       'color': themeColor.errorColor
     };
     var now = DateTime.now();
     if (start.compareTo(now) > 0) {
-      data = {'status': 'Coming', 'color': themeColor.secondaryColor};
+      data = {
+        'status': AppLocalizations.of(context)?.coming ?? '',
+        'color': themeColor.secondaryColor
+      };
     }
     if (start.compareTo(now) < 0 && end.compareTo(now) > 0) {
-      data = {'status': 'Started', 'color': themeColor.primaryLightColor};
+      data = {
+        'status': AppLocalizations.of(context)?.started ?? '',
+        'color': themeColor.primaryLightColor
+      };
     }
     return ListTile(
       trailing: Text(
@@ -256,7 +271,7 @@ class _TodayPageState extends State<TodayPage>
                   .add(CrudTaskEvent(requestEvent: CrudEventStatus.RESET));
             },
             child: Text(
-              EnumToString.convertToString(item).toLowerCase(),
+              EnumTranslateServices.translateTaskStatus(context, item),
               style: TextStyle(color: themeColor.fgColor),
             ),
             value: counter,
