@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/widgets/custom_appbar_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,6 +14,7 @@ class AboutPage extends StatefulWidget {
 
 class _AboutPageState extends State<AboutPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final colorizeColors = [
     Colors.blue,
@@ -26,6 +28,7 @@ class _AboutPageState extends State<AboutPage> {
   void initState() {
     super.initState();
     colorizeTextStyle = TextStyle(
+      fontFamily: configuration.currentFont,
       color: themeColor.primaryColor,
       fontSize: 34.0,
     );
@@ -47,26 +50,24 @@ class _AboutPageState extends State<AboutPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
                   children: [
-                    // Text(
-                    //   AppLocalizations.of(context)?.helloWorld ?? '',
-                    //   style: TextStyle(height: 1.5, color: themeColor.fgColor),
-                    // ),
                     SizedBox(
                       height: height * .1,
                       child: Center(
-                        child: AnimatedTextKit(
-                          repeatForever: true,
-                          animatedTexts: [
-                            ColorizeAnimatedText(
-                              AppLocalizations.of(context)
-                                      ?.welcometoMicroTask ??
-                                  '',
-                              textStyle: colorizeTextStyle!,
-                              speed: const Duration(milliseconds: 800),
-                              colors: colorizeColors,
-                            ),
-                          ],
-                          isRepeatingAnimation: true,
+                        child: FittedBox(
+                          child: AnimatedTextKit(
+                            repeatForever: true,
+                            animatedTexts: [
+                              ColorizeAnimatedText(
+                                AppLocalizations.of(context)
+                                        ?.welcometoMicroTask ??
+                                    '',
+                                textStyle: colorizeTextStyle!,
+                                speed: const Duration(milliseconds: 800),
+                                colors: colorizeColors,
+                              ),
+                            ],
+                            isRepeatingAnimation: true,
+                          ),
                         ),
                       ),
                     ),
@@ -74,22 +75,31 @@ class _AboutPageState extends State<AboutPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: RichText(
                         text: TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: 40),
+                          style: TextStyle(
+                              fontFamily: configuration.currentFont,
+                              color: Colors.black,
+                              fontSize: 40),
                           children: <TextSpan>[
                             TextSpan(
                               text: AppLocalizations.of(context)?.aboutp1 ?? '',
                               style: TextStyle(
-                                  height: 1.5, color: themeColor.fgColor),
+                                  fontFamily: configuration.currentFont,
+                                  height: 1.5,
+                                  color: themeColor.fgColor),
                             ),
                             TextSpan(
                               text: AppLocalizations.of(context)?.aboutp2 ?? '',
                               style: TextStyle(
-                                  height: 1.5, color: themeColor.fgColor),
+                                  fontFamily: configuration.currentFont,
+                                  height: 1.5,
+                                  color: themeColor.fgColor),
                             ),
                             TextSpan(
                               text: AppLocalizations.of(context)?.aboutp3 ?? '',
                               style: TextStyle(
-                                  height: 1.5, color: themeColor.fgColor),
+                                  fontFamily: configuration.currentFont,
+                                  height: 1.5,
+                                  color: themeColor.fgColor),
                             ),
                           ],
                         ),

@@ -27,6 +27,8 @@ class Task {
   int? notificationId;
   @HiveField(10)
   bool? showInToday;
+  @HiveField(11)
+  String? noteId;
 
   Task({
     this.id,
@@ -40,6 +42,7 @@ class Task {
     this.repeatType,
     this.notificationId,
     this.showInToday,
+    this.noteId,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
@@ -55,6 +58,7 @@ class Task {
         status: EnumToString.fromString(TaskStatus.values, json['status']),
         notificationId: json['notificationId'],
         showInToday: json['showInToday'],
+        noteId: json['noteId'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,5 +73,6 @@ class Task {
         'status': EnumToString.convertToString(status),
         'notificationId': notificationId,
         'showInToday': showInToday,
+        'noteId': noteId,
       };
 }

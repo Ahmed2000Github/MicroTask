@@ -28,13 +28,14 @@ class TaskAdapter extends TypeAdapter<Task> {
       repeatType: fields[8] as RepeatType?,
       notificationId: fields[9] as int?,
       showInToday: fields[10] as bool?,
+      noteId: fields[11] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Task obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class TaskAdapter extends TypeAdapter<Task> {
       ..writeByte(9)
       ..write(obj.notificationId)
       ..writeByte(10)
-      ..write(obj.showInToday);
+      ..write(obj.showInToday)
+      ..writeByte(11)
+      ..write(obj.noteId);
   }
 
   @override

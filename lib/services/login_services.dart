@@ -151,9 +151,3 @@ class LoginServices {
     return (profileBox.get(email) as Profile);
   }
 }
-
-// ahmedelrhaouti2000@gmail.com
-//    Ahmed
-//    El Rhaouti
-//    Ahmed2000
-//    password

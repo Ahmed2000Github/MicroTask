@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:microtask/models/category_model.dart';
+import 'package:microtask/models/note_model.dart';
+import 'package:microtask/models/task_model.dart';
 import 'package:microtask/pages/about_page.dart';
 import 'package:microtask/pages/add_category_page.dart';
+import 'package:microtask/pages/add_note_page.dart';
 import 'package:microtask/pages/add_task_page.dart';
 import 'package:microtask/pages/categories_page.dart';
 import 'package:microtask/pages/category_page.dart';
@@ -9,9 +12,12 @@ import 'package:microtask/pages/email_verify_reset_password_page.dart';
 import 'package:microtask/pages/get_started_page.dart';
 import 'package:microtask/pages/main_page.dart';
 import 'package:microtask/pages/login_page.dart';
+import 'package:microtask/pages/notes_page.dart';
 import 'package:microtask/pages/notification_page.dart';
 import 'package:microtask/pages/reminder_page.dart';
 import 'package:microtask/pages/reset_password_page.dart';
+import 'package:microtask/pages/show_note_page.dart';
+import 'package:microtask/pages/show_task_page.dart';
 import 'package:microtask/pages/signup1_page.dart';
 import 'package:microtask/pages/signup2_page.dart';
 import 'package:microtask/pages/task_page.dart';
@@ -28,8 +34,12 @@ const String mainPage = 'main';
 const String getStartPage = 'getStart';
 const String taskPage = 'task';
 const String aboutPage = 'about';
+const String notesPage = 'notes';
+const String addNotePage = 'addNote';
+const String notePage = 'note';
 const String todayPage = 'today';
 const String addTaskPage = 'addTask';
+const String showTaskPage = 'showTask';
 const String reminderPage = 'reminder';
 const String notificationPage = 'notification';
 const String categoryPage = 'category';
@@ -50,15 +60,11 @@ Route<dynamic> controller(RouteSettings settings) {
                 colletedData: settings.arguments as Map<String, dynamic>,
               )));
     case mainPage:
-      return MaterialPageRoute(
-          builder: ((context) => ShowCaseWidget(
-                builder: Builder(builder: (context) {
-                  return MainPage();
-                }),
-              )));
+      return MaterialPageRoute(builder: ((context) => MainPage()));
     case emailVerificationPage:
       return MaterialPageRoute(builder: ((context) => EmailVerificationPage()));
     case resetPasswordPage:
+      print('teseseeeses ');
       return MaterialPageRoute(
           builder: ((context) => ResetPasswordPage(
                 colletedData: settings.arguments as Map<String, dynamic>,
@@ -263,6 +269,70 @@ Route<dynamic> controller(RouteSettings settings) {
 
           return SlideTransition(
             position: offsetAnimation,
+            child: child,
+          );
+        },
+      );
+    case notesPage:
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return NotesPage(
+              rotate: settings.arguments as bool,
+            );
+          }),
+        ),
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+      );
+    case addNotePage:
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return AddNotePage(
+                data: (settings.arguments as Map<String, dynamic>));
+          }),
+        ),
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+      );
+    case notePage:
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return NotePage(data: (settings.arguments as Map<String, dynamic>));
+          }),
+        ),
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+      );
+    case showTaskPage:
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => ShowCaseWidget(
+          builder: Builder(builder: (context) {
+            return ShowTaskPage(
+                data: (settings.arguments as Map<String, dynamic>));
+          }),
+        ),
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: animation,
             child: child,
           );
         },

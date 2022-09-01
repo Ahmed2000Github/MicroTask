@@ -18,6 +18,7 @@ class TodayBloc extends Bloc<TodayEvent, TodayState> {
         try {
           yield TodayState(requestState: StateStatus.LOADING);
           final result = taskServices.getTodayTasks();
+
           result.sort((a, b) {
             if (b.status == TaskStatus.DONE) {
               return 1;

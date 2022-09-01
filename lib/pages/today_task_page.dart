@@ -14,9 +14,10 @@ import 'package:microtask/blocs/crud_task/crud_task_event.dart';
 import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
 import 'package:microtask/blocs/today/today_state.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
@@ -36,6 +37,7 @@ class TodayPage extends StatefulWidget {
 class _TodayPageState extends State<TodayPage>
     with SingleTickerProviderStateMixin {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final List<GlobalKey> _list = [
@@ -84,6 +86,7 @@ class _TodayPageState extends State<TodayPage>
                   children: [
                     DefaultTextStyle(
                       style: TextStyle(
+                        fontFamily: configuration.currentFont,
                         color: themeColor.fgColor,
                         letterSpacing: 3,
                         fontWeight: FontWeight.bold,
@@ -106,6 +109,7 @@ class _TodayPageState extends State<TodayPage>
                                   ?.tasks(state.todayTasks?.length as int) ??
                               '',
                           style: TextStyle(
+                            fontFamily: configuration.currentFont,
                             color: themeColor.primaryLightColor,
                             fontSize: 22,
                           ),
@@ -114,6 +118,7 @@ class _TodayPageState extends State<TodayPage>
                         return Text(
                           AppLocalizations.of(context)?.tasks(0) ?? '',
                           style: TextStyle(
+                            fontFamily: configuration.currentFont,
                             color: themeColor.primaryLightColor,
                             fontSize: 22,
                           ),
@@ -182,6 +187,7 @@ class _TodayPageState extends State<TodayPage>
             title: Text(
               "${task.title?.toUpperCase()}",
               style: TextStyle(
+                fontFamily: configuration.currentFont,
                 color: themeColor.primaryColor,
                 fontSize: 22,
               ),
@@ -197,6 +203,7 @@ class _TodayPageState extends State<TodayPage>
                   child: Text(
                     "         ${task.description}",
                     style: TextStyle(
+                      fontFamily: configuration.currentFont,
                       color: themeColor.fgColor,
                       fontSize: 20,
                     ),
@@ -234,6 +241,7 @@ class _TodayPageState extends State<TodayPage>
       trailing: Text(
         "${data['status']}",
         style: TextStyle(
+          fontFamily: configuration.currentFont,
           color: data['color'],
           fontSize: 18,
         ),
@@ -241,6 +249,7 @@ class _TodayPageState extends State<TodayPage>
       title: Text(
         "${DateFormat("HH:mm:ss").format(start)}",
         style: TextStyle(
+          fontFamily: configuration.currentFont,
           color: data['color'],
           fontSize: 18,
         ),
@@ -272,7 +281,9 @@ class _TodayPageState extends State<TodayPage>
             },
             child: Text(
               EnumTranslateServices.translateTaskStatus(context, item),
-              style: TextStyle(color: themeColor.fgColor),
+              style: TextStyle(
+                  fontFamily: configuration.currentFont,
+                  color: themeColor.fgColor),
             ),
             value: counter,
           ),

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/configuration.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 
 class NoDataFoundWidget extends StatelessWidget {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
 
   String text;
   double? imageSize;
@@ -37,6 +39,7 @@ class NoDataFoundWidget extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
+                fontFamily: configuration.currentFont,
                 color: textColor ?? themeColor.fgColor,
                 fontSize: textSize ?? 22,
               ),

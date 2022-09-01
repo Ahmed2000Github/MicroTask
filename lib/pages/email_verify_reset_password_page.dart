@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:microtask/widgets/custom_loading_progress.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   EmailVerificationPage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   dynamic _validationEmailMsg;
   TextEditingController emailController = TextEditingController();
   TextEditingController codeController = TextEditingController();
+  BuildContext? loadingContext;
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
 
   Widget _backButton() {
@@ -118,6 +120,39 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     );
   }
 
+  showProgressDialog() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: themeColor.drowerBgClor,
+              title: Text(
+                  AppLocalizations.of(_scaffoldKey.currentContext!)
+                          ?.verifYEmail ??
+                      '',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: themeColor.fgColor)),
+              content: Builder(
+                builder: (context) {
+                  loadingContext = context;
+
+                  var height = MediaQuery.of(context).size.height;
+                  var width = MediaQuery.of(context).size.width;
+
+                  return Container(
+                    height: height * .1,
+                    width: width * .9,
+                    child: Center(
+                        child: CustomLoadingProgress(
+                            color: themeColor.primaryColor, height: 22)),
+                  );
+                },
+              ),
+            ));
+  }
+
   Widget _submitButton() {
     return Row(
       children: [
@@ -128,8 +163,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             if (!_formKey.currentState!.validate()) {
               return;
             }
+            showProgressDialog();
             await validateEmail(emailController.text.trim());
-
+            Navigator.pop(loadingContext!);
             if (!_formKey.currentState!.validate()) {
               return;
             }
@@ -261,7 +297,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                                 print("valid  ");
                                 Navigator.pop(context);
                                 Navigator.pushNamed(
-                                    context, route.resetPasswordPage,
+                                    _scaffoldKey.currentContext!,
+                                    route.resetPasswordPage,
                                     arguments: collectedData);
                               },
                             ),

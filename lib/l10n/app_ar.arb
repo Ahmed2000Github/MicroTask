@@ -280,6 +280,75 @@
     "@addTaskdSN1":{ "placeholders": {
       "state": {}
     }},
+
+
+    "settingsFont":"الخط :  ",
+    "settingsFontd":"انقر هنا لتعديل خط التطبيق",
+    "settingsFontSN":"الخط الحالي الآن هو {font}",
+    "@settingsFontSN":{ "placeholders": {
+      "font": {}
+    }},
+    "settingsLang":"اللغة :  ",
+    "settingsLangd":"انقر هنا لتغيير اللغة",
+    "settingsLangSN":"اللغة الحالية هي {lang}",
+    "@settingsLangSN":{ "placeholders": {
+      "lang": {}
+    }},
+    "arLang":"العربية",
+    "esLang":"الإسبانية",
+    "enLang":"الإنجليزية",
+    "frLang":"الفرنسية",
+    "sysLang":"تلقائي (لغة النظام)",
+    "defaultFont":"تلقائي",
+
+
+    "notes":"ملاحظات",
+    "myNotes":"ملاحظاتي",
+    "youHave":"لديك ",
+    "note":" ملاحظة",
+    "noNoteFound":"لم يتم العثور على ملاحظة",
+    "notesd1":"تمنحك هذه الصفحة إمكانية إضافة ملاحظاتك وإدارتها",
+    "createNote":"إنشاء ملاحظة",
+    "updateNote":"تحديث ملاحظة",
+    "addNoteTitle":"أدخل ملاحظة العنوان",
+    "addNoteTitleP":"عنوان ...",
+    "addNoteTitleV1":"يجب ألا يكون العنوان فارغا",
+    "addNoteTitleV2":"يجب ألا يزيد العنوان عن 20 حرفا",
+    "addNoteDescription":"أدخل وصف الملاحظة",
+    "addNoteDescriptionP":"وصف ...",
+    "addNoteDescriptionV1":"يجب ألا يكون الوصف فارغا",
+    "noteNoTask":"لا توجد مهمة مقترنة",
+    "noteLinkedTask":"مهمة مرتبطة",
+
+
+    "taskDetails":"تفاصيل المهمة",
+    "taskName":"اسم : ",
+    "taskDescription":"وصف : ",
+    "taskCategory":"الفئة : ",
+    "taskReminder":"تذكير : ",
+    "taskStatus":"حالة : ",
+    "taskStartDate":"ابدأ من : ",
+    "taskEndDate":"تنتهي عند : ",
+    "taskShowInHome":"يظهر في الرئيسية : ",
+    "taskHasNote":"ملاحظه : ",
+    "taskNoNote":"لا يوجد",
+
+
+
+    "loading":"... جار تحميل",
+    "verifYEmail":"التحقق من البريد الإلكتروني   ...",
+
+
+
+     "addNoted1":"من هذه الصفحة يمكنك إضافة ملاحظة جديدة",
+    "addNoted2":"هنا يمكنك اختيار اسم أو عنوان لملاحظتك",
+    "addNoted3":"هنا يمكنك إدخال وصف ملاحظتك",
+    "addNoted4":"أخيرا ، انقر فوق هذا الزر لإضافة ملاحظة إليك",
+    "showNoted1":"تعرض لك هذه الصفحة تفاصيل الملاحظة",
+    "showNoted2":"هنا يمكنك المهمة المقترنة بهذه الملاحظة.\n إذا كانت موجودة يمكنك النقر فوقها إلى التفاصيل",
+
+
+
     
     "eRROR_INVALID_EMAIL":"يبدو أن عنوان بريدك الإلكتروني غير صالح.",
     "eRROR_WRONG_PASSWORD":"كلمة المرور الخاصة بك خاطئة.",

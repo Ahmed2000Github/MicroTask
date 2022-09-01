@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/blocs/category/category_bloc.dart';
 import 'package:microtask/blocs/category/category_event.dart';
@@ -17,7 +18,7 @@ import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
 import 'package:microtask/blocs/today/today_state.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/enums/task_enum.dart';
@@ -42,6 +43,7 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage>
     with SingleTickerProviderStateMixin {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
@@ -142,7 +144,9 @@ class _NotificationPageState extends State<NotificationPage>
                                 title: Text(
                                   AppLocalizations.of(context)?.title ?? '',
                                   style: TextStyle(
-                                      fontSize: 23, color: themeColor.fgColor),
+                                      fontFamily: configuration.currentFont,
+                                      fontSize: 23,
+                                      color: themeColor.fgColor),
                                 ),
                               ),
                               Padding(
@@ -153,6 +157,7 @@ class _NotificationPageState extends State<NotificationPage>
                                   child: Text(
                                     task?.title ?? '',
                                     style: TextStyle(
+                                        fontFamily: configuration.currentFont,
                                         fontSize: 18,
                                         color: themeColor.fgColor),
                                   ),
@@ -168,7 +173,9 @@ class _NotificationPageState extends State<NotificationPage>
                                   AppLocalizations.of(context)?.description ??
                                       '',
                                   style: TextStyle(
-                                      fontSize: 23, color: themeColor.fgColor),
+                                      fontFamily: configuration.currentFont,
+                                      fontSize: 23,
+                                      color: themeColor.fgColor),
                                 ),
                               ),
                               Padding(
@@ -183,6 +190,8 @@ class _NotificationPageState extends State<NotificationPage>
                                       child: Text(
                                         task?.description ?? '',
                                         style: TextStyle(
+                                            fontFamily:
+                                                configuration.currentFont,
                                             fontSize: 15,
                                             color: themeColor.fgColor),
                                       ),
@@ -199,7 +208,9 @@ class _NotificationPageState extends State<NotificationPage>
                                 title: Text(
                                   AppLocalizations.of(context)?.taskStart ?? '',
                                   style: TextStyle(
-                                      fontSize: 23, color: themeColor.fgColor),
+                                      fontFamily: configuration.currentFont,
+                                      fontSize: 23,
+                                      color: themeColor.fgColor),
                                 ),
                               ),
                               Padding(
@@ -214,6 +225,7 @@ class _NotificationPageState extends State<NotificationPage>
                                                     DateTime.now())) ??
                                         ''),
                                     style: TextStyle(
+                                        fontFamily: configuration.currentFont,
                                         fontSize: 18,
                                         color: themeColor.primaryColor),
                                   ),
@@ -327,18 +339,24 @@ class _NotificationPageState extends State<NotificationPage>
                                                               ?.displayName ??
                                                           '') ??
                                                   '',
-                                              style: const TextStyle(
+                                              style: TextStyle(
+                                                  fontFamily:
+                                                      configuration.currentFont,
                                                   height: 2,
                                                   fontSize: 23,
                                                   color: Colors.white),
                                             ),
-                                            Text(
-                                              AppLocalizations.of(context)
-                                                      ?.haveNewTask ??
-                                                  '',
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
+                                            FittedBox(
+                                              child: Text(
+                                                AppLocalizations.of(context)
+                                                        ?.haveNewTask ??
+                                                    '',
+                                                style: TextStyle(
+                                                    fontFamily: configuration
+                                                        .currentFont,
+                                                    fontSize: 20,
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                           ],
                                         ),

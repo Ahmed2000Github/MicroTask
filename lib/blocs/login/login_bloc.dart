@@ -17,51 +17,43 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ExceptionHandler get exceptionHandler => GetIt.I<ExceptionHandler>();
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    try {
-      switch (event.requestEvent) {
-        case LoginEventStatus.LOGIN:
-          yield LoginState(requestState: StateStatus.LOADING);
-          print('start');
-          try {
-            final result = await InternetAddress.lookup('google.com');
-            print(result.isNotEmpty && result[0].rawAddress.isNotEmpty);
-            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-              bool result = await loginServices.loginService(
-                  event.data?['email'].trim() ?? '',
-                  event.data?['password'] ?? '');
-              if (result) {
-                LoginServices.isEnterFromLogin = true;
-              }
+    switch (event.requestEvent) {
+      case LoginEventStatus.LOGIN:
+        yield LoginState(requestState: StateStatus.LOADING);
 
-              yield LoginState(requestState: StateStatus.LOADED);
+        try {
+          final result = await InternetAddress.lookup('google.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            bool result = await loginServices.loginService(
+                event.data?['email'].trim() ?? '',
+                event.data?['password'] ?? '');
+            if (result) {
+              LoginServices.isEnterFromLogin = true;
             }
-          } on SocketException catch (e) {
-            yield LoginState(
-                requestState: StateStatus.ERROR,
-                errorMessage: await exceptionHandler.handleSocketException(e));
-          } on FirebaseAuthException catch (e) {
-            yield LoginState(
-                requestState: StateStatus.ERROR,
-                errorMessage:
-                    await exceptionHandler.handleFirebaseAuthException(e));
-          } catch (e) {
-            print('errro $e');
-            yield LoginState(
-                requestState: StateStatus.ERROR,
-                errorMessage: await exceptionHandler.handleException(e));
+
+            yield LoginState(requestState: StateStatus.LOADED);
           }
+        } on SocketException catch (e) {
+          yield LoginState(
+              requestState: StateStatus.ERROR,
+              errorMessage: await exceptionHandler.handleSocketException(e));
+        } on FirebaseAuthException catch (e) {
+          var err = await exceptionHandler.handleFirebaseAuthException(e);
+          yield LoginState(requestState: StateStatus.ERROR, errorMessage: err);
+        } catch (e) {
+          yield LoginState(
+              requestState: StateStatus.ERROR,
+              errorMessage: await exceptionHandler.handleException(e));
+        }
 
-          break;
-        case LoginEventStatus.NONE:
-          yield LoginState(requestState: StateStatus.NONE);
+        break;
+      case LoginEventStatus.NONE:
+        yield LoginState(requestState: StateStatus.NONE);
 
-          break;
+        break;
 
-        default:
-          break;
-      }
-    } catch (e) {
-      yield LoginState(requestState: StateStatus.ERROR);
+      default:
+        break;
     }
   }
 }

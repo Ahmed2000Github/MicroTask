@@ -48,6 +48,7 @@ dependencies:
   flutter_bloc: ^7.0.1
   intl: ^0.17.0
   image_picker: ^0.8.5+3
+  file_picker: ^4.6.1
   mailer: ^5.2.0
   encrypt: ^5.0.1
   flutter_spinkit: ^5.1.0
@@ -109,10 +110,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Becky
+      fonts:
+        - asset: assets/fonts/becky.ttf
+    - family: ToThePoint
+      fonts:
+        - asset: assets/fonts/tothepoint.ttf
+    - family: Pixelletters
+      fonts:
+        - asset: assets/fonts/pixelletters.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

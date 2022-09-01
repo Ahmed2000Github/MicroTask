@@ -11,8 +11,9 @@ import 'package:microtask/blocs/logout/logout_bloc.dart';
 import 'package:microtask/blocs/profile/profile_bloc.dart';
 import 'package:microtask/blocs/profile/profile_event.dart';
 import 'package:microtask/blocs/profile/profile_state.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/gender_enum.dart';
 import 'package:microtask/enums/state_enum.dart';
@@ -29,6 +30,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final List<GlobalKey> _list = [
     GlobalKey(),
@@ -70,6 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text(
                 AppLocalizations.of(context)?.profile ?? '',
                 style: TextStyle(
+                  fontFamily: configuration.currentFont,
                   fontSize: 30,
                   color: themeColor.fgColor,
                 ),
@@ -106,6 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text(
                       state.messageError.toString(),
                       style: TextStyle(
+                        fontFamily: configuration.currentFont,
                         color: themeColor.errorColor,
                         fontSize: 23,
                       ),
@@ -134,6 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: Text(
                             "${user?.email}",
                             style: TextStyle(
+                              fontFamily: configuration.currentFont,
                               fontSize: 18,
                               color: themeColor.fgColor,
                             ),
@@ -151,6 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: Text(
                             "${(state.profile?.firstName ?? '') + " " + (state.profile?.lastName ?? '')}",
                             style: TextStyle(
+                              fontFamily: configuration.currentFont,
                               fontSize: 20,
                               color: themeColor.fgColor,
                             ),
@@ -171,6 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             EnumTranslateServices.translateGender(
                                 context, state.profile?.gender as Gender),
                             style: TextStyle(
+                              fontFamily: configuration.currentFont,
                               fontSize: 20,
                               color: themeColor.fgColor,
                             ),
@@ -188,6 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           title: Text(
                             "${DateFormat("dd - MM - yyyy").format(state.profile?.birthDay as DateTime)}",
                             style: TextStyle(
+                              fontFamily: configuration.currentFont,
                               fontSize: 20,
                               color: themeColor.fgColor,
                             ),
@@ -200,7 +208,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           onTap: () async {
                             context.read<LogoutBloc>().add(LogoutEvent.LOGOUT);
 
-                            Navigator.pushNamed(context, route.loginPage);
+                            Navigator.pushReplacementNamed(
+                                context, route.loginPage);
                           },
                           child: ListTile(
                             leading: Icon(
@@ -211,6 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             title: Text(
                               AppLocalizations.of(context)?.logout ?? '',
                               style: TextStyle(
+                                fontFamily: configuration.currentFont,
                                 fontSize: 20,
                                 color: themeColor.errorColor,
                               ),

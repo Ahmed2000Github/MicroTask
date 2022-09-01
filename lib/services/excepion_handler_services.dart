@@ -3,34 +3,38 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:microtask/configurations/configuration.dart';
 
 class ExceptionHandler {
-  Locale locale;
-
-  ExceptionHandler({required this.locale});
+  Configuration get configuration => GetIt.I<Configuration>();
   Future<String> handleFirebaseAuthException(FirebaseAuthException e) async {
-    String errormessage = '';
+    var locale = configuration.GetLocale();
+
     final app = await AppLocalizations.delegate.load(locale);
+    String errormessage = '';
+    print('errro ${e.code}');
     switch (e.code) {
-      case "ERROR_INVALID_EMAIL":
+      case "invalid-email":
         errormessage = app.eRROR_INVALID_EMAIL;
         break;
-      case "ERROR_WRONG_PASSWORD":
+      case "wrong-password":
         errormessage = app.eRROR_WRONG_PASSWORD;
         break;
-      case "ERROR_USER_NOT_FOUND":
+      case "user-not-found":
         errormessage = app.eRROR_USER_NOT_FOUND;
         break;
-      case "ERROR_USER_DISABLED":
+      case "user-disabled":
         errormessage = app.eRROR_USER_DISABLED;
         break;
-      case "ERROR_TOO_MANY_REQUESTS":
+      case "too-many-requests":
         errormessage = app.eRROR_TOO_MANY_REQUESTS;
         break;
-      case "ERROR_OPERATION_NOT_ALLOWED":
+      case "operation-not-allowed":
         errormessage = app.eRROR_OPERATION_NOT_ALLOWED;
         break;
-      case "ERROR_EMAIL_ALREADY_IN_USE":
+      case "email-already-in-use":
         errormessage = app.eRROR_EMAIL_ALREADY_IN_USE;
         break;
       default:
@@ -40,6 +44,8 @@ class ExceptionHandler {
   }
 
   Future<String> handleSocketException(SocketException e) async {
+    var locale = configuration.GetLocale();
+
     String errormessage = '';
     final app = await AppLocalizations.delegate.load(locale);
     errormessage = app.eRROR_No_CONNECTION;
@@ -48,6 +54,8 @@ class ExceptionHandler {
   }
 
   Future<String> handleException(e) async {
+    var locale = configuration.GetLocale();
+
     String errormessage = '';
     final app = await AppLocalizations.delegate.load(locale);
     errormessage = app.eRROR_UNDEFINED;

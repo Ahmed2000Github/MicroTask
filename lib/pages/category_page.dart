@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/category/category_bloc.dart';
 import 'package:microtask/blocs/category/category_state.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/category_model.dart';
 import 'package:microtask/widgets/custom_appbar_widget.dart';
@@ -24,6 +25,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final GlobalKey _first = GlobalKey();
@@ -136,6 +138,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                               ?.categoryStatus ??
                                           '',
                                       style: TextStyle(
+                                          fontFamily: configuration.currentFont,
                                           color: themeColor.fgColor,
                                           fontSize: 21),
                                     ),
@@ -184,6 +187,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                                       ?.categoryAddTask ??
                                                   '',
                                               style: TextStyle(
+                                                  fontFamily:
+                                                      configuration.currentFont,
                                                   color:
                                                       themeColor.primaryColor,
                                                   fontSize: 21),
@@ -230,7 +235,9 @@ class _CategoryPageState extends State<CategoryPage> {
                       child: SingleChildScrollView(
                         child: Text('        ' + widget.category.description!,
                             style: TextStyle(
-                                fontSize: 20, color: themeColor.fgColor)),
+                                fontFamily: configuration.currentFont,
+                                fontSize: 20,
+                                color: themeColor.fgColor)),
                       ),
                     ),
                   ),
@@ -251,11 +258,14 @@ class _CategoryPageState extends State<CategoryPage> {
                                     ?.categoryTotalTask ??
                                 '',
                             style: TextStyle(
-                                fontSize: 21, color: themeColor.fgColor),
+                                fontFamily: configuration.currentFont,
+                                fontSize: 21,
+                                color: themeColor.fgColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: widget.category.numberTask.toString(),
                                   style: TextStyle(
+                                      fontFamily: configuration.currentFont,
                                       fontSize: 21,
                                       color: themeColor.secondaryColor)),
                             ],
@@ -281,12 +291,15 @@ class _CategoryPageState extends State<CategoryPage> {
                                     ?.categoryTotalDoneTask ??
                                 '',
                             style: TextStyle(
-                                fontSize: 21, color: themeColor.fgColor),
+                                fontFamily: configuration.currentFont,
+                                fontSize: 21,
+                                color: themeColor.fgColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text:
                                       widget.category.numberTaskDone.toString(),
                                   style: TextStyle(
+                                      fontFamily: configuration.currentFont,
                                       fontSize: 21,
                                       color: themeColor.secondaryColor)),
                             ],
@@ -312,13 +325,16 @@ class _CategoryPageState extends State<CategoryPage> {
                                     ?.categoryTotalUndoneTask ??
                                 '',
                             style: TextStyle(
-                                fontSize: 21, color: themeColor.fgColor),
+                                fontFamily: configuration.currentFont,
+                                fontSize: 21,
+                                color: themeColor.fgColor),
                             children: <TextSpan>[
                               TextSpan(
                                   text: (widget.category.numberTask! -
                                           widget.category.numberTaskDone!)
                                       .toString(),
                                   style: TextStyle(
+                                      fontFamily: configuration.currentFont,
                                       fontSize: 21,
                                       color: themeColor.secondaryColor)),
                             ],

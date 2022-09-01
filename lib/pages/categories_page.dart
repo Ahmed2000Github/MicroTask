@@ -10,9 +10,10 @@ import 'package:microtask/blocs/crud_category/crud_category_bloc.dart';
 import 'package:microtask/blocs/crud_category/crud_category_event.dart';
 import 'package:microtask/blocs/today/today_bloc.dart';
 import 'package:microtask/blocs/today/today_event.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/widgets/custom_appbar_widget.dart';
@@ -28,6 +29,7 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final GlobalKey _first = GlobalKey();
@@ -110,11 +112,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                       ?.categoriesTotal ??
                                   '',
                               style: TextStyle(
-                                  fontSize: 21, color: themeColor.fgColor),
+                                  fontFamily: configuration.currentFont,
+                                  fontSize: 21,
+                                  color: themeColor.fgColor),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: (state.categories?.length).toString(),
                                     style: TextStyle(
+                                        fontFamily: configuration.currentFont,
                                         fontSize: 21,
                                         color: themeColor.secondaryColor)),
                               ],
@@ -172,6 +177,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                           children: [
                                             Text(category?.name as String,
                                                 style: TextStyle(
+                                                    fontFamily: configuration
+                                                        .currentFont,
                                                     fontSize: 28,
                                                     fontWeight: FontWeight.w500,
                                                     color: themeColor.fgColor)),

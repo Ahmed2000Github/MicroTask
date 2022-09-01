@@ -284,6 +284,79 @@
       "state": {}
     }},
 
+
+
+
+
+    "settingsFont":"Font :  ",
+    "settingsFontd":"Click here to edit app font",
+    "settingsFontSN":"The current font now is {font}",
+    "@settingsFontSN":{ "placeholders": {
+      "font": {}
+    }},
+    "settingsLang":"Language :  ",
+    "settingsLangd":"Click here to change language",
+    "settingsLangSN":"The current language is {lang}",
+    "@settingsLangSN":{ "placeholders": {
+      "lang": {}
+    }},
+    "arLang":"Arabic",
+    "esLang":"Spanish",
+    "enLang":"English",
+    "frLang":"French",
+    "sysLang":"Auto (System Language)",
+    "defaultFont":"Default",
+
+
+
+    "notes":"Notes",
+    "myNotes":"My Notes",
+    "youHave":"You have ",
+    "note":" note",
+    "noNoteFound":"No note Found",
+    "notesd1":"This page give you the possibility add and manage your notes",
+    "createNote":"Create Note",
+    "updateNote":"Update Note",
+    "addNoteTitle":"Enter the title note",
+    "addNoteTitleP":"Title ...",
+    "addNoteTitleV1":"the title should not be empty",
+    "addNoteTitleV2":"the title should not be more than 20 characters",
+    "addNoteDescription":"Enter the description of note",
+    "addNoteDescriptionP":"Description ...",
+    "addNoteDescriptionV1":"the description should not be empty",
+    "noteNoTask":"No associated task",
+    "noteLinkedTask":"Linked task",
+
+
+
+    "taskDetails":"Task details",
+    "taskName":"Name : ",
+    "taskDescription":"Description : ",
+    "taskCategory":"Category : ",
+    "taskReminder":"Reminder : ",
+    "taskStatus":"Status : ",
+    "taskStartDate":"Start at : ",
+    "taskEndDate":"End at : ",
+    "taskShowInHome":"Shown in home : ",
+    "taskHasNote":"Note : ",
+    "taskNoNote":"Not found",
+
+
+    "loading":"Loading ...",
+    "verifYEmail":"Verify email ...",
+
+
+
+    "addNoted1":"From this page you can add a new note",
+    "addNoted2":"Here you can choose a name or title for your note",
+    "addNoted3":"Here you can enter the description for your note",
+    "addNoted4":"Finally click this button to add you note",
+    "showNoted1":"This page show you the details of note",
+    "showNoted2":"Here you can the associated task to this note.\n if exist you can click it to the details",
+
+
+
+
     "eRROR_INVALID_EMAIL":"Your email address appears to be malformed.",
     "eRROR_WRONG_PASSWORD":"Your password is wrong.",
     "eRROR_USER_NOT_FOUND":"User with this email doesn't exist.",

@@ -6,7 +6,7 @@ import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/login_state.dart';
 import 'package:microtask/blocs/login/rest_password_bloc.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/services/validation_services.dart';
@@ -292,7 +292,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   }
 
   void _goToHomePage() {
-    Future.delayed(const Duration(microseconds: 400), () {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       Navigator.pushNamed(context, route.mainPage);
     });
   }

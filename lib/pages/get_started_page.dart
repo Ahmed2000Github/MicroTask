@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:microtask/configurations/route.dart' as route;
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GetStartedPage extends StatelessWidget {
@@ -59,7 +59,7 @@ class GetStartedPage extends StatelessWidget {
             width: width * .8,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, route.mainPage);
+                Navigator.pushReplacementNamed(context, route.mainPage);
               },
               child: Card(
                 elevation: 4,

@@ -4,12 +4,13 @@ import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/login/login_bloc.dart';
 import 'package:microtask/blocs/login/login_event.dart';
 import 'package:microtask/blocs/login/signup_bloc.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:microtask/widgets/custom_loading_progress.dart';
 
 class Signup1Page extends StatefulWidget {
   const Signup1Page({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _Signup1PageState extends State<Signup1Page> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   dynamic _validationUserMsg;
   dynamic _validationEmailMsg;
+  BuildContext? loadingContext;
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -144,6 +146,39 @@ class _Signup1PageState extends State<Signup1Page> {
     );
   }
 
+  showProgressDialog() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: themeColor.drowerBgClor,
+              title: Text(
+                  AppLocalizations.of(_scaffoldKey.currentContext!)
+                          ?.verifYEmail ??
+                      '',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: themeColor.fgColor)),
+              content: Builder(
+                builder: (context) {
+                  loadingContext = context;
+
+                  var height = MediaQuery.of(context).size.height;
+                  var width = MediaQuery.of(context).size.width;
+
+                  return Container(
+                    height: height * .1,
+                    width: width * .9,
+                    child: Center(
+                        child: CustomLoadingProgress(
+                            color: themeColor.primaryColor, height: 22)),
+                  );
+                },
+              ),
+            ));
+  }
+
   Widget _submitButton() {
     return Row(
       children: [
@@ -156,11 +191,14 @@ class _Signup1PageState extends State<Signup1Page> {
             if (!_formKey.currentState!.validate()) {
               return;
             }
+            showProgressDialog();
             await validateEmail(emailController.text.trim());
             await validateUsername(usernameController.text.trim());
+            Navigator.pop(loadingContext!);
             if (!_formKey.currentState!.validate()) {
               return;
             }
+
             final collectedData = {
               'email': emailController.text.trim(),
               'firstName': firstNameController.text.trim(),

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:microtask/blocs/profile/profile_bloc.dart';
 import 'package:microtask/blocs/profile/profile_state.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/state_enum.dart';
 
 class ProfileImageWidget extends StatelessWidget {
@@ -29,11 +29,13 @@ class ProfileImageWidget extends StatelessWidget {
                   ? Image.memory(
                       (base64Decode(state.profile?.image as String)),
                       width: size,
+                      height: size,
                       fit: BoxFit.cover,
                     )
                   : Image.asset(
                       "assets/images/picture.jpg",
                       width: size,
+                      height: size,
                       fit: BoxFit.cover,
                     )),
         );

@@ -24,9 +24,13 @@ class SyncBloc extends Bloc<SyncEvent, StateStatus> {
         }
 
         break;
+      case SyncEvent.NONE:
+        yield StateStatus.NONE;
+        break;
       case SyncEvent.SYNCLOGIN:
         try {
           yield StateStatus.LOADING;
+          print('new request');
           await syncServices.synchronizeFromCloud();
           taskServices.resetNotification();
           yield StateStatus.LOADED;
@@ -41,4 +45,4 @@ class SyncBloc extends Bloc<SyncEvent, StateStatus> {
   }
 }
 
-enum SyncEvent { SYNC, SYNCLOGIN }
+enum SyncEvent { SYNC, SYNCLOGIN, NONE }

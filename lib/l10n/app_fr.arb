@@ -50,7 +50,7 @@
     "notificationSound":" son des notifications",
     "serverStorage":"Stockage sur serveur",
     "autoSynchronization":" synchronisation automatique",
-    "synchronizeServer":"Cette page permet de définir votre application",
+    "synchronizeServer":"Synchroniser les données avec le serveur",
     "settingsd1":"Cette page permet de définir votre application",
     "settingsd2":"Ici, vous pouvez changer le thème de l’application",
     "settingsd3":"Ici, vous pouvez définir l’heure entre l’heure de début de la tâche et l’exécution du rappel",
@@ -65,7 +65,7 @@
     "male":"Mâle",
     "female":"Femelle",
     "profile":"Profil",
-    "logout":"Se déconnexion",
+    "logout":"Se déconnecter",
     "profiled1":"Cette page vous donne des informations sur votre profil",
 
 
@@ -285,8 +285,79 @@
     }},
 
 
+    "settingsFont":"Police :  ",
+    "settingsFontd":"Cliquez ici pour modifier la police de l’application",
+    "settingsFontSN":"La police actuelle est maintenant {font}",
+    "@settingsFontSN":{ "placeholders": {
+      "font": {}
+    }},
+    "settingsLang":"Langue :  ",
+    "settingsLangd":"Cliquez ici pour changer de langue",
+    "settingsLangSN":"La langue actuelle est {lang}",
+    "@settingsLangSN":{ "placeholders": {
+      "lang": {}
+    }},
+    "arLang":"Arabe",
+    "esLang":"Espagnol",
+    "enLang":"Anglais",
+    "frLang":"Français",
+    "sysLang":"Auto (langue système)",
+   "defaultFont":"valeur par défaut",
 
-     "eRROR_INVALID_EMAIL":"Votre adresse e-mail semble mal formée.",
+
+
+    "notes":"Notes",
+    "myNotes":"Mes notes",
+    "youHave":"Vous avez ",
+    "note":" note",
+    "noNoteFound":"Aucune note trouvée",
+    "notesd1":"Cette page vous donne la possibilité d’ajouter et de gérer vos notes",
+    "createNote":"Créer une note",
+    "updateNote":"Note de mise à jour",
+    "addNoteTitle":"Entrez la note de titre",
+    "addNoteTitleP":"Titre ...",
+    "addNoteTitleV1":"le titre ne doit pas être vide",
+    "addNoteTitleV2":"le titre ne doit pas comporter plus de 20 caractères",
+    "addNoteDescription":"Entrez la description de la note",
+    "addNoteDescriptionP":"Description ...",
+    "addNoteDescriptionV1":"la description ne doit pas être vide",
+    "noteNoTask":"Aucune tâche associée",
+    "noteLinkedTask":"Tâche liée",
+
+
+
+    "taskDetails":"Détails de la tâche",
+    "taskName":"Nom : ",
+    "taskDescription":"Description : ",
+    "taskCategory":"Catégorie : ",
+    "taskReminder":"Rappel : ",
+    "taskStatus":"Statut : ",
+    "taskStartDate":"Commencez à : ",
+    "taskEndDate":"Se terminer à : ",
+    "taskShowInHome":"Montré à la maison : ",
+    "taskHasNote":"Note : ",
+
+
+    "loading":"Chargement ...",
+    "verifYEmail":"Vérifier l’e-mail ...",
+    "taskNoNote":"Introuvable",
+
+
+
+
+
+     "addNoted1":"À partir de cette page, vous pouvez ajouter une nouvelle note",
+    "addNoted2":"Ici, vous pouvez choisir un nom ou un titre pour votre note",
+    "addNoted3":"Ici, vous pouvez entrer la description de votre note",
+    "addNoted4":"Enfin, cliquez sur ce bouton pour ajouter votre note",
+    "showNoted1":"Cette page vous montre les détails de la note",
+    "showNoted2":"Ici, vous pouvez la tâche associée à cette note.\n si elle existe, vous pouvez cliquer dessus pour accéder aux détails",
+
+
+
+
+
+    "eRROR_INVALID_EMAIL":"Votre adresse e-mail semble mal formée.",
     "eRROR_WRONG_PASSWORD":"Votre mot de passe est erroné.",
     "eRROR_USER_NOT_FOUND":"L’utilisateur avec cet e-mail n’existe pas.",
     "eRROR_USER_DISABLED":"L’utilisateur avec cet e-mail a été désactivé.",

@@ -32,6 +32,7 @@ class ResetPasswordBloc extends Bloc<LoginEvent, LoginState> {
             if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
               bool result = await loginServices.resetPassword(
                   event.data?['email'].trim(), event.data?['password']);
+              LoginServices.isEnterFromLogin = true;
               yield LoginState(requestState: StateStatus.LOADED);
             }
           } on SocketException catch (e) {

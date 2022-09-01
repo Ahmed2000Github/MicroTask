@@ -59,16 +59,37 @@ class TaskServices {
   List<Task> getTasks(DateTime? date, TaskStatus status, String categoryId) {
     List<Task> list = [];
     Task? task;
+    bool isAdded = false;
     for (var i = 0; i < box.length; i++) {
       task = (box.getAt(i) as Task);
-
+      isAdded = false;
       if (DateFormat('yyyy-MM-dd').format(date!) ==
               DateFormat('yyyy-MM-dd').format(task.startDateTime!) &&
           status == task.status &&
           categoryId == task.categoryId) {
         list.add(task);
+        isAdded = true;
+      }
+      if (status == TaskStatus.TODO &&
+          task.status == TaskStatus.TODO &&
+          categoryId == task.categoryId &&
+          !isAdded) {
+        if (task.repeatType == RepeatType.Daily) {
+          list.add(task);
+        } else if (task.repeatType == RepeatType.Weekly &&
+            task.startDateTime?.weekday == date.weekday) {
+          list.add(task);
+        } else if (task.repeatType == RepeatType.Monthly &&
+            task.startDateTime?.day == date.day) {
+          list.add(task);
+        } else if (task.repeatType == RepeatType.Daily &&
+            task.startDateTime?.day == date.day &&
+            task.startDateTime?.month == date.month) {
+          list.add(task);
+        }
       }
     }
+
     return list;
   }
 
@@ -125,14 +146,12 @@ class TaskServices {
   }
 
   void resetNotification() {
-    print('resetettet');
     for (var i = 0; i < box.length; i++) {
       var task = box.getAt(i) as Task;
       if (task.reminder! &&
           task.status == TaskStatus.TODO &&
           task.repeatType != null &&
           task.startDateTime?.compareTo(DateTime.now()) as int >= 0) {
-        print('resetettet');
         _setNotifiations(task);
       }
     }
@@ -189,5 +208,9 @@ class TaskServices {
         break;
       default:
     }
+  }
+
+  Task getTaskById(String taskId) {
+    return box.get(taskId) as Task;
   }
 }

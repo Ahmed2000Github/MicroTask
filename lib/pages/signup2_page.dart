@@ -17,7 +17,7 @@ import 'package:microtask/pages/main_page.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:microtask/pages/login_page.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/services/validation_services.dart';
 import 'package:microtask/widgets/custom_clipper.dart';
 import 'package:microtask/widgets/custom_snakbar_widget.dart';
@@ -171,10 +171,6 @@ class _Signup2PageState extends State<Signup2Page> {
               'username': widget.colletedData['username'],
               'firstName': widget.colletedData['firstName'],
               'lastName': widget.colletedData['lastName'],
-              // 'email': "Example@gmail.com",
-              // 'username': "username",
-              // 'firstName': 'firstName',
-              // 'lastName': 'lastName',
             };
             context.read<SingupBloc>().add(LoginEvent(
                 requestEvent: LoginEventStatus.REGISTER, data: addedData));
@@ -533,6 +529,9 @@ class _Signup2PageState extends State<Signup2Page> {
 
   void _goToHomePage() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
+      context
+          .read<SingupBloc>()
+          .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
       Navigator.pushNamed(context, route.getStartPage);
     });
   }

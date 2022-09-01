@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
@@ -10,7 +11,7 @@ import 'package:microtask/blocs/login/login_state.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/pages/signup1_page.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/pages/signup2_page.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/services/validation_services.dart';
@@ -32,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+
+  bool isShown = false;
 
   Widget _backButton() {
     return InkWell(
@@ -136,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         if (!_formKey.currentState!.validate()) {
           return;
         }
+        isShown = false;
         context.read<LoginBloc>().add(LoginEvent(
                 requestEvent: LoginEventStatus.LOGIN,
                 data: {
@@ -210,12 +214,16 @@ class _LoginPageState extends State<LoginPage> {
                     lineWidth: 5, color: themeColor.primaryColor)),
           );
         case StateStatus.ERROR:
-          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-            CustomSnakbarWidget(context: context, color: themeColor.errorColor)
-                .show(state.errorMessage!);
-            context
-                .read<LoginBloc>()
-                .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+          SchedulerBinding.instance?.addPostFrameCallback((_) {
+            if (!isShown) {
+              isShown = true;
+              CustomSnakbarWidget(
+                      context: context, color: themeColor.errorColor)
+                  .show(state.errorMessage!);
+              context
+                  .read<LoginBloc>()
+                  .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
+            }
           });
           break;
         case StateStatus.LOADED:

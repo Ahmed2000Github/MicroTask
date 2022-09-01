@@ -6,8 +6,9 @@ import 'package:microtask/blocs/category/category_event.dart';
 import 'package:microtask/blocs/crud_category/crud_category_bloc.dart';
 import 'package:microtask/blocs/crud_category/crud_category_event.dart';
 import 'package:microtask/blocs/crud_category/crud_category_state.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
@@ -32,6 +33,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
 
+  Configuration get configuration => GetIt.I<Configuration>();
   TextEditingController nameController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
@@ -60,7 +62,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   //  {
   Widget _titleField() {
     return TextFormField(
-      style: TextStyle(color: themeColor.fgColor, fontSize: 20),
+      style: TextStyle(
+          fontFamily: configuration.currentFont,
+          color: themeColor.fgColor,
+          fontSize: 20),
       controller: nameController,
       decoration: InputDecoration(
           labelText: AppLocalizations.of(context)?.addCategoryName ?? '',
@@ -75,10 +80,14 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(color: themeColor.primaryColor, width: 2.0),
           ),
-          labelStyle: TextStyle(color: themeColor.fgColor.withOpacity(.6)),
+          labelStyle: TextStyle(
+              fontFamily: configuration.currentFont,
+              color: themeColor.fgColor.withOpacity(.6)),
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
-              color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
+              fontFamily: configuration.currentFont,
+              color: themeColor.fgColor.withOpacity(.5),
+              fontSize: 20),
           hintText: AppLocalizations.of(context)?.addCategoryNameP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
@@ -99,7 +108,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       minLines: 1,
       maxLines: 5,
       keyboardType: TextInputType.multiline,
-      style: TextStyle(color: themeColor.fgColor, fontSize: 20),
+      style: TextStyle(
+          fontFamily: configuration.currentFont,
+          color: themeColor.fgColor,
+          fontSize: 20),
       controller: descriptionController,
       decoration: InputDecoration(
           labelText: AppLocalizations.of(context)?.addCategoryDescription ?? '',
@@ -116,10 +128,14 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             borderRadius: BorderRadius.circular(5.0),
             borderSide: BorderSide(color: themeColor.primaryColor, width: 2.0),
           ),
-          labelStyle: TextStyle(color: themeColor.fgColor.withOpacity(.6)),
+          labelStyle: TextStyle(
+              fontFamily: configuration.currentFont,
+              color: themeColor.fgColor.withOpacity(.6)),
           floatingLabelAlignment: FloatingLabelAlignment.start,
           hintStyle: TextStyle(
-              color: themeColor.fgColor.withOpacity(.5), fontSize: 20),
+              fontFamily: configuration.currentFont,
+              color: themeColor.fgColor.withOpacity(.5),
+              fontSize: 20),
           hintText: AppLocalizations.of(context)?.addCategoryDescriptionP ?? '',
           // fillColor: themeColor.inputbgColor,
           filled: true),
@@ -162,6 +178,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                         '') +
                                 (AppLocalizations.of(context)?.category ?? ''),
                             style: TextStyle(
+                                fontFamily: configuration.currentFont,
                                 fontSize: 32,
                                 fontWeight: FontWeight.w500,
                                 color: themeColor.fgColor)),
@@ -174,6 +191,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                 : AppLocalizations.of(context)?.updateExist ??
                                     ''),
                             style: TextStyle(
+                                fontFamily: configuration.currentFont,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: themeColor.fgColor)),
@@ -191,12 +209,13 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                   builder: (context, state) {
                             switch (state.requestState) {
                               case StateStatus.LOADED:
-                                WidgetsBinding.instance
-                                    ?.addPostFrameCallback((_) {
+                                WidgetsBinding.instance!
+                                    .addPostFrameCallback((_) {
+                                  print('object');
                                   Navigator.pop(context);
                                 });
-                                WidgetsBinding.instance
-                                    ?.addPostFrameCallback((_) {
+                                WidgetsBinding.instance!
+                                    .addPostFrameCallback((_) {
                                   setState(() {
                                     widget.category = null;
                                   });
@@ -213,8 +232,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                     color: themeColor.primaryColor,
                                     height: height * .8);
                               case StateStatus.ERROR:
-                                WidgetsBinding.instance
-                                    ?.addPostFrameCallback((_) {
+                                WidgetsBinding.instance!
+                                    .addPostFrameCallback((_) {
                                   CustomSnakbarWidget(
                                           context: context,
                                           color: themeColor.errorColor)
@@ -230,6 +249,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Showcase(
+                                        showcaseBackgroundColor:
+                                            themeColor.drowerLightBgClor,
+                                        textColor: themeColor.fgColor,
                                         key: _first,
                                         description:
                                             AppLocalizations.of(context)
@@ -240,6 +262,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                       height: height * .08,
                                     ),
                                     Showcase(
+                                        showcaseBackgroundColor:
+                                            themeColor.drowerLightBgClor,
+                                        textColor: themeColor.fgColor,
                                         key: _second,
                                         description:
                                             AppLocalizations.of(context)
@@ -252,6 +277,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                     GestureDetector(
                                       onTap: handleRequest,
                                       child: Showcase(
+                                        showcaseBackgroundColor:
+                                            themeColor.drowerLightBgClor,
+                                        textColor: themeColor.fgColor,
                                         key: _thirth,
                                         description:
                                             AppLocalizations.of(context)
@@ -274,6 +302,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                                           ?.update ??
                                                       ''),
                                               style: TextStyle(
+                                                  fontFamily:
+                                                      configuration.currentFont,
                                                   letterSpacing: 2,
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.w500,

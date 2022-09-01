@@ -14,6 +14,7 @@ class ShowCaseConfig {
   bool isLunched(String key) {
     if (LoginServices.isEnterFromLogin) {
       box.put('isloged', true);
+      return false;
     }
     if (box.get('isloged') as bool) {
       return false;

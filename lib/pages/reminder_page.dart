@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:microtask/configurations/configuration.dart';
 import 'package:microtask/configurations/route.dart' as route;
 import 'package:microtask/blocs/crud_task/crud_task_bloc.dart';
 import 'package:microtask/blocs/crud_task/crud_task_event.dart';
@@ -13,7 +14,7 @@ import 'package:microtask/blocs/reminder/reminder_bloc.dart';
 import 'package:microtask/blocs/reminder/reminder_event.dart';
 import 'package:microtask/blocs/reminder/reminder_state.dart';
 import 'package:microtask/configurations/show_case_config.dart';
-import 'package:microtask/configurations/theme_color_services.dart';
+import 'package:microtask/configurations/theme_colors_config.dart';
 import 'package:microtask/enums/event_state.dart';
 import 'package:microtask/enums/state_enum.dart';
 import 'package:microtask/models/task_model.dart';
@@ -29,6 +30,7 @@ class ReminderPage extends StatefulWidget {
 
 class _ReminderPageState extends State<ReminderPage> {
   ThemeColor get themeColor => GetIt.I<ThemeColor>();
+  Configuration get configuration => GetIt.I<Configuration>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ShowCaseConfig get showCaseConfig => GetIt.I<ShowCaseConfig>();
   final List<GlobalKey> _list = [
@@ -111,6 +113,7 @@ class _ReminderPageState extends State<ReminderPage> {
                         ),
                         child: Text(AppLocalizations.of(context)?.today ?? '',
                             style: TextStyle(
+                                fontFamily: configuration.currentFont,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                                 color: currenIndex == 0
@@ -135,6 +138,7 @@ class _ReminderPageState extends State<ReminderPage> {
                         child: Text(
                             AppLocalizations.of(context)?.incoming ?? '',
                             style: TextStyle(
+                                fontFamily: configuration.currentFont,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                                 color: currenIndex == 1
@@ -236,12 +240,16 @@ class _ReminderPageState extends State<ReminderPage> {
                                     children: [
                                       Text(task?.title ?? '',
                                           style: TextStyle(
+                                              fontFamily:
+                                                  configuration.currentFont,
                                               fontSize: 25,
                                               fontWeight: FontWeight.w500,
                                               color: themeColor.fgColor)),
                                       Text(
                                           'Start at : ${DateFormat("yyyy MM dd hh:mm:ss").format(task?.startDateTime as DateTime)}',
                                           style: TextStyle(
+                                              fontFamily:
+                                                  configuration.currentFont,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                               color: themeColor.primaryColor)),

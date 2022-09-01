@@ -284,6 +284,74 @@
       "state": {}
     }},
 
+
+     "settingsFont":"Font :  ",
+    "settingsFontd":"Haga clic aquí para editar la fuente de la aplicación",
+    "settingsFontSN":"La fuente actual ahora es {font}",
+    "@settingsFontSN":{ "placeholders": {
+      "font": {}
+    }},
+    "settingsLang":"Idioma :  ",
+    "settingsLangd":"Haga clic aquí para cambiar el idioma",
+    "settingsLangSN":"El idioma actual es {lang}",
+    "@settingsLangSN":{ "placeholders": {
+      "lang": {}
+    }},
+    "arLang":"Árabe",
+    "esLang":"Español",
+    "enLang":"Inglés",
+    "frLang":"Francés",
+    "sysLang":"Auto (idioma del sistema)",
+    "defaultFont":"predeterminado",
+    
+
+    "notes":"Notas",
+    "myNotes":"Mis notas",
+    "youHave":"Tienes ",
+    "note":" nota",
+    "noNoteFound":"No se ha encontrado ninguna nota",
+    "notesd1":"Esta página te da la posibilidad de añadir y gestionar tus notas",
+    "createNote":"Crear nota",
+    "updateNote":"Nota de actualización",
+    "addNoteTitle":"Introduzca la nota de título",
+    "addNoteTitleP":"Título ...",
+    "addNoteTitleV1":"El título no debe estar vacío",
+    "addNoteTitleV2":"El título no debe tener más de 20 caracteres",
+    "addNoteDescription":"Introduzca la descripción de la nota",
+    "addNoteDescriptionP":"Descripción ...",
+    "addNoteDescriptionV1":"La descripción no debe estar vacía",
+    "noteNoTask":"Sin tarea asociada",
+    "noteLinkedTask":"Tarea vinculada",
+
+
+     "taskDetails":"Detalles de la tarea",
+    "taskName":"Nombre : ",
+    "taskDescription":"Descripción : ",
+    "taskCategory":"Categoría : ",
+    "taskReminder":"Recordatorio : ",
+    "taskStatus":"Estado : ",
+    "taskStartDate":"Empieza por : ",
+    "taskEndDate":"Termina en : ",
+    "taskShowInHome":"Mostrado en casa : ",
+    "taskHasNote":"Nota : ",
+    "taskNoNote":"No encontrado",
+    
+
+
+    "loading":"Carga ...",
+    "verifYEmail":"Verificar correo electrónico ...",
+
+
+     "addNoted1":"Desde esta página puedes añadir una nueva nota",
+    "addNoted2":"Aquí puede elegir un nombre o título para su nota",
+    "addNoted3":"Aquí puede ingresar la descripción de su nota",
+    "addNoted4":"Finalmente haga clic en este botón para agregar su nota",
+    "showNoted1":"Esta página le muestra los detalles de la nota",
+    "showNoted2":"Aquí puede la tarea asociada a esta nota.\n si existe, puede hacer clic en ella para obtener los detalles",
+
+
+
+
     "eRROR_INVALID_EMAIL":"Su dirección de correo electrónico parece estar mal formada.",
     "eRROR_WRONG_PASSWORD":"Su contraseña es incorrecta.",
     "eRROR_USER_NOT_FOUND":"El usuario con este correo electrónico no existe.",
