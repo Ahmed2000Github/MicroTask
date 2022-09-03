@@ -27,6 +27,7 @@ class NoDataFoundWidget extends StatelessWidget {
         opacity: .8,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               "assets/images/Error.png",
@@ -38,6 +39,7 @@ class NoDataFoundWidget extends StatelessWidget {
             ),
             Text(
               text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: configuration.currentFont,
                 color: textColor ?? themeColor.fgColor,

@@ -62,9 +62,10 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     isFirstTime = true;
-    isFirstTime2 = true;
+    isFirstTime2 = false;
+
     user = FirebaseAuth.instance.currentUser;
-    // context.read<SyncBloc>().add(SyncEvent.NONE);
+    context.read<SyncBloc>().add(SyncEvent.NONE);
     context.read<HomeBloc>().add(HomeEvent.HOME);
     context
         .read<LoginBloc>()
@@ -163,7 +164,6 @@ class _MainPageState extends State<MainPage> {
                       AppLocalizations.of(_scaffoldKey.currentContext!)?.ok ??
                           ''),
                   onPressed: () {
-                    print("data");
                     Navigator.pop(context, true);
                   },
                 ),
@@ -461,10 +461,13 @@ class _MainPageState extends State<MainPage> {
 
               break;
             case StateStatus.LOADING:
-              isFirstTime2 = true;
-              SchedulerBinding.instance?.addPostFrameCallback((_) {
-                showProgressDialog();
-              });
+              if (!isFirstTime2!) {
+                isFirstTime2 = true;
+                SchedulerBinding.instance?.addPostFrameCallback((_) {
+                  showProgressDialog();
+                });
+              }
+
               break;
             case StateStatus.ERROR:
               SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -475,7 +478,7 @@ class _MainPageState extends State<MainPage> {
               });
               break;
             case StateStatus.LOADED:
-              if (isFirstTime2!) {
+              if (isFirstTime2! && loadingContext != null) {
                 isFirstTime2 = false;
                 SchedulerBinding.instance?.addPostFrameCallback((_) {
                   Navigator.pop(loadingContext!);

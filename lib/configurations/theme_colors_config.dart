@@ -9,8 +9,10 @@ class ThemeColor {
     box = Hive.box('colorsBox');
     if (!box.keys.contains('_isDarkMod')) {
       var brightness = SchedulerBinding.instance?.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;
-      box.put("_isDarkMod", isDarkMode);
+      print(
+          "the mode is nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn $brightness");
+      _isDarkMod = brightness == Brightness.dark;
+      box.put("_isDarkMod", _isDarkMod);
     } else {
       _isDarkMod = box.get("_isDarkMod");
     }

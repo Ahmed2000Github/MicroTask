@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
     }
     return BlocListener<SyncBloc, StateStatus>(
       listener: (BuildContext context, state) {
-        if (state == StateStatus.LOADED) {
+        if (state == StateStatus.LOADED || state == StateStatus.NONE) {
           context
               .read<CategoryBloc>()
               .add(CategoryEvent(requestEvent: CrudEventStatus.FETCH));

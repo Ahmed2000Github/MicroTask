@@ -14,12 +14,13 @@ class TaskServices {
   Configuration get configuration => GetIt.I<Configuration>();
 
   late final Box box;
+  late final Box noteBox;
   TaskServices() {
     box = Hive.box('tasksBox');
+    noteBox = Hive.box('noteBox');
   }
 
   Task? createTaskService(Task task) {
-    print('create');
     task.id = Uuid().v1();
     task.showInToday = true;
     task.notificationId = getLastNotificationsId() + 1;
@@ -31,17 +32,17 @@ class TaskServices {
   }
 
   Task? updateTaskService(Task newTask) {
-    print("ddddddddddd   ${newTask.reminder} ");
+    // print("ddddddddddd   ${newTask.reminder} ");
     if (!(newTask.reminder as bool)) {
       notificationServices.cancelNotifications(newTask.notificationId as int);
     } else if ((newTask.reminder as bool) &&
         newTask.repeatType != null &&
         newTask.status == TaskStatus.TODO) {
-      print("update333");
+      // print("update333");
       _setNotifiations(newTask);
     }
     if (newTask.status != TaskStatus.TODO) {
-      print("update  ${newTask.notificationId}");
+      // print("update  ${newTask.notificationId}");
       notificationServices.cancelNotifications(newTask.notificationId as int);
     }
     box.put(newTask.id, newTask);
@@ -52,6 +53,9 @@ class TaskServices {
     var oldTask = box.get(id) as Task;
     if (oldTask.reminder as bool) {
       notificationServices.cancelNotifications(oldTask.notificationId!);
+    }
+    if (oldTask.noteId != null) {
+      noteBox.delete(oldTask.noteId);
     }
     box.delete(id);
   }
@@ -98,7 +102,9 @@ class TaskServices {
     Task? task;
     for (var i = 0; i < box.length; i++) {
       task = (box.getAt(i) as Task);
-
+      if (task.showInToday == null) {
+        task.showInToday = true;
+      }
       if (DateFormat('yyyy-MM-dd').format(DateTime.now()) ==
               DateFormat('yyyy-MM-dd').format(task.startDateTime!) &&
           task.showInToday!) list.add(task);
@@ -125,7 +131,7 @@ class TaskServices {
       var id = (box.getAt(i) as Task).notificationId;
       if (max < id!) max = id;
     }
-    print("the max is $max");
+    // print("the max is $max");
     return max;
   }
 
@@ -167,11 +173,11 @@ class TaskServices {
             task.startDateTime!.hour,
             task.startDateTime!.minute)
         .subtract(Duration(minutes: configuration.remindeTime));
-    print("reminder start at : " + startDate.toString());
+    // print("reminder start at : " + startDate.toString());
     switch (task.repeatType) {
       case RepeatType.None:
         var duration = startDate.difference(DateTime.now());
-        print("duration $duration");
+        // print("duration $duration");
         notificationServices.showScuduleNotification(
             id, task.title!, task.description!, duration, payload);
         break;

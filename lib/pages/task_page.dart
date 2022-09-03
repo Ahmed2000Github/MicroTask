@@ -1283,21 +1283,15 @@ class MyCard extends StatelessWidget {
                           size: 30,
                         ),
                         onPressed: () {
-                          context.read<TodayBloc>().add(
-                              TodayEvent(requestEvent: CrudEventStatus.FETCH));
-                          context.read<CategoryBloc>().add(CategoryEvent(
-                              requestEvent: CrudEventStatus.FETCH));
                           context.read<CrudTaskBloc>().add(CrudTaskEvent(
                               requestEvent: CrudEventStatus.DELETE,
                               taskId: task.id));
                           context.read<ReminderBloc>().add(ReminderEvent(
                               requestEvent: ReminderEventStatus.TODAY));
-                          context.read<TaskBloc>().add(TaskEvent(
-                              requestEvent: CrudEventStatus.FETCH,
-                              date: currentDate,
-                              categoryId: task.categoryId ?? ''));
-                          context.read<CrudTaskBloc>().add(CrudTaskEvent(
-                              requestEvent: CrudEventStatus.RESET));
+                          context.read<TodayBloc>().add(
+                              TodayEvent(requestEvent: CrudEventStatus.FETCH));
+                          context.read<CategoryBloc>().add(CategoryEvent(
+                              requestEvent: CrudEventStatus.FETCH));
                         },
                       ),
                     )),

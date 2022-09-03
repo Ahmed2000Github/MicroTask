@@ -292,6 +292,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   }
 
   void _goToHomePage() {
+    context
+        .read<ResetPasswordBloc>()
+        .add(LoginEvent(requestEvent: LoginEventStatus.NONE));
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       Navigator.pushNamed(context, route.mainPage);
     });

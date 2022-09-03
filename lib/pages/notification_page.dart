@@ -382,18 +382,11 @@ class _NotificationPageState extends State<NotificationPage>
           .read<CrudTaskBloc>()
           .add(CrudTaskEvent(requestEvent: CrudEventStatus.EDIT, task: task));
       context
-          .read<CategoryBloc>()
-          .add(CategoryEvent(requestEvent: CrudEventStatus.FETCH));
-      context
           .read<TodayBloc>()
           .add(TodayEvent(requestEvent: CrudEventStatus.FETCH));
       context
           .read<CategoryBloc>()
           .add(CategoryEvent(requestEvent: CrudEventStatus.FETCH));
-      context.read<TaskBloc>().add(TaskEvent(
-          requestEvent: CrudEventStatus.FETCH,
-          date: DateTime.now(),
-          categoryId: task?.categoryId ?? ''));
       context
           .read<CrudTaskBloc>()
           .add(CrudTaskEvent(requestEvent: CrudEventStatus.RESET));

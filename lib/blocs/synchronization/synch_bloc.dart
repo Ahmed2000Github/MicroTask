@@ -25,6 +25,7 @@ class SyncBloc extends Bloc<SyncEvent, StateStatus> {
 
         break;
       case SyncEvent.NONE:
+        print('resset');
         yield StateStatus.NONE;
         break;
       case SyncEvent.SYNCLOGIN:
