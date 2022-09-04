@@ -1,10 +1,12 @@
-# microtask
 
-A new Flutter project.
 
-## Getting Started
+<img src="https://github.com/Ahmed2000Github/MicroTask/raw/master/assets/images/microtask_dark.png" alt="InfiniteGraph Logo" width="50%">
 
-This project is a starting point for a Flutter application.
+## Description:
+
+This project is an advanced to do list which contain most common functionalities used to manage a list of tasks like reminders, tasks of today and notes. In addition to those Microtask have also some  Trello functionalities  which help to organize tasks more efficient, also the user can separate there tasks logically by creating categories and that help to find out a specific tasks fast.
+
+## installation:
 
 A few resources to get you started if this is your first Flutter project:
 
