@@ -49,7 +49,7 @@ class ValidationServices {
     if (code.isEmpty) {
       code = generateCodeVerification();
       print(code);
-      String username = 'testtesttesttesttesttest648@gmail.com';
+      String username = 'testtesttesttestesttest648@gmail.com';
       String password = 'twgwkfqzbpthjpjs';
 
       final smtpServer = gmail(username, password);
